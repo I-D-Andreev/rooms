@@ -20,4 +20,5 @@ from room_manager.views import login_view
 
 urlpatterns = [
     path('', login_view),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
