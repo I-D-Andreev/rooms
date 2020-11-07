@@ -16,8 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from room_manager.views import dashboard_view
 
 urlpatterns = [
-    path('dashboard/', dashboard_view),
+    path('', include('django.contrib.auth.urls')),
 ]
