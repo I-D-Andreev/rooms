@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # my apps
+    'accounts',
     'room_manager',
 ]
 
@@ -125,3 +126,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'room_manager', 'static'),
 ]
+
+LOGIN_REDIRECT_URL='/manager/dashboard'
