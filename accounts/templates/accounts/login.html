@@ -19,12 +19,14 @@
         {% endfor %}
     </table>
     <input type="submit" value="Log In" />
-
+   
+    {% if messages %}
     <div>
-        {% if form.errors %}
-            <p>Wrong username or password!</p>
-        {% endif %}
+        {% for message in messages %}
+        <p>{{ message }}</p>
+        {% endfor %}
     </div>
+    {% endif %}
 </form>
 
 
