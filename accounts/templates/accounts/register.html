@@ -2,11 +2,23 @@
 {% load static %}
 
 {% block head %}
-    <title>Register Page</title>
+<title>Register Page</title>
 {% endblock %}
 
 
 {% block body %}
 <h1>Register</h1>
-  
+<form action="." method="POST">
+    {% csrf_token %}
+    <table>
+        {% for field in form %}
+        <tr> 
+            <td>{{field.label}}</td> 
+            <td>{{field}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <input type="submit" value="Register" />
+</form>
+
 {% endblock %}
