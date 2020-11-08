@@ -1,15 +1,20 @@
-from django.shortcuts import render
-from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect
 from .forms import UserRegistrationForm
+from django.contrib.auth import login
+from django.contrib.auth.forms import AuthenticationForm
 
-def login_view(request, *args, **kwargs):
-    return render(request, 'accounts/login.html')
 
 def register_view(request, *args, **kwargs):
-    form = UserRegistrationForm(request.POST or None)
 
-    if form.is_valid():
-        form.save()
-   
-    context = {'form': form}
-    return render(request, 'accounts/register.html', context)
+    form = UserRegistrationForm()
+    args = {'form': form}
+
+    if request.method == 'POST':
+        form = UserRegistrationForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('/manager/dashboard')
+
+    return render(request, 'accounts/register.html', args)

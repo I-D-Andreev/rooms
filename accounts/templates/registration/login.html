@@ -2,12 +2,12 @@
 {% load static %}
 
 {% block head %}
-<title>Register Page</title>
+<title>Log In Page</title>
 {% endblock %}
 
 
 {% block body %}
-<h1>Register</h1>
+<h1>Log In</h1>
 <form action="." method="POST">
     {% csrf_token %}
     <table>
@@ -18,11 +18,12 @@
         </tr>
         {% endfor %}
     </table>
-    <input type="submit" value="Register" />
+    <input type="submit" value="Log In" />
+
     <div>
-        {% for field in form %}
-            <p>{{field.errors|striptags}}</p>
-        {% endfor%}
+        {% if form.errors %}
+            <p>Wrong username or password!</p>
+        {% endif %}
     </div>
 </form>
 
