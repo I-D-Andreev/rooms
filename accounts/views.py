@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from .forms import UserRegistrationForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
+from room_manager.views import dashboard_view
 
 
 def login_view(request, *args, **kwargs):
@@ -15,11 +16,15 @@ def login_view(request, *args, **kwargs):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('/manager/dashboard')
+            return redirect(dashboard_view)
         else:
             messages.error(request, 'Incorrect username or password!')
 
     return render(request, 'accounts/login.html', args)
+
+def logout_view(request, *args, **kwargs):
+    logout(request)
+    return redirect(login_view)
 
 
 def register_view(request, *args, **kwargs):
@@ -33,6 +38,6 @@ def register_view(request, *args, **kwargs):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('/manager/dashboard')
+            return redirect(dashboard_view)
 
     return render(request, 'accounts/register.html', args)
