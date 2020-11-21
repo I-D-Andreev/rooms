@@ -12,14 +12,14 @@
     {% csrf_token %}
     <table>
         {% for field in form %}
-        <tr> 
-            <td>{{field.label}}</td> 
+        <tr>
+            <td>{{field.label}}</td>
             <td>{{field}}</td>
         </tr>
         {% endfor %}
     </table>
     <input type="submit" value="Log In" />
-   
+    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
     {% if messages %}
     <div>
         {% for message in messages %}
