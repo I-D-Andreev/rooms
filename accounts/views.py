@@ -8,7 +8,6 @@ from room_manager.views import dashboard_view
 
 def login_view(request, *args, **kwargs):
     form = AuthenticationForm()
-    args = {'form': form}
 
     if request.method == 'POST':
         username = request.POST['username']
@@ -19,7 +18,8 @@ def login_view(request, *args, **kwargs):
             return redirect(dashboard_view)
         else:
             messages.error(request, 'Incorrect username or password!')
-
+    
+    args = {'form': form}
     return render(request, 'accounts/login.html', args)
 
 def logout_view(request, *args, **kwargs):
@@ -30,7 +30,6 @@ def logout_view(request, *args, **kwargs):
 def register_view(request, *args, **kwargs):
 
     form = UserRegistrationForm()
-    args = {'form': form}
 
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -39,5 +38,6 @@ def register_view(request, *args, **kwargs):
             user = form.save()
             login(request, user)
             return redirect(dashboard_view)
-
+   
+    args = {'form': form}
     return render(request, 'accounts/register.html', args)

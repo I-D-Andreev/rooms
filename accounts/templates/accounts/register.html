@@ -8,20 +8,21 @@
 
 {% block body %}
 <h1>Register</h1>
-<form action="." method="POST">
+<form action="" method="POST">
     {% csrf_token %}
     <table>
         {% for field in form %}
-        <tr> 
-            <td>{{field.label}}</td> 
+        <tr>
+            <td>{{field.label}}</td>
             <td>{{field}}</td>
         </tr>
         {% endfor %}
     </table>
     <input type="submit" value="Register" />
+
     <div>
         {% for field in form %}
-            <p>{{field.errors|striptags}}</p>
+            <p>{{field.errors}}</p>
         {% endfor%}
     </div>
 </form>
