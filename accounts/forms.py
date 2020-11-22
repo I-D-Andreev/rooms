@@ -1,20 +1,21 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django import forms
+from django.contrib.auth.models import Group
 
 User = get_user_model()
 
-FRUIT_CHOICES= [
-    ('orange', 'Oranges'),
-    ('cantaloupe', 'Cantaloupes'),
-    ('mango', 'Mangoes'),
-    ('honeydew', 'Honeydews'),
-    ]
+def get_user_group_choices():
+    group_choices = []
+    groups = Group.objects.all()
+    
+    for group in groups:
+        group_choices.append((group, group))
 
+    return group_choices
 
 class UserRegistrationForm(UserCreationForm):
-    group = forms.CharField(widget=forms.Select(choices=FRUIT_CHOICES))
-
+    group = forms.CharField(widget=forms.Select(choices=get_user_group_choices()))
 
     class Meta:
         model = User
