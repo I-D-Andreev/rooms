@@ -27,7 +27,9 @@ class UserRegistrationForm(UserCreationForm):
 
 
     def save(self, commit=True):
-        print(f'Group is : {self.cleaned_data["group"]}')
         user = super(UserCreationForm, self).save(commit)
         #  add to group
+        group_name = self.cleaned_data['group']
+        user_group = Group.objects.get(name=group_name)
+        user_group.user_set.add(user)
         return user
