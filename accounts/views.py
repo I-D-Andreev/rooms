@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 
 
-@unauthenticated_user_only
+# @unauthenticated_user_only
 def login_view(request, *args, **kwargs):
     form = AuthenticationForm()
 
@@ -33,7 +33,7 @@ def logout_view(request, *args, **kwargs):
     return redirect(login_view)
 
 
-@unauthenticated_user_only
+# @unauthenticated_user_only
 def register_view(request, *args, **kwargs):
 
     form = UserRegistrationForm()
