@@ -2,6 +2,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django import forms
 from django.contrib.auth.models import Group
+from django.shortcuts import HttpResponse
+from accounts.user_groups import UserGroups
 
 User = get_user_model()
 
@@ -27,9 +29,14 @@ class UserRegistrationForm(UserCreationForm):
 
 
     def save(self, commit=True):
-        user = super(UserCreationForm, self).save(commit)
-        #  add to group
         group_name = self.cleaned_data['group']
-        user_group = Group.objects.get(name=group_name)
+        user_group = None
+        try:
+            user_group = Group.objects.get(name=group_name)
+        except Group.DoesNotExist:
+            user_group = Group.objects.get(name=UserGroups.users)
+
+        user = super(UserCreationForm, self).save(commit)
         user_group.user_set.add(user)
+
         return user

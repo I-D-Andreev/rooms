@@ -2,8 +2,9 @@
 
 from django.db import migrations
 from django.contrib.auth.models import Group
+from accounts.user_groups import UserGroups
 
-USER_GROUPS = ['admins', 'users', 'rooms']
+USER_GROUPS = UserGroups.as_list()
 def create_user_groups(*args, **kwargs):
     for group in USER_GROUPS:
         Group.objects.get_or_create(name=group)
