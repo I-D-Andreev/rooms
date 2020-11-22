@@ -14,3 +14,17 @@ python3 manage.py createsuperuser
 For shell:
 from django.contrib.auth.models import User
 User.object.all()
+
+For seeding:
+
+Dump the User models
+    python manage.py dumpdata --indent 2 auth.user > seeding/user.json
+
+Dump whole database
+    python manage.py  dumpdata > db.json
+    Note that I found:
+        python manage.py dumpdata --exclude auth.permission --exclude contenttypes > db.json
+        https://coderwall.com/p/mvsoyg/django-dumpdata-and-loaddata
+
+Load Database:
+    python manage.py loaddata seeding/user.json
