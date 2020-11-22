@@ -4,14 +4,13 @@
 {% block head %}
 
     <title>Dashboard</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}" />
 
 {% endblock %}
 
 
 {% block body %}
-<div>
-    <h1 id="hello">Admin dashboard</h1>
+<div style="background-color:aliceblue">
+    <h1>Admin dashboard</h1>
     <span>Current user: "{{request.user}}"</span>
     <span><a href="{% url 'logout'%}">Log Out</a></span>
 </div>
