@@ -1,0 +1,5 @@
+Tasks:
+
+Appropriate user is redirected to their dashboard
+? Decorators for admin_only, user_only and room_only pages
+Database schema
