@@ -19,6 +19,8 @@ For seeding:
 
 Dump the User models
     python manage.py dumpdata --indent 2 auth.user > seeding/user.json
+    python manage.py dumpdata --indent 2 auth > seeding/auth.json  (better dump whole auth as it also includes groups and permissions)
+
 
 Dump whole database
     python manage.py  dumpdata > db.json
