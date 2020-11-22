@@ -36,7 +36,10 @@ class UserRegistrationForm(UserCreationForm):
         except Group.DoesNotExist:
             user_group = Group.objects.get(name=UserGroups.users)
 
-        user = super(UserCreationForm, self).save(commit)
-        user_group.user_set.add(user)
+        user = super(UserCreationForm, self).save(commit=False)
+        user.set_password(self.cleaned_data['password1'])
+        if commit:
+            user.save()
 
+        user_group.user_set.add(user)
         return user
