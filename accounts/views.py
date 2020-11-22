@@ -8,7 +8,6 @@ from accounts.decorators import unauthenticated_user_only
 from django.contrib.auth.decorators import login_required
 
 
-
 # @unauthenticated_user_only
 def login_view(request, *args, **kwargs):
     form = AuthenticationForm()
@@ -35,7 +34,6 @@ def logout_view(request, *args, **kwargs):
 
 # @unauthenticated_user_only
 def register_view(request, *args, **kwargs):
-
     form = UserRegistrationForm()
 
     if request.method == 'POST':
