@@ -1,0 +1,6 @@
+[client]
+database = django
+host = localhost
+user = db
+password = password
+default-character-set = utf8

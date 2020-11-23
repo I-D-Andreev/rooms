@@ -10,6 +10,8 @@ python3 manage.py shell
 
 python3 manage.py createsuperuser
 
+Initialize DB:
+    python manage.py migrate --skip-checks (skip checks used as django traverses URLs otherwise)
 
 For shell:
 from django.contrib.auth.models import User
@@ -30,3 +32,4 @@ Dump whole database
 
 Load Database:
     python manage.py loaddata seeding/user.json
+
