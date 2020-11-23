@@ -5,13 +5,16 @@ from django.contrib.auth.models import Group
 from accounts.user_groups import UserGroups
 
 USER_GROUPS = UserGroups.as_list()
+
+
 def create_user_groups(*args, **kwargs):
     for group in USER_GROUPS:
         Group.objects.get_or_create(name=group)
 
-class Migration(migrations.Migration):
 
+class Migration(migrations.Migration):
     dependencies = [
+        ('auth', '__latest__'),
     ]
 
     operations = [
