@@ -1,15 +1,13 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django import forms
-from django.contrib.auth.models import Group
-from accounts.user_groups import UserGroups
 
 User = get_user_model()
 
 
 def get_user_group_choices():
     group_choices = []
-    groups = Group.objects.all()
+    groups = ['admin', 'user', 'room']
 
     for group in groups:
         group_choices.append((group, group))
@@ -29,17 +27,17 @@ class UserRegistrationForm(UserCreationForm):
         self.fields['email'].required = True
 
     def save(self, commit=True):
-        group_name = self.cleaned_data['group']
-        user_group = None
-        try:
-            user_group = Group.objects.get(name=group_name)
-        except Group.DoesNotExist:
-            user_group = Group.objects.get(name=UserGroups.users)
+        # group_name = self.cleaned_data['group']
+        # user_group = None
+        # try:
+        #     user_group = Group.objects.get(name=group_name)
+        # except Group.DoesNotExist:
+        #     user_group = Group.objects.get(name=UserGroups.users)
 
         user = super(UserCreationForm, self).save(commit=False)
         user.set_password(self.cleaned_data['password1'])
         if commit:
             user.save()
 
-        user_group.user_set.add(user)
+        # user_group.user_set.add(user)
         return user
