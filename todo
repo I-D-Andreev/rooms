@@ -1,11 +1,5 @@
 Tasks:
 
-Change to something like getting the group to something like:
-request.user.groups.all().filter(name in UserGroup.asList()]
-request.user.groups.filter(name in UserGroup.asList()] <- this it is without all()
-
-[x for x in request.user.groups.all() where x in UserGroup.asList()]
-
 Database schema
 ? Decorators for admin_only, user_only and room_only pages
 
