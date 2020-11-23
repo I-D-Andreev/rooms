@@ -7,12 +7,17 @@ from accounts.user_groups import UserGroups
 def dashboard_view(request, *args, **kwargs):
     dashboard = 'no_access'
     if request.user.groups.exists():
-        group = request.user.groups.all()[0].name
-        if group == UserGroups.admins:
+        group_name = None
+        for group in request.user.groups.all():
+            if group.name in UserGroups.as_list():
+                group_name = group.name
+                break
+
+        if group_name == UserGroups.admins:
             dashboard = 'admin'
-        elif group == UserGroups.users:
+        elif group_name == UserGroups.users:
             dashboard = 'user'
-        elif group == UserGroups.rooms:
+        elif group_name == UserGroups.rooms:
             dashboard = 'room'
 
     return render(request, f'room_manager/{dashboard}_dashboard.html')
