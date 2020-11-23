@@ -1,22 +1,13 @@
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 from django import forms
 
-User = get_user_model()
-
-
-def get_user_group_choices():
-    group_choices = []
-    groups = ['admin', 'user', 'room']
-
-    for group in groups:
-        group_choices.append((group, group))
-
-    return group_choices
+from accounts.user_types import UserTypes
+from accounts.models import Profile
 
 
 class UserRegistrationForm(UserCreationForm):
-    group = forms.CharField(widget=forms.Select(choices=get_user_group_choices()))
+    type = forms.CharField(widget=forms.Select(choices=UserTypes.as_choice_list()))
 
     class Meta:
         model = User
@@ -27,17 +18,13 @@ class UserRegistrationForm(UserCreationForm):
         self.fields['email'].required = True
 
     def save(self, commit=True):
-        # group_name = self.cleaned_data['group']
-        # user_group = None
-        # try:
-        #     user_group = Group.objects.get(name=group_name)
-        # except Group.DoesNotExist:
-        #     user_group = Group.objects.get(name=UserGroups.users)
+        cleaned_type = self.cleaned_data['type']
+        account_type = cleaned_type if cleaned_type in UserTypes.as_list() else UserTypes.as_list()[1]
 
         user = super(UserCreationForm, self).save(commit=False)
         user.set_password(self.cleaned_data['password1'])
         if commit:
             user.save()
+            Profile.objects.create(user=user, public_name=user.username, type=account_type)
 
-        # user_group.user_set.add(user)
         return user
