@@ -10,5 +10,6 @@ class Profile(models.Model):
     public_name = models.CharField(max_length=255)
     type = models.CharField(max_length=255, choices=UserTypes.as_choice_list())
 
+# to add location and room-type
     def __str__(self):
         return self.public_name

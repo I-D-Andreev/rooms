@@ -11,6 +11,7 @@ manyToMany is at 11:45 (is set only on one field?)
 https://www.youtube.com/watch?v=PD3YnPSHC-c&list=PL-51WBLyFTg2vW-_6XBoUpE7vpmoR3ztO&index=7
 getting a Model's children (oneToMany relationship) is at 6:42
     customer.order_set.all()
+    if using related_name => user.profile.meetingsc.all() (where meetingsc == related_name)
 
 getting a child's parent model (onToMany relationship) is at 8:09
     order.customer
