@@ -3,13 +3,13 @@ from dataclasses import dataclass
 
 @dataclass
 class UserTypes:
-    admins = "admin"
-    users = "user"
-    rooms = "room"
+    admin = "admin"
+    user = "user"
+    room = "room"
 
     @staticmethod
     def as_list():
-        return [UserTypes.admins, UserTypes.users, UserTypes.rooms]
+        return [UserTypes.admin, UserTypes.user, UserTypes.room]
 
     @staticmethod
     def as_choice_list():
