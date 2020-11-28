@@ -11,3 +11,8 @@ def dashboard_view(request, *args, **kwargs):
         raise PermissionDenied()
 
     return render(request, f'room_manager/{dashboard}_dashboard.html')
+
+
+@login_required(login_url='login')
+def statistics_view(request, *args, **kwargs):
+    return render(request, f'room_manager/user/statistics.html')
