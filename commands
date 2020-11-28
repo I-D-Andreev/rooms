@@ -15,7 +15,7 @@ Initialize DB:
 
 For shell:
 from django.contrib.auth.models import User
-User.object.all()
+User.objects.all()
 
 For seeding:
 
