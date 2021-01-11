@@ -38,3 +38,9 @@ Load Database:
 Setup MySQL database:
 https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-18-04
 https://pypi.org/project/mysqlclient/ (for me, needed only default-libmysqlclient-dev)
+
+
+Access from phone/other PCs:
+    - Must be on the same network
+    - python manage.py runserver 192.168.1.197:8000 (need to have the address added in settings.py under ALLOWED_HOSTS)
+    - then navigate to 192.168.1.197:8000 in browser
