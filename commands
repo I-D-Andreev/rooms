@@ -44,3 +44,9 @@ Access from phone/other PCs:
     - Must be on the same network
     - python manage.py runserver 192.168.1.197:8000 (need to have the address added in settings.py under ALLOWED_HOSTS)
     - then navigate to 192.168.1.197:8000 in browser
+
+
+Livereload | django-livereload-server | https://github.com/tjwalch/django-livereload-server
+    - needs 2 terminals
+    - python manage.py Livereload
+    - python manage.py runserver
