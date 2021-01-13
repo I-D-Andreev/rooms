@@ -26,7 +26,7 @@ SECRET_KEY = '4hm&a$p60ix0e*l0ym6voua^^vnco6mgrnr8jy#^5=nluyjy0d'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.197', 'localhost']
+ALLOWED_HOSTS = ['192.168.1.197', 'localhost', '*']
 
 
 # Application definition
@@ -37,8 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'livereload', # reload on html/css/js change
+    'livereload', # third-party | must be before staticfiles| reload on html/css/js change
     'django.contrib.staticfiles',
+
+    # third-party
+    'pwa',  # produces a pwa from a django web page
 
     # my apps
     'accounts',
@@ -137,3 +140,26 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_REDIRECT_URL='/manager/dashboard'
+
+
+# PWA constants
+PWA_APP_NAME = "Room Manager"
+PWA_APP_DESCRIPTION = "Room Manager Application"
+PWA_APP_THEME_COLOR = '#FFFFE0'
+PWA_APP_BACKGROUND_COLOR = '#90EE90'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_START_URL = '/login'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_ICONS = [
+    {
+        'src': '/static/icons/rooms_icon.png',
+        'type': 'image/png',
+        'sizes': '144x144'
+    }
+]
+
+#PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'en-GB'
+PWA_APP_DEBUG_MODE = False
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static', 'sw.js')

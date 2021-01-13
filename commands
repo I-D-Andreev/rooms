@@ -50,3 +50,7 @@ Livereload | django-livereload-server | https://github.com/tjwalch/django-livere
     - needs 2 terminals
     - python manage.py Livereload
     - python manage.py runserver
+
+
+From Android device:
+    10.0.2.2:8000
