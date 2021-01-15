@@ -11,7 +11,8 @@ def dashboard_view(request, *args, **kwargs):
     except ObjectDoesNotExist:
         raise PermissionDenied()
 
-    return render(request, f'room_manager/{dashboard}_dashboard.html')
+    args = {'username': request.user.username}
+    return render(request, f'room_manager/{dashboard}_dashboard.html', args)
 
 
 @login_required(login_url='login')

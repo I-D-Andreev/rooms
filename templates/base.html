@@ -13,12 +13,13 @@
     <script src="{% static 'bootstrap/js/bootstrap.min.js'%}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/global.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/custom_bootstrap.css' %}" />
 
     {% block head %}    
     {% endblock head%}
 
 </head>
-<body>
+<body class="bg-default">
     {% block body %}
     {% endblock body%}
 </body>

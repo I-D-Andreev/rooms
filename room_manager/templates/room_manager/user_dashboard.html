@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'navbar.html' %}
 {% load static %}
 
 {% block head %}
@@ -8,13 +8,19 @@
 {% endblock %}
 
 
-{% block body %}
-<div style="background-color:chartreuse;">
-    <h1>User dashboard</h1>
-    <span>Current user: "{{request.user}}"</span>
-    <span><a href="{% url 'logout'%}">Log Out</a></span>
+{% block content %}
+    <div class="row w-100 h-100">
+        <div class="col-md-3 bg-primary">
+            
+        </div>
+        
+        <div class="col-md-6 bg-secondary">
+            
+        </div>
 
-    <button onclick='location.href="{% url 'statistics' %}"' type="button">Statistics</button>
-</div>
+        <div class="col-md-3 bg-danger">
+            
+        </div>
 
-{% endblock %}
+    </div>
+{%endblock%}
