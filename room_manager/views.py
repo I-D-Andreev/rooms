@@ -21,5 +21,11 @@ def statistics_view(request, *args, **kwargs):
     return render(request, 'room_manager/user/statistics.html')
 
 
+# login + admin only
 def create_room_view(request, *args, **kwargs):
+    print('called')
+    if request.method == 'POST':
+        print(request.POST.get('room_name', 'nothing'))
+        print(request.POST.get('room_capacity', 'nothing'))
+
     return render(request, 'room_manager/admin/create_room.html')

@@ -10,7 +10,9 @@
 {% block content %}
 <div class="content w-100 h-100 d-flex">
     <div class="row h-75 w-50 align-self-center mx-auto">
-        <form action="" method="POST" class="mx-auto col-md-10 col-lg-7">
+        <form action="{% url 'create_room' %}" method="POST" class="mx-auto col-md-10 col-lg-7">
+            <!-- <input type="button" class="btn btn-primary mt-3 float-right" value="Create"> -->
+
             {% csrf_token %}
             <div class="card">
                 <h4 class="card-header bg-primary text-white text-center">Create a Room</h4>
@@ -19,21 +21,20 @@
                  <div class="w-75 m-auto">
                         <div class="form-row">
                             <label class="mb-1 text-dark" for="room_name">Room Name</label>
-                            <input type="text" class="form-control" id="room_name">
+                            <input type="text" class="form-control" id="room_name" name="room_name" required>
                         </div>
     
                         <div class="form-row mt-3">
                             <label class="mb-1" for="room_capacity">Capacity</label>
-                            <input type="number" class="form-control" id="room_capacity" value="1" min="1" step="1" oninput="validity.valid||(value='');">
+                            <input type="number" class="form-control" id="room_capacity" name="room_capacity" value="1" min="1" step="1" oninput="validity.valid||(value='');">
                         </div>
 
-                        <input type="button" class="btn btn-primary mt-3 float-right" value="Create">
+                        <button class="btn btn-primary mt-3 float-right">Create</button>
                  </div>
 
                 </div>
             </div>
 
-      
         </form>
     </div>
 </div>
