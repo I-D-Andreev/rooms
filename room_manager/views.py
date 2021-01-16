@@ -4,6 +4,8 @@ from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from room_manager.decorators import user_only
 from accounts.forms import UserRegistrationForm
 from accounts.user_types import UserTypes
+from django.contrib import messages
+
 
 
 @login_required(login_url='login')
@@ -36,12 +38,13 @@ def create_room_view(request, *args, **kwargs):
         if form.is_valid():
             print("form is valid")
             form.save()
+            messages.info(request, f"Room {form.cleaned_data['username']} created successfully!")
+
+            # clean the form
+            form = UserRegistrationForm()
         else:
             print('form is not valid')
             print(form.errors)
-            # user = form.save()
-            # login(request, user)
-            # return redirect(dashboard_view)
 
     args = {'form': form}
     return render(request, 'room_manager/admin/create_room.html', args)
