@@ -2,11 +2,12 @@
 
 
 {% block body %}
+<div class="w-100 h-100 d-flex flex-column">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">   
         <div class="container px-4">
             <!-- left side -->
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
+                <li class="navbar-brand">
                     {% if username %}
                         {{username}}
                     {% else %}
@@ -29,9 +30,9 @@
         </div>
     </nav>
 
-    <div class="py-4 w-100 h-90">
+    <div class="container-fluid h-100">
         {% block content %}
         {% endblock content %}    
     </div>
-    
+</div>
 {% endblock body %}
