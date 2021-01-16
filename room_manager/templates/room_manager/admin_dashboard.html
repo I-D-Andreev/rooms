@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'navbar.html' %}
 {% load static %}
 
 {% block head %}
@@ -8,11 +8,59 @@
 {% endblock %}
 
 
-{% block body %}
-<div style="background-color:aliceblue">
-    <h1>Admin dashboard</h1>
-    <span>Current user: "{{request.user}}"</span>
-    <span><a href="{% url 'logout'%}">Log Out</a></span>
+{% block content %}
+<div class="content w-100 h-100 d-flex">
+    <div class="row h-75 w-75 align-self-center mx-auto">
+        
+        <div class="col text-center">
+            <h4 class="text-secondary font-weight-bold">Account Management</h4>
+
+            <div class="btn-group btn-group-vertical">
+                <a href="#" class="w-100">
+                    <input type="button" value="Send Registration Link" class="btn-lg mt-4">
+                </a>
+
+                <a href="#" class="w-100">
+                    <input type="button" value="Delete a User" class="btn-lg mt-3">
+                </a>
+            </div>
+
+        </div>
+
+        <div class="col text-center border border-top-0 border-bottom-0 border-secondary">
+            <h4 class="text-secondary font-weight-bold">Room Management</h4>
+            
+            <div class="btn-group btn-group-vertical">
+                <a href="#" class="w-100">
+                    <input type="button" value="Create a Room" class="btn-lg mt-4">
+                </a>
+
+                <a href="#" class="w-100">
+                    <input type="button" value="Edit a Room" class="btn-lg mt-3">
+                </a>
+
+                <a href="#" class="w-100">
+                    <input type="button" value="Reset a Room" class="btn-lg mt-3">
+                </a>
+
+                <a href="#" class="w-100">
+                    <input type="button" value="Delete a Room" class="btn-lg mt-3">
+                </a>
+            </div>
+
+        </div>
+
+        <div class="col text-center">
+            <h4 class="text-secondary font-weight-bold">System Management</h4>
+
+            <div class="btn-group btn-group-vertical">
+                <a href="#" class="w-100">
+                    <input type="button" value="Configure System Constants" class="btn-lg mt-4">
+                </a>
+            </div>
+        </div> 
+    </div>
+
 </div>
     
 {% endblock %}
