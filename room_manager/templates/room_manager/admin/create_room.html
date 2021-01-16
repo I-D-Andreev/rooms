@@ -1,5 +1,6 @@
 {% extends 'navbar.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block head %}
 
@@ -20,17 +21,20 @@
 
                  <div class="w-75 m-auto">
                         <div class="form-row">
-                            <label class="mb-1 text-dark" for="room_name">Room Name</label>
-                            <input type="text" class="form-control" id="room_name" name="room_name" required>
-                        </div>
-    
-                        <div class="form-row mt-3">
-                            <label class="mb-1" for="room_capacity">Capacity</label>
-                            <input type="number" class="form-control" id="room_capacity" name="room_capacity" value="1" min="1" step="1" oninput="validity.valid||(value='');">
+                            <label class="mb-1 text-dark" for="username">Room Name / Username</label>
+                            {% render_field form.username class="form-control" %}
                         </div>
 
+                        <!-- all fields without the first and the last one -->
+                        {% for field in form.visible_fields|slice:"1:-1" %}
+                            <div class="form-row mt-3">
+                                <label class="mb-1 text-dark">{{field.label}}</label>
+                                {% render_field field class="form-control" %}
+                            </div>
+                        {% endfor %}
+
                         <button class="btn btn-primary mt-3 float-right">Create</button>
-                 </div>
+                 </div> 
 
                 </div>
             </div>

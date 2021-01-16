@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     # third-party
     'pwa',  # produces a pwa from a django web page
+    'widget_tweaks', # edit Django forms in HTML
 
     # my apps
     'accounts',
