@@ -16,11 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
-from room_manager.views import dashboard_view, statistics_view
+from room_manager.views import dashboard_view, statistics_view, create_room_view
 
 urlpatterns = [
     path('', RedirectView.as_view(pattern_name="login")),
     path('dashboard/', dashboard_view, name="dashboard"),
+    path('dashboard/create-room', create_room_view, name="create_room"),
     path('dashboard/statistics', statistics_view, name="statistics"),
 
 ]
