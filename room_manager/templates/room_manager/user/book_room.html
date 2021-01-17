@@ -1,16 +1,70 @@
 {% extends 'navbar.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 
 {% block head %}
 
     <title>Book a Room</title>
+    <script src="{%static '/admin/js/core.js' %}"></script>
+    <script src="{% url 'js-catalog'%}"></script>
+    <link rel="stylesheet" href="{% static 'admin/css/base.css'%}">
+    <link rel="stylesheet" href="{% static 'admin/css/widgets.css'%}">
+    {{form.media}}
+    <link rel="stylesheet" href="{% static 'css/book_room.css'%}"> 
 
 {% endblock %}
 
 {% block content %}
-<div class="content w-100 h-100 d-flex">
-    <div class="row h-75 w-50 align-self-center mx-auto bg-info">
+<div class="w-100 h-100">
+
+    <div class="content w-100 h-100 d-flex">
+        <div class="row h-75 w-50 align-self-center mx-auto">
+            <form action="{% url 'book_room' %}" method="POST" class="mx-auto col-md-10 col-lg-7">
+                {% csrf_token %}
+                <div class="card">
+
+                    <span class="card-header bg-primary text-white text-center h4">
+                            Book a Room
+                    </span>
+
+                    <div class="card-body bg-white">
+                        <div class="w-60 m-auto">
+                            <div class="form-row">
+                                <label class="mb-1 text-dark w-100">{{form.date.label}}</label>
+                                <div class="w-100 input-group centered-line-height">
+                                    {% render_field form.date class="vDateField form-control"%}
+                                </div>
+                            </div>
+
+                            <div class="form-row mt-3">
+                                <label class="mb-1 text-dark w-100">{{form.time.label}}</label>
+                                <div class="w-100 input-group centered-line-height">
+                                    {% render_field form.time class="vTimeField form-control"%}
+                                </div>
+                            </div>
+
+
+                           <div class="input-group">
+                                <div class="form-row mt-3 w-50">
+                                    <label class="mb-1 text-dark w-100">{{form.duration.label}}</label>
+                                    {% render_field form.duration class="form-control w-75" %}
+                                </div>
+    
+                                <div class="form-row mt-3 w-50 ml-2">
+                                    <label class="mb-1 text-dark w-100">{{form.participants_count.label}}</label>
+                                    {% render_field form.participants_count class="form-control w-75" %}
+                                </div>
+                           </div>
+
+
+                           <button class="btn btn-primary mt-4 float-right">Create</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

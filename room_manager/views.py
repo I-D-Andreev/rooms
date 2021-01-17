@@ -5,6 +5,7 @@ from room_manager.decorators import user_only
 from accounts.forms import UserRegistrationForm
 from accounts.user_types import UserTypes
 from django.contrib import messages
+from .user_forms import BookRoomForm
 
 
 
@@ -52,4 +53,8 @@ def create_room_view(request, *args, **kwargs):
 
 # login + user only
 def book_room_view(request, *args, **kwargs):
-    return render(request, 'room_manager/user/book_room.html')
+    form = BookRoomForm()
+
+    args = {'form': form}
+    print(form)
+    return render(request, 'room_manager/user/book_room.html', args)

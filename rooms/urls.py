@@ -16,9 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from django.views.i18n import JavaScriptCatalog
+
 urlpatterns = [
     path('', include('accounts.urls')),
     path('', include('room_manager.urls')),
+    path('jsi18n', JavaScriptCatalog.as_view(), name='js-catalog'),
     path('', include('pwa.urls')),
     path('admin/', admin.site.urls),
 ]

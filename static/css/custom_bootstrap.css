@@ -1,3 +1,7 @@
 .bg-default {
     background-color: #f8fafc;
 }
+
+.w-60 {
+    width: 60%;
+}
