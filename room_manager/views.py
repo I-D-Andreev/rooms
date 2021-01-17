@@ -48,4 +48,8 @@ def create_room_view(request, *args, **kwargs):
 
     args = {'form': form}
     return render(request, 'room_manager/admin/create_room.html', args)
-    
+
+
+# login + user only
+def book_room_view(request, *args, **kwargs):
+    return render(request, 'room_manager/user/book_room.html')
