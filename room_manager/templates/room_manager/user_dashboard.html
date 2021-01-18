@@ -55,20 +55,19 @@
                 </div>
 
                 <div class="panel-body mh-100 overflow-auto">
-                    <div class="list-group bg-info">
-                        <div class="list-group-item">hello</div>
-                        <div class="list-group-item">hello</div>
-                        <div class="list-group-item">hello</div>
-                        <div class="list-group-item">hello</div>
-                        <div class="list-group-item">hello</div>
-                        <div class="list-group-item">hello</div>
-                        <div class="list-group-item">hello</div>
-                        <div class="list-group-item">hello</div>
-                        <div class="list-group-item">hello</div>
-                        <div class="list-group-item">hello</div>
-                        <div class="list-group-item">hello</div>
-                        <div class="list-group-item">hello</div>
-                        <div class="list-group-item">hello</div>
+                    <div class="list-group">
+                        {% if meetings_list %}
+                            {% for meeting in meetings_list %}
+                                <div class="list-group-item">
+                                    <span class="float-left">{{meeting.room.public_name}}</span>
+                                    <span class="float-right">{{meeting.start_time}}</span>
+                                </div>
+                            {% endfor %}
+                        {% else%}
+                            <span class="h5 align-self-center mt-5">No upcoming meetings</span>
+                        {% endif %}
+                    
+
                     </div>
                 </div>
 

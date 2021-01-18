@@ -46,3 +46,20 @@ class RoomManager:
     def purge_old_meetings():
         # todo1: purge meetings older than 3? months
         pass
+
+    
+    @staticmethod
+    def get_user_meetings_list(user: User) -> list:
+        now = datetime.now().astimezone()
+        after = now + timedelta(days=5)
+
+        all_meetings = user.profile.user_meetings.all().order_by('start_time')
+
+        filtered_meetings = []
+        for meeting in all_meetings:
+            if meeting.start_time >= now and meeting.start_time <= after:
+                filtered_meetings.append(meeting)
+        
+        return filtered_meetings
+
+    
