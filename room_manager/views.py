@@ -70,7 +70,8 @@ def book_room_view(request, *args, **kwargs):
             room_manager.print()
             room_manager.print_range()
 
-
+            print('--------------')
+            room_manager.free_rooms()
 
             print('Form is valid')
         else:

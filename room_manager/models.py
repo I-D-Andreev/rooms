@@ -3,8 +3,8 @@ from accounts.models import Profile
 
 
 class Meeting(models.Model):
-    creator = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='meetingsc')
-    room = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='meetingsr')
+    creator = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='user_meetings')
+    room = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='meetings')
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     participants_count = models.PositiveIntegerField()
