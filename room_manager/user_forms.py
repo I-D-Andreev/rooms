@@ -6,4 +6,3 @@ class BookRoomForm(forms.Form):
     time = forms.TimeField(label="Start Time", widget=AdminTimeWidget())
     duration = forms.IntegerField(min_value=0, label="Duration (min)", initial=0)
     participants_count = forms.IntegerField(min_value=0, label="Attendees", initial=0)
-

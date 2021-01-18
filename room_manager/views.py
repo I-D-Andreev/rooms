@@ -65,13 +65,11 @@ def book_room_view(request, *args, **kwargs):
             date = cleaned_data['date']
             time = cleaned_data['time']
             duration = cleaned_data['duration']
-            
-            room_manager = RoomManager(participants, date, time, duration)
-            room_manager.print()
-            room_manager.print_range()
 
-            print('--------------')
-            room_manager.free_rooms()
+            meeting = RoomManager.schedule_meeting(participants, date, time, duration, request.user)
+            print(f"Chosen room: {meeting.room}")
+            print(meeting)
+
 
             print('Form is valid')
         else:
