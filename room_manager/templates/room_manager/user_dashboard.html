@@ -59,8 +59,9 @@
                         {% if meetings_list %}
                             {% for meeting in meetings_list %}
                                 <div class="list-group-item">
-                                    <span class="float-left">{{meeting.room.public_name}}</span>
-                                    <span class="float-right">{{meeting.start_time}}</span>
+                                    <span class="float-left">Room: {{meeting.room.public_name}}</span>
+                                    <span class="float-right ml-4">Duration: {{meeting.duration_minutes}} min</span>
+                                    <span class="float-right">Date: {{meeting.start_time}}</span>
                                 </div>
                             {% endfor %}
                         {% else%}

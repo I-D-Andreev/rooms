@@ -19,5 +19,9 @@ class Meeting(models.Model):
     def end_time_str(self):
         return self.__format_time(self.end_time)
 
+    def duration_minutes(self):
+        diff = (self.end_time - self.start_time)
+        return (diff.days * 1440) + (diff.seconds//60)
+
     def __format_time(self, time: datetime):
         return time.strftime('%Y-%m-%d %H:%M')
