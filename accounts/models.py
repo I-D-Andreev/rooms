@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from accounts.user_types import UserTypes
-from datetime import datetime, tzinfo
+from datetime import datetime, time, timedelta
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -15,6 +15,10 @@ class Profile(models.Model):
 
 
     def is_free(self, start_time: datetime, end_time: datetime) -> bool:
+        # remove one minute because of overlapping meetings that start on the exact hour
+        start_time = start_time + timedelta(minutes=1)
+        end_time = end_time + timedelta(minutes=-1)
+
         if self.type != UserTypes.room:
             return False
         
