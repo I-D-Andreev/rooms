@@ -6,6 +6,7 @@ from accounts.forms import UserRegistrationForm
 from accounts.user_types import UserTypes
 from django.contrib import messages
 from .user_forms import BookRoomForm
+from .room_manager import RoomManager
 
 
 
@@ -55,6 +56,25 @@ def create_room_view(request, *args, **kwargs):
 def book_room_view(request, *args, **kwargs):
     form = BookRoomForm()
 
+    if request.method == 'POST':
+        form = BookRoomForm(request.POST)
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+
+            participants = cleaned_data['participants_count']
+            date = cleaned_data['date']
+            time = cleaned_data['time']
+            duration = cleaned_data['duration']
+            
+            room_manager = RoomManager(participants, date, time, duration)
+            room_manager.print()
+            room_manager.print_range()
+
+
+
+            print('Form is valid')
+        else:
+            print('Form is not valid')
+
     args = {'form': form}
-    print(form)
     return render(request, 'room_manager/user/book_room.html', args)
