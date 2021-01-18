@@ -8,11 +8,11 @@ class RoomManager:
     @staticmethod
     def schedule_meeting(number_attendees:int , date: datetime.date, time: datetime.time, duration: int, creator:User):
         rooms = Profile.objects.filter(type__exact=UserTypes.room).filter(capacity__gte=number_attendees).order_by('capacity')
-        start_time = datetime.combine(date, time)
+        start_time = datetime.combine(date, time).astimezone()
 
         # remove a minute from the duration so that a meeting finishing at 
         # (e.g.) 14:00 will not stop another meeting booked to start at 14:00
-        end_time = start_time + timedelta(minutes=(duration-1))
+        end_time = (start_time + timedelta(minutes=(duration-1))).astimezone()
 
         # todo1: RoomManager.purge_old_meetings()
 

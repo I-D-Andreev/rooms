@@ -21,8 +21,8 @@ class Profile(models.Model):
         booked_meetings = self.meetings.all()
 
         for meeting in booked_meetings:
-            if start_time < meeting.end_time.replace(tzinfo=None) and \
-                end_time > meeting.start_time.replace(tzinfo=None):
+            if start_time < meeting.end_time and \
+                end_time > meeting.start_time:
                 return False
 
         return True
