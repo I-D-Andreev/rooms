@@ -63,6 +63,21 @@
                         
                     </div>
                 </div>
+
+                <div>
+                    {% for field in form %}
+                        <p>{{field.errors}}</p>
+                    {% endfor%}
+                </div>
+                {% if messages %}
+    
+                <div>
+                    {% for message in messages %}
+                    <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
             </form>
         </div>
     </div>
