@@ -47,6 +47,7 @@ class RoomManager:
     
     @staticmethod
     def get_user_meetings_list(user: User) -> list:
+        # todo1: Group meetings by start_date and display the schedule in a better way
         now = datetime.now().astimezone()
         after = now + timedelta(days=5)
 
