@@ -12,7 +12,10 @@ class Meeting(models.Model):
     participants_count = models.PositiveIntegerField()
 
     def __str__(self):
-        return f"{self.creator.public_name}-{self.room.public_name}| {self.start_time_str()} | {self.end_time_str()}"
+        return f"{self.room.public_name}|{self.start_time_str()}"
+
+    def long_name(self):
+        return f"{self.creator.public_name}-{self.room.public_name}| {self.start_time_str()} | {self.end_time_str()}"    
 
     def start_date_time(self):
         return datetime.combine(self.start_date, self.start_time).astimezone()

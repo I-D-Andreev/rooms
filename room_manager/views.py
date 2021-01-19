@@ -5,7 +5,7 @@ from room_manager.decorators import user_only
 from accounts.forms import UserRegistrationForm
 from accounts.user_types import UserTypes
 from django.contrib import messages
-from .user_forms import BookRoomForm
+from .user_forms import BookRoomForm, DeleteMeetingForm
 from .room_manager import RoomManager
 
 
@@ -89,4 +89,7 @@ def book_room_view(request, *args, **kwargs):
 
 # login + user only
 def cancel_booking_view(request, *args, **kwargs):
-    return render(request, 'room_manager/user/cancel_booking.html')
+    form = DeleteMeetingForm(user=request.user)
+
+    args  = {'form': form}
+    return render(request, 'room_manager/user/cancel_booking.html', args)

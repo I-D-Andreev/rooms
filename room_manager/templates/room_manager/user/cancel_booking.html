@@ -14,22 +14,33 @@
 <div class="w-100 h-100">
 
     <div class="content w-100 h-100 d-flex">
-        <div class="row h-75 w-50 align-self-center mx-auto">
-            <form action="{% url 'book_room' %}" method="POST" class="mx-auto col-md-10 col-lg-7">
+        <div class="row h-75 w-75 align-self-center mx-auto">
+            <form action="{% url 'cancel_booking' %}" method="POST" class="mx-auto col-md-10 col-lg-7">
                 {% csrf_token %}
-                <div class="card">
+                <div class="card min-width-400">
 
                     <span class="card-header bg-primary text-white text-center h4">
-                            Cancel a Booking
+                            Cancel Booking
                     </span>
 
                     <div class="card-body bg-white">
                         <div class="w-60 m-auto">
-                            <div class="form-row">
-                                <label class="mb-1 text-dark w-100">Hello</label>
+                            {% for field in form.visible_fields|slice:":-2" %}
+                            <div class="form-row mt-3">
+                                <label class="mb-1 text-dark w-100">{{field.label}}</label>
+                                {% render_field field class="form-control" %}
                             </div>
-
-                          
+                            {% endfor %}
+                            
+                            <div class="form-row mt-3">
+                                {% for field in form.visible_fields|slice:"-2:"  %}
+                                <div class="w-50">
+                                    <label class="mb-2 text-dark w-100">{{field.label}}</label>
+                                    {% render_field field class="form-control w-75" %}
+                                </div>
+    
+                                {% endfor%}
+                           </div>
 
                            <button class="btn btn-primary mt-4 float-right">Delete</button>
                         </div>
