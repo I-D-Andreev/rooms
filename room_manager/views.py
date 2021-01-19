@@ -1,3 +1,4 @@
+from django.contrib.messages.api import success
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
@@ -92,8 +93,20 @@ def book_room_view(request, *args, **kwargs):
 
 # login + user only
 def cancel_booking_view(request, *args, **kwargs):
-    form = DeleteMeetingForm(user=request.user)
 
+    if request.method == 'POST':
+        meeting_id = request.POST['meeting']
+        meeting = Meeting.objects.filter(pk=meeting_id).first()
+        
+        message = 'Failed to cancel the booking!'
+        if meeting is not None:
+            resp = meeting.delete()
+            if resp[0] >= 1:
+                message = f'The booking has been successfully cancelled!\n {meeting.long_name()}'
+
+        messages.info(request, message)
+
+    form = DeleteMeetingForm(user=request.user)
     args  = {'form': form}
     return render(request, 'room_manager/user/cancel_booking.html', args)
 
