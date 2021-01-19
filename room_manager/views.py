@@ -8,6 +8,8 @@ from django.contrib import messages
 from .user_forms import BookRoomForm, DeleteMeetingForm
 from .room_manager import RoomManager
 from django.http import JsonResponse
+from .models import Meeting
+from django.core import serializers
 
 
 
@@ -97,4 +99,23 @@ def cancel_booking_view(request, *args, **kwargs):
 
 
 def get_meeting(request, id, *args, **kwargs):
-    return JsonResponse({"got_id": id})
+    meeting = Meeting.objects.filter(pk=id).first()
+
+    if meeting is not None:
+        return JsonResponse({
+            'id' : meeting.pk,
+            'room' : meeting.room.public_name,
+            'start_date' : meeting.start_date,
+            'start_time' : meeting.start_time,
+            'duration': meeting.duration,
+            'participants_count': meeting.participants_count,
+        })
+    else:
+        return JsonResponse({
+            'id' : '',
+            'room' : '',
+            'start_date' : '',
+            'start_time' : '',
+            'duration': '',
+            'participants_count': '',
+        })
