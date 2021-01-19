@@ -6,38 +6,36 @@ from accounts.user_types import UserTypes
 
 class RoomManager:
     @staticmethod
-    def schedule_meeting(number_attendees:int , date: datetime.date, time: datetime.time, duration: int, creator:User):
+    def schedule_meeting(number_attendees:int , start_date: datetime.date, start_time: datetime.time, duration: int, creator:User):
         rooms = Profile.objects.filter(type__exact=UserTypes.room).filter(capacity__gte=number_attendees).order_by('capacity')
-        start_time = datetime.combine(date, time).astimezone()
-        end_time = (start_time + timedelta(minutes=duration)).astimezone()
 
         # todo1: RoomManager.purge_old_meetings()
 
         # rooms are sorted by capacity, so the first free room will be the smallest one possible
-        chosen_room = RoomManager.__choose_first_free_room(rooms, start_time, end_time)
+        chosen_room = RoomManager.__choose_first_free_room(rooms, start_date, start_time, duration)
 
         if chosen_room is None:
             return None
         
-        return Meeting.objects.create(creator=creator.profile, room=chosen_room, start_date=date, start_time=time, duration=duration, participants_count=number_attendees)
+        return Meeting.objects.create(creator=creator.profile, room=chosen_room, start_date=start_date, start_time=start_time, duration=duration, participants_count=number_attendees)
         
 
 
-    def __choose_first_free_room(rooms, start_time: datetime.time, end_time: datetime.time) -> Profile:
+    def __choose_first_free_room(rooms, start_date: datetime.date, start_time: datetime.time, duration: int) -> Profile:
         # todo1: synchronization?
-        RoomManager.__print_free_rooms(rooms, start_time, end_time)
+        RoomManager.__print_free_rooms(rooms, start_date, start_time, duration)
 
         for room in rooms:
-            if room.is_free(start_time, end_time):
+            if room.is_free(start_date, start_time, duration):
                 return room
         return None
 
 
     # for testing purposes
     @staticmethod
-    def __print_free_rooms(rooms, start_time: datetime.time, end_time: datetime.time):
+    def __print_free_rooms(rooms, start_date: datetime.date, start_time: datetime.time, duration: int):
         for room in rooms:
-            is_free = 'free' if room.is_free(start_time, end_time) else 'not free'
+            is_free = 'free' if room.is_free(start_date, start_time, duration) else 'not free'
             print(f"Room {room.public_name} (capacity {room.capacity}) is {is_free}")
 
 

@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from accounts.user_types import UserTypes
-from datetime import datetime, time, timedelta
+from datetime import datetime, time, timedelta, timezone
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -14,10 +14,13 @@ class Profile(models.Model):
         return self.public_name
 
 
-    def is_free(self, start_time: datetime, end_time: datetime) -> bool:
+    def is_free(self, start_date: datetime.date, start_time: datetime.time, duration:int) -> bool:
+        start_date_time = datetime.combine(start_date, start_time).astimezone()
+        end_date_time = start_date_time + timedelta(minutes=duration)
+
         # remove one minute because of overlapping meetings that start on the exact hour
-        start_time = start_time + timedelta(minutes=1)
-        end_time = end_time + timedelta(minutes=-1)
+        start_date_time = start_date_time + timedelta(minutes=1)
+        end_date_time = end_date_time + timedelta(minutes=-1)
 
         if self.type != UserTypes.room:
             return False
@@ -25,8 +28,8 @@ class Profile(models.Model):
         booked_meetings = self.meetings.all()
 
         for meeting in booked_meetings:
-            if start_time < meeting.end_date_time() and \
-                end_time > meeting.start_date_time():
+            if start_date_time < meeting.end_date_time() and \
+                end_date_time > meeting.start_date_time():
                 return False
 
         return True
