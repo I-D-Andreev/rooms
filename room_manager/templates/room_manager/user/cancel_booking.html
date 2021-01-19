@@ -6,8 +6,7 @@
 {% block head %}
 
     <title>Cancel a Booking</title>
-
-
+    <script src="{% static 'js/cancel_booking.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -61,5 +60,8 @@
     </div>
 </div>
 
-
+{% csrf_token %}
+<script>
+           const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+</script>
 {% endblock %}

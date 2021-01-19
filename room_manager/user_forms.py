@@ -31,8 +31,11 @@ class DeleteMeetingForm(forms.ModelForm):
         user = kwargs.pop('user')
         super(DeleteMeetingForm, self).__init__(*args, **kwargs)
         self.user = user
-        self.fields['meeting'].widget = forms.Select(choices=self.__meeting_choice_list())
         self.fields['room'].widget = forms.TextInput() # remove drop-down menu
+        
+        choices_list = [(-1, '')] + self.__meeting_choice_list()
+        self.fields['meeting'].label = "Choose a Meeting"
+        self.fields['meeting'].widget = forms.Select(choices=choices_list)
 
         for field in self.fields.items():
             if field[0] != 'meeting':
