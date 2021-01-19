@@ -5,3 +5,8 @@
 .w-60 {
     width: 60%;
 }
+
+
+.min-width-400 {
+    min-width: 400px;
+}
