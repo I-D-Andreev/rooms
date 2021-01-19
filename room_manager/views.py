@@ -10,8 +10,6 @@ from .user_forms import BookRoomForm, DeleteMeetingForm
 from .room_manager import RoomManager
 from django.http import JsonResponse
 from .models import Meeting
-from django.core import serializers
-
 
 
 @login_required(login_url='login')
@@ -111,9 +109,11 @@ def cancel_booking_view(request, *args, **kwargs):
     return render(request, 'room_manager/user/cancel_booking.html', args)
 
 
+
 def get_meeting(request, id, *args, **kwargs):
     meeting = Meeting.objects.filter(pk=id).first()
 
+    print(request.headers)
     if meeting is not None:
         return JsonResponse({
             'id' : meeting.pk,
