@@ -9,7 +9,6 @@ class RoomManager:
     def schedule_meeting(number_attendees:int , date: datetime.date, time: datetime.time, duration: int, creator:User):
         rooms = Profile.objects.filter(type__exact=UserTypes.room).filter(capacity__gte=number_attendees).order_by('capacity')
         start_time = datetime.combine(date, time).astimezone()
-
         end_time = (start_time + timedelta(minutes=duration)).astimezone()
 
         # todo1: RoomManager.purge_old_meetings()
@@ -20,7 +19,7 @@ class RoomManager:
         if chosen_room is None:
             return None
         
-        return Meeting.objects.create(creator=creator.profile, room=chosen_room, start_time=start_time, end_time=end_time, participants_count=number_attendees)
+        return Meeting.objects.create(creator=creator.profile, room=chosen_room, start_date=date, start_time=time, duration=duration, participants_count=number_attendees)
         
 
 
@@ -57,7 +56,7 @@ class RoomManager:
 
         filtered_meetings = []
         for meeting in all_meetings:
-            if meeting.start_time >= now and meeting.start_time <= after:
+            if meeting.start_date_time() >= now and meeting.start_date_time() <= after:
                 filtered_meetings.append(meeting)
         
         return filtered_meetings
