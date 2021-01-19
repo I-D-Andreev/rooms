@@ -7,6 +7,7 @@ from accounts.user_types import UserTypes
 from django.contrib import messages
 from .user_forms import BookRoomForm, DeleteMeetingForm
 from .room_manager import RoomManager
+from django.http import JsonResponse
 
 
 
@@ -93,3 +94,7 @@ def cancel_booking_view(request, *args, **kwargs):
 
     args  = {'form': form}
     return render(request, 'room_manager/user/cancel_booking.html', args)
+
+
+def get_meeting(request, id, *args, **kwargs):
+    return JsonResponse({"got_id": id})
