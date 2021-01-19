@@ -32,6 +32,12 @@ class DeleteMeetingForm(forms.ModelForm):
         super(DeleteMeetingForm, self).__init__(*args, **kwargs)
         self.user = user
         self.fields['meeting'].widget = forms.Select(choices=self.__meeting_choice_list())
+        self.fields['room'].widget = forms.TextInput() # remove drop-down menu
+
+        for field in self.fields.items():
+            if field[0] != 'meeting':
+                field[1].disabled = True
+
 
     def __meeting_choice_list(self):
         meetings_list = []
