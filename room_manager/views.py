@@ -86,3 +86,7 @@ def book_room_view(request, *args, **kwargs):
 
     args = {'form': form}
     return render(request, 'room_manager/user/book_room.html', args)
+
+# login + user only
+def cancel_booking_view(request, *args, **kwargs):
+    return render(request, 'room_manager/user/cancel_booking.html')

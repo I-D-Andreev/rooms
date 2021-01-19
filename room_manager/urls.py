@@ -23,6 +23,7 @@ urlpatterns = [
     path('', RedirectView.as_view(pattern_name="login")),
     path('dashboard/', dashboard_view, name="dashboard"),
     path('dashboard/create-room', create_room_view, name="create_room"),
+    path('dashboard/cancel-booking', cancel_booking_view, name="cancel_booking"),
     path('dashboard/book-room', book_room_view, name="book_room"),
     path('dashboard/statistics', statistics_view, name="statistics"),
 

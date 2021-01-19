@@ -1,0 +1,54 @@
+{% extends 'navbar.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block head %}
+
+    <title>Cancel a Booking</title>
+
+
+{% endblock %}
+
+{% block content %}
+<div class="w-100 h-100">
+
+    <div class="content w-100 h-100 d-flex">
+        <div class="row h-75 w-50 align-self-center mx-auto">
+            <form action="{% url 'book_room' %}" method="POST" class="mx-auto col-md-10 col-lg-7">
+                {% csrf_token %}
+                <div class="card">
+
+                    <span class="card-header bg-primary text-white text-center h4">
+                            Cancel a Booking
+                    </span>
+
+                    <div class="card-body bg-white">
+                        <div class="w-60 m-auto">
+                            <div class="form-row">
+                                <label class="mb-1 text-dark w-100">Hello</label>
+                            </div>
+
+                          
+
+                           <button class="btn btn-primary mt-4 float-right">Delete</button>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                {% if messages %}
+                <div>
+                    {% for message in messages %}
+                    <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
+            </form>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
