@@ -1,18 +1,15 @@
-{% extends 'base.html' %}
+{% extends 'navbar.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block head %}
-
     <title>Dashboard</title>
-
 {% endblock %}
 
 
-{% block body %}
-<div style="background-color: coral;">
-    <h1>Room dashboard</h1>
-    <span>Current user: "{{request.user}}"</span>
-    <span><a href="{% url 'logout'%}">Log Out</a></span>
+{% block content %}
+<div class="w-100 h-100 bg-info">
+
 </div>
-    
+
 {% endblock %}
