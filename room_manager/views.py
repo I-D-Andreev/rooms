@@ -22,7 +22,7 @@ def dashboard_view(request, *args, **kwargs):
     
     meetings_list = None
     if request.user.profile.type == UserTypes.user:
-        meetings_list = RoomManager.get_user_meetings_list(request.user)
+        meetings_list = RoomManager.get_user_meetings_list_today(request.user)
     elif request.user.profile.type == UserTypes.room:
         meetings_list = None
 

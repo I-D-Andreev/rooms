@@ -47,7 +47,7 @@ class DeleteMeetingForm(forms.ModelForm):
 
     def __meeting_choice_list(self):
         meetings_list = []
-        user_meetings = RoomManager.get_user_meetings_list(self.user)
+        user_meetings = RoomManager.get_user_meetings_list_from_now(self.user)
 
         for meeting in user_meetings:
             meetings_list.append((meeting.id, str(meeting)))

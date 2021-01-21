@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, date, timedelta
 from django.contrib.auth.models import User
 from accounts.models import Profile
 from .models import Meeting
@@ -46,7 +46,7 @@ class RoomManager:
 
     
     @staticmethod
-    def get_user_meetings_list(user: User) -> list:
+    def get_user_meetings_list_from_now(user: User) -> list:
         # todo1: Group meetings by start_date and display the schedule in a better way
         now = datetime.now().astimezone()
 
@@ -60,3 +60,7 @@ class RoomManager:
         return filtered_meetings
 
     
+    @staticmethod
+    def get_user_meetings_list_today(user: User) -> list:
+        today = date.today()
+        return user.profile.user_meetings.filter(start_date__exact=str(today)).order_by('start_date', 'start_time')

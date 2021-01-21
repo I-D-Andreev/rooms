@@ -35,6 +35,10 @@
 
             <div class="nav flex-column ml-3">
                 <div class="nav-item container-fluid">
+                    <a href="#" class="nav-link text-dark bg-light">My Schedule</a>
+                </div>
+
+                <div class="nav-item container-fluid">
                     <a href="#" class="nav-link text-dark bg-light">Room Schedule</a>
                 </div>
 
@@ -51,7 +55,7 @@
         <div class="content col-sm-8 col-xl-6">
             <div class="panel h-50 w-75 mx-auto mt-5">
                 <div class="panel-heading text-center mb-2">
-                    <span class="h2">Schedule</span>
+                    <span class="h2">Today's Schedule</span>
                 </div>
 
                 <div class="panel-body mh-100 overflow-auto">
@@ -61,7 +65,6 @@
                                 <div class="list-group-item">
                                     <span class="float-left">Room: {{meeting.room.public_name}}</span>
                                     <span class="float-right ml-4">Duration: {{meeting.duration}} min</span>
-                                    <span class="float-right">Date: {{meeting.start_date_time}}</span>
                                 </div>
                             {% endfor %}
                         {% else%}
