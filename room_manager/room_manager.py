@@ -63,4 +63,4 @@ class RoomManager:
     @staticmethod
     def get_user_meetings_list_today(user: User) -> list:
         today = date.today()
-        return user.profile.user_meetings.filter(start_date__exact=str(today)).order_by('start_date', 'start_time')
+        return user.profile.user_meetings.filter(start_date__exact=str(today)).order_by('start_time')
