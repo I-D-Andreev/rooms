@@ -15,6 +15,9 @@ class Profile(models.Model):
 
 
     def is_free(self, start_date: datetime.date, start_time: datetime.time, duration:int) -> bool:
+        if self.type != UserTypes.room:
+            return False
+  
         start_date_time = datetime.combine(start_date, start_time).astimezone()
         end_date_time = start_date_time + timedelta(minutes=duration)
 
@@ -22,9 +25,6 @@ class Profile(models.Model):
         start_date_time = start_date_time + timedelta(minutes=1)
         end_date_time = end_date_time + timedelta(minutes=-1)
 
-        if self.type != UserTypes.room:
-            return False
-        
         booked_meetings = self.meetings.all()
 
         for meeting in booked_meetings:
@@ -33,4 +33,18 @@ class Profile(models.Model):
                 return False
 
         return True
+    
+
+    def is_free_now(self):
+        if self.type != UserTypes.room:
+            return False
         
+        current_date_time = datetime.now().astimezone()
+        booked_meetings = self.meetings.all()
+        
+        for meeting in booked_meetings:
+            if current_date_time >= meeting.start_date_time() and \
+                current_date_time <= meeting.end_date_time():
+                return False
+        
+        return True
