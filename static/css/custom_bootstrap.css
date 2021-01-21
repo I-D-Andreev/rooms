@@ -6,6 +6,13 @@
     width: 60%;
 }
 
+.h-60 {
+    height: 60%;
+}
+
+.h-85 {
+    height: 85%;
+}
 
 .min-width-400 {
     min-width: 400px;
