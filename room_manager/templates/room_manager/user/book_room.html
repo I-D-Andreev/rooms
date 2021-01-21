@@ -31,6 +31,13 @@
                     <div class="card-body bg-white">
                         <div class="w-60 m-auto">
                             <div class="form-row">
+                                <label class="mb-1 text-dark w-100">{{form.name.label}}</label>
+                                <div class="w-100 input-group centered-line-height">
+                                    {% render_field form.name class="form-control"%}
+                                </div>
+                            </div>
+
+                            <div class="form-row mt-3">
                                 <label class="mb-1 text-dark w-100">{{form.date.label}}</label>
                                 <div class="w-100 input-group centered-line-height">
                                     {% render_field form.date class="vDateField form-control"%}

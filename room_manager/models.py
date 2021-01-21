@@ -6,16 +6,17 @@ from accounts.models import Profile
 class Meeting(models.Model):
     creator = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='user_meetings')
     room = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='meetings')
+    name = models.CharField(max_length=120)
     start_date = models.DateField()
     start_time = models.TimeField()
     duration = models.IntegerField()
     participants_count = models.PositiveIntegerField()
 
     def __str__(self):
-        return f"{self.room.public_name} | {self.start_time_str()}"
+        return f"{self.name} | {self.start_time_str()}"
 
     def long_name(self):
-        return f"User: {self.creator.public_name} | Room: {self.room.public_name} | From: {self.start_time_str()} | To: {self.end_time_str()}"    
+        return f"User: {self.creator.public_name} | Name: {self.name} | Room: {self.room.public_name} | From: {self.start_time_str()} | To: {self.end_time_str()}"    
 
     def start_date_time(self):
         return datetime.combine(self.start_date, self.start_time).astimezone()

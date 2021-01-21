@@ -72,12 +72,13 @@ def book_room_view(request, *args, **kwargs):
         if form.is_valid():
             cleaned_data = form.cleaned_data
 
+            meeting_name = cleaned_data['name']
             participants = cleaned_data['participants_count']
             date = cleaned_data['date']
             time = cleaned_data['time']
             duration = cleaned_data['duration']
 
-            meeting = RoomManager.schedule_meeting(participants, date, time, duration, request.user)
+            meeting = RoomManager.schedule_meeting(meeting_name, participants, date, time, duration, request.user)
 
             if meeting is None:
                 messages.info(request, 'There is no free room for the chosen time!')

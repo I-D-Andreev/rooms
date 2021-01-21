@@ -7,6 +7,7 @@ from .models import Meeting
 from .room_manager import RoomManager
 
 class BookRoomForm(forms.Form):
+    name = forms.CharField(max_length=120, label="Meeting Name")
     date = forms.DateField(label="Date", widget=AdminDateWidget())
     time = forms.TimeField(label="Start Time", widget=AdminTimeWidget())
     duration = forms.IntegerField(min_value=0, label="Duration (min)", initial=0)

@@ -6,7 +6,7 @@ from accounts.user_types import UserTypes
 
 class RoomManager:
     @staticmethod
-    def schedule_meeting(number_attendees:int , start_date: datetime.date, start_time: datetime.time, duration: int, creator:User):
+    def schedule_meeting(meeting_name:str, number_attendees:int , start_date: datetime.date, start_time: datetime.time, duration: int, creator:User):
         rooms = Profile.objects.filter(type__exact=UserTypes.room).filter(capacity__gte=number_attendees).order_by('capacity')
 
         # todo1: RoomManager.purge_old_meetings()
@@ -17,7 +17,7 @@ class RoomManager:
         if chosen_room is None:
             return None
         
-        return Meeting.objects.create(creator=creator.profile, room=chosen_room, start_date=start_date, start_time=start_time, duration=duration, participants_count=number_attendees)
+        return Meeting.objects.create(name=meeting_name, creator=creator.profile, room=chosen_room, start_date=start_date, start_time=start_time, duration=duration, participants_count=number_attendees)
         
 
 
