@@ -10,3 +10,21 @@
 .min-width-400 {
     min-width: 400px;
 }
+
+
+.button-circle {
+    width: 60px;
+    height: 60px;
+    padding: 7px 10px;
+    border-radius: 35px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.bg-green {
+    background-color: rgb(37, 211, 37);
+}
+
+.bg-yellow {
+    background-color: yellow;
+}
