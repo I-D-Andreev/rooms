@@ -48,3 +48,17 @@ class Profile(models.Model):
                 return False
         
         return True
+
+    def meeting_now(self):
+        if self.type != UserTypes.room:
+            return None
+        
+        current_date_time = datetime.now().astimezone()
+        booked_meetings = self.meetings.all()
+
+        for meeting in booked_meetings:
+            if current_date_time >= meeting.start_date_time() and \
+                current_date_time <= meeting.end_date_time():
+                return meeting
+        
+        return None

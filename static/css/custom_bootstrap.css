@@ -18,6 +18,17 @@
     min-width: 400px;
 }
 
+.text-green {
+    color:rgb(37, 211, 37);
+}
+
+.bg-green {
+    background-color:rgb(37, 211, 37);
+}
+
+.bg-light-red {
+    background-color: rgb(235, 150, 150);
+}
 
 .button-circle {
     width: 60px;

@@ -64,3 +64,30 @@ class RoomManager:
     def get_user_meetings_list_today(user: User) -> list:
         today = date.today()
         return user.profile.user_meetings.filter(start_date__exact=str(today)).order_by('start_time')
+
+
+    @staticmethod
+    def get_room_meeting_list_today(room: User) -> list:
+        if room.profile.type != UserTypes.room:
+            return []
+        
+        today = date.today()
+        return room.profile.meetings.filter(start_date__exact=str(today)).order_by('start_time')
+
+    
+    
+    # Get the meetings today starting from the 00th minute of the current hour.
+    @staticmethod
+    def get_room_meeting_list_today_after_hour(room: User, current_hour: int) -> list:
+        if room.profile.type != UserTypes.room:
+            return []
+        
+        meetings_today = RoomManager.get_room_meeting_list_today(room)
+
+        meetings_from_current_hour = []
+
+        for meeting in meetings_today:
+            if meeting.start_time.hour >= current_hour:
+                meetings_from_current_hour.append(meeting)
+        
+        return meetings_from_current_hour

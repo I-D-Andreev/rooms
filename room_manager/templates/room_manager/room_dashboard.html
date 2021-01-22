@@ -12,20 +12,24 @@
   <div class="row w-100 h-100">
         <div class="col-sm-9 offset-sm-1 h-100 mh-100">
             <div class="h-25 text-center d-flex align-items-center">
-                <div class="h1 w-100">Free</div>
+                {% if user.profile.is_free_now %}
+                    <div class="h1 w-100 text-green">Free</div>
+                {% else %}
+                    <div class="h1 w-100 text-danger">Busy</div>
+                {% endif %}
             </div>
 
             <div class="h-60 w-100 list-group overflow-auto mt-2">
-                <div class="list-group-item">hi</div>
-                <div class="list-group-item">hi</div>
-                <div class="list-group-item">hi</div>
-                <div class="list-group-item">hi</div>
-                <div class="list-group-item">hi</div>
-                <div class="list-group-item">hi</div>
-                <div class="list-group-item">hi</div>
-                <div class="list-group-item">hi</div>
-                <div class="list-group-item">hi</div>
-
+                {% if meetings_list %}
+                    {% for meeting in meetings_list %}
+                        <div class="list-group-item border-secondary {%if meeting.creator is None%} bg-green {% else %} bg-light-red {% endif %}">
+                            <span class="float-left w-25">{{meeting.start_time_str}} - {{meeting.end_time_str}}</span>
+                            <span class="ml-4">{{meeting.name}}</span>                      
+                        </div>
+                    {% endfor %}
+                {% else%}
+                    <span class="h4 w-100 text-center mt-3">No Meetings</span>
+                {% endif %}
             </div>
         </div>
 

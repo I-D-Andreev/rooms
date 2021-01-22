@@ -10,6 +10,8 @@ from .user_forms import BookRoomForm, DeleteMeetingForm
 from .room_manager import RoomManager
 from django.http import JsonResponse
 from .models import Meeting
+from datetime import datetime
+from django.contrib.auth.models import User
 
 
 @login_required(login_url='login')
@@ -24,12 +26,12 @@ def dashboard_view(request, *args, **kwargs):
     if request.user.profile.type == UserTypes.user:
         meetings_list = RoomManager.get_user_meetings_list_today(request.user)
     elif request.user.profile.type == UserTypes.room:
-        meetings_list = None
+      meetings_list = get_room_schedule_meetings_list(request.user)
 
 
-    args = {'username': request.user.username, 'meetings_list': meetings_list}
+    context = {'user': request.user, 'meetings_list': meetings_list}
 
-    return render(request, f'room_manager/{dashboard}_dashboard.html', args)
+    return render(request, f'room_manager/{dashboard}_dashboard.html', context)
 
 
 @login_required(login_url='login')
@@ -59,8 +61,8 @@ def create_room_view(request, *args, **kwargs):
             print('form is not valid')
             print(form.errors)
 
-    args = {'form': form}
-    return render(request, 'room_manager/admin/create_room.html', args)
+    context = {'form': form}
+    return render(request, 'room_manager/admin/create_room.html', context)
 
 
 # login + user only
@@ -87,8 +89,8 @@ def book_room_view(request, *args, **kwargs):
                 form = BookRoomForm()
 
 
-    args = {'form': form}
-    return render(request, 'room_manager/user/book_room.html', args)
+    context = {'form': form}
+    return render(request, 'room_manager/user/book_room.html', context)
 
 # login + user only
 def cancel_booking_view(request, *args, **kwargs):
@@ -106,8 +108,8 @@ def cancel_booking_view(request, *args, **kwargs):
         messages.info(request, message)
 
     form = DeleteMeetingForm(user=request.user)
-    args  = {'form': form}
-    return render(request, 'room_manager/user/cancel_booking.html', args)
+    context  = {'form': form}
+    return render(request, 'room_manager/user/cancel_booking.html', context)
 
 
 
@@ -133,3 +135,39 @@ def get_meeting(request, id, *args, **kwargs):
             'duration': '',
             'participants_count': '',
         })
+
+def get_room_schedule_meetings_list(user: User) -> list:
+    current_hour = datetime.now().time().hour if user.profile.is_free_now() else user.profile.meeting_now().start_time.hour
+    meetings_list = RoomManager.get_room_meeting_list_today_after_hour(user, current_hour)
+    padded_meetings_list = __pad_with_free_meetings(meetings_list)
+
+    return padded_meetings_list
+
+def __pad_with_free_meetings(meeting_list: list) -> list:
+    room_free_text = 'Room Is Free!'
+    padded_meetings_list = []
+    for i in range(0, len(meeting_list)-1):
+        curr_meeting = meeting_list[i]
+        next_meeting = meeting_list[i+1]
+
+        time_between_mins = (next_meeting.start_date_time() - curr_meeting.end_date_time()).total_seconds() // 60
+
+        padded_meetings_list.append(curr_meeting)
+
+        if(time_between_mins >= 1):
+            padded_meetings_list.append(Meeting(creator=None, room=None, name=room_free_text, start_date=curr_meeting.start_date,
+            start_time = curr_meeting.end_time(), duration=time_between_mins, participants_count=0))
+
+
+    last_meeting = meeting_list[-1]
+    padded_meetings_list.append(last_meeting)
+    
+    #  if the last meeting does not go over 24:00, append one more padded meeting
+    if last_meeting.start_date_time().day == last_meeting.end_date_time().day:
+        last_meeting_end_time = last_meeting.end_time()
+        last_meeting_duration = 1440 - (last_meeting_end_time.hour * 60 + last_meeting_end_time.minute)
+
+        padded_meetings_list.append(Meeting(creator=None, room=None, name=room_free_text, start_date=last_meeting.start_date,
+                start_time = last_meeting.end_time(), duration=last_meeting_duration, participants_count=0))
+
+    return padded_meetings_list

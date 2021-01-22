@@ -8,8 +8,8 @@
             <!-- left side -->
             <div class="navbar-nav">
                 <div class="navbar-brand">
-                    {% if username %}
-                        {{username}}
+                    {% if user %}
+                        {{user.username}}
                     {% else %}
                         Room Manager
                     {% endif %}
