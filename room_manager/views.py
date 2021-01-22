@@ -145,6 +145,14 @@ def get_room_schedule_meetings_list(user: User) -> list:
 
 def __pad_with_free_meetings(meeting_list: list) -> list:
     room_free_text = 'Room Is Free!'
+    if len(meeting_list) == 0:
+        current_time = datetime.now().time()
+        # Start from 00th minute ofthe current hour
+        current_time = current_time.replace(hour=current_time.hour, minute=0, second=0, microsecond=0)
+
+        time_between_mins = 1440 - (current_time.hour * 60 + current_time.minute)
+        return [Meeting(creator=None, room=None, name=room_free_text, start_date=None, start_time=current_time, duration=time_between_mins, participants_count=0)]
+
     padded_meetings_list = []
     for i in range(0, len(meeting_list)-1):
         curr_meeting = meeting_list[i]
@@ -155,7 +163,7 @@ def __pad_with_free_meetings(meeting_list: list) -> list:
         padded_meetings_list.append(curr_meeting)
 
         if(time_between_mins >= 1):
-            padded_meetings_list.append(Meeting(creator=None, room=None, name=room_free_text, start_date=curr_meeting.start_date,
+            padded_meetings_list.append(Meeting(creator=None, room=None, name=room_free_text, start_date=None,
             start_time = curr_meeting.end_time(), duration=time_between_mins, participants_count=0))
 
 
@@ -167,7 +175,7 @@ def __pad_with_free_meetings(meeting_list: list) -> list:
         last_meeting_end_time = last_meeting.end_time()
         last_meeting_duration = 1440 - (last_meeting_end_time.hour * 60 + last_meeting_end_time.minute)
 
-        padded_meetings_list.append(Meeting(creator=None, room=None, name=room_free_text, start_date=last_meeting.start_date,
+        padded_meetings_list.append(Meeting(creator=None, room=None, name=room_free_text, start_date=None,
                 start_time = last_meeting.end_time(), duration=last_meeting_duration, participants_count=0))
 
     return padded_meetings_list
