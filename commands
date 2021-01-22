@@ -54,3 +54,5 @@ Livereload | django-livereload-server | https://github.com/tjwalch/django-livere
 
 From Android device:
     10.0.2.2:8000
+
+Note: just instantiating a class will not save it into the DB, if the save method is not called.
