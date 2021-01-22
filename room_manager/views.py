@@ -143,15 +143,21 @@ def get_room_schedule_meetings_list(user: User) -> list:
 
     return padded_meetings_list
 
+# If there is time between meetings, insert 'ghost' meetings saying that the room is free.
 def __pad_with_free_meetings(meeting_list: list) -> list:
     room_free_text = 'Room Is Free!'
+
+    # If we have no meetings, return only one ghost meeting until midnight.
     if len(meeting_list) == 0:
         current_time = datetime.now().time()
-        # Start from 00th minute ofthe current hour
+        # Start from 00th minute of the current hour
         current_time = current_time.replace(hour=current_time.hour, minute=0, second=0, microsecond=0)
 
-        time_between_mins = 1440 - (current_time.hour * 60 + current_time.minute)
-        return [Meeting(creator=None, room=None, name=room_free_text, start_date=None, start_time=current_time, duration=time_between_mins, participants_count=0)]
+        return [Meeting(creator=None, room=None, name=room_free_text,
+            start_date=None, start_time=current_time,
+            duration=__time_until_midnight(current_time),
+            participants_count=0)]
+
 
     padded_meetings_list = []
     for i in range(0, len(meeting_list)-1):
@@ -163,8 +169,10 @@ def __pad_with_free_meetings(meeting_list: list) -> list:
         padded_meetings_list.append(curr_meeting)
 
         if(time_between_mins >= 1):
-            padded_meetings_list.append(Meeting(creator=None, room=None, name=room_free_text, start_date=None,
-            start_time = curr_meeting.end_time(), duration=time_between_mins, participants_count=0))
+            padded_meetings_list.append(Meeting(creator=None, room=None, 
+            name=room_free_text, start_date=None,
+            start_time = curr_meeting.end_time(),
+            duration=time_between_mins, participants_count=0))
 
 
     last_meeting = meeting_list[-1]
@@ -172,10 +180,14 @@ def __pad_with_free_meetings(meeting_list: list) -> list:
     
     #  if the last meeting does not go over 24:00, append one more padded meeting
     if last_meeting.start_date_time().day == last_meeting.end_date_time().day:
-        last_meeting_end_time = last_meeting.end_time()
-        last_meeting_duration = 1440 - (last_meeting_end_time.hour * 60 + last_meeting_end_time.minute)
-
-        padded_meetings_list.append(Meeting(creator=None, room=None, name=room_free_text, start_date=None,
-                start_time = last_meeting.end_time(), duration=last_meeting_duration, participants_count=0))
+        padded_meetings_list.append(Meeting(creator=None, room=None, 
+            name=room_free_text, start_date=None,
+            start_time = last_meeting.end_time(), 
+            duration=__time_until_midnight(last_meeting.end_time()),
+             participants_count=0))
 
     return padded_meetings_list
+
+def __time_until_midnight(curr_time: datetime.time):
+    return 1439 - (curr_time.hour * 60 + curr_time.minute)
+
