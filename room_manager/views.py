@@ -126,7 +126,10 @@ def room_schedule_view(request, *args, **kwargs):
     return render(request, 'room_manager/user/room_schedule.html', context)
 
 def multi_room_schedule_view(request, *args, **kwargs):
-    return render(request, 'room_manager/user/multi_room_schedule.html')
+    rooms = Profile.objects.filter(type__exact = UserTypes.room)
+    multi_room_schedule_list = [(room, get_room_schedule_meetings_list(room.user)) for room in rooms]
+    context = {'list': multi_room_schedule_list}
+    return render(request, 'room_manager/user/multi_room_schedule.html', context)
 
 
 # --------------- REST API ---------------
