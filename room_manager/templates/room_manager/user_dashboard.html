@@ -62,7 +62,7 @@
                     <div class="list-group">
                         {% if meetings_list %}
                             {% for meeting in meetings_list %}
-                                <div class="list-group-item">
+                                <div class="list-group-item border-secondary {% if meeting.has_passed%} bg-light-red {% elif meeting.is_currently_ongoing %} bg-green {% endif %}">
                                     <span class="float-left w-25">{{meeting.start_time_str}} - {{meeting.end_time_str}}</span>
                                     <span class="float-left w-25 ml-5">{{meeting.name}}</span>
                                     <span class="float-right w-25">Room: {{meeting.room.public_name}}</span>
