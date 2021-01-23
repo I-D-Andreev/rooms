@@ -13,8 +13,8 @@ from .models import Meeting
 from datetime import datetime
 from django.contrib.auth.models import User
 from accounts.models import Profile
-from django.core import serializers
 from django.http import HttpResponse
+import json
 
 # --------------- Views ---------------
 @login_required(login_url='login')
@@ -155,10 +155,18 @@ def get_room_schedule(request, id, *args, **kwargs):
  
     if profile is not None:
         meetings_list = get_room_schedule_meetings_list(profile.user)
-        meetings_list_json = serializers.serialize('json', meetings_list, fields=('creator', 'name', 'start_date', 'start_time', 'duration'))
-        return HttpResponse(meetings_list_json, content_type="text/json-comment-filtered")
+        meetings_list_json = json.dumps(
+            [{'creator': meeting.creator.public_name if meeting.creator else None,
+             'name': meeting.name,
+             'start_date': meeting.start_date_str(),
+             'start_time': meeting.start_time_str(), 
+             'end_time': meeting.end_time_str(),
+             } for meeting in meetings_list])
+
+
+        return HttpResponse(meetings_list_json, content_type="application/json")
     else:
-        return HttpResponse("[]", content_type="text/json")
+        return HttpResponse("[]", content_type="application/json")
 
 # --------------- Helper Functions ---------------
 def get_room_schedule_meetings_list(user: User) -> list:

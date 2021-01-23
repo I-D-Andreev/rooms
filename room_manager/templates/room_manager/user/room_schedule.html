@@ -14,13 +14,13 @@
 
 {% block content %}
 <div class="row h-100 w-100">
-    <div class="col-md-6 offset-md-3 w-100 h-100 mt-5">
+    <div class="col-md-4 offset-md-4 h-100 mt-5">
         <div class="w-50 mx-auto">
-            <label class="mb-1 text-dark w-100">Choose Room:</label>
-            {% render_field form.room class="form-control" %}
+            <label class="mb-1 text-dark w-100 mx-auto">Choose Room:</label>
+            {% render_field form.room class="form-control w-75" %}
         </div>
 
-        <div id="room_meetings" class="list-group overflow-auto mt-4">
+        <div id="room_meetings" class="list-group overflow-auto mt-4 h-75">
         </div>
     </div>
 </div>

@@ -42,6 +42,12 @@ class Meeting(models.Model):
     def end_time_str(self):
      return self.__format_time(self.end_time())
 
+    def start_date_str(self):
+        return self.__format_date(self.start_date)
+
+    def __format_date(self, dd: datetime.date):
+        return f"{dd.year}-{dd.month}-{dd.day}"
+
     def __format_time(self, time: datetime.time):
         hours = f"0{time.hour}" if time.hour < 10 else f"{time.hour}"
         minutes = f"0{time.minute}" if time.minute < 10 else f"{time.minute}"
