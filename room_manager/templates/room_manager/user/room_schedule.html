@@ -1,5 +1,7 @@
 {% extends 'navbar.html' %}
 {% load static %}
+{% load widget_tweaks %}
+
 
 {% block head %}
 
@@ -13,9 +15,12 @@
 {% block content %}
 <div class="row h-100 w-100">
     <div class="col-md-6 offset-md-3 w-100 h-100 mt-5">
-        <div>Hello world</div>
-        <div>
-            {{form}}
+        <div class="w-50 mx-auto">
+            <label class="mb-1 text-dark w-100">Choose Room:</label>
+            {% render_field form.room class="form-control" %}
+        </div>
+
+        <div id="room_meetings" class="list-group overflow-auto mt-4">
         </div>
     </div>
 </div>

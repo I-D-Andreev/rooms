@@ -125,8 +125,6 @@ def room_schedule_view(request, *args, **kwargs):
     context = {'form': form}
     return render(request, 'room_manager/user/room_schedule.html', context)
 
-
-
 # --------------- REST API ---------------
 
 def get_meeting(request, id, *args, **kwargs):
@@ -157,7 +155,7 @@ def get_room_schedule(request, id, *args, **kwargs):
  
     if profile is not None:
         meetings_list = get_room_schedule_meetings_list(profile.user)
-        meetings_list_json = serializers.serialize('json', meetings_list)
+        meetings_list_json = serializers.serialize('json', meetings_list, fields=('creator', 'name', 'start_date', 'start_time', 'duration'))
         return HttpResponse(meetings_list_json, content_type="text/json-comment-filtered")
     else:
         return HttpResponse("[]", content_type="text/json")
