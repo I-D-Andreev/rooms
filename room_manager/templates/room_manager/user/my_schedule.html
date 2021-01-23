@@ -10,8 +10,30 @@
 
 {% block content %}
 <div class="row h-100 w-100">
-    <div class="col-md-6 offset-md-3 w-100 h-100 bg-info mt-5">
+    <div class="col-md-6 offset-md-3 w-100 h-100 mt-5">
+        <div class="panel h-100 w-100 mx-auto">
+            <div class="panel-heading text-center mb-2">
+                <span class="h2">My Schedule</span>
+            </div>
 
+            <div class="panel-body mh-100 overflow-auto">
+                <div class="list-group">
+                    {% if meetings_list %}
+                        {% for meeting in meetings_list %}
+                            <div class="list-group-item w-75 mx-auto">
+                                    <span>{{meeting.start_date}}</span>
+                                    <span class="ml-4">{{meeting.start_time_str}} - {{meeting.end_time_str}}</span>
+                                    <span class="w-25 ml-5 d-inline-block">{{meeting.name}}</span>
+                                    <span class="ml-5">Room: {{meeting.room.public_name}}</span>
+                            </div>
+                        {% endfor %}
+                    {% else%}
+                        <span class="h5 align-self-center mt-5">No upcoming meetings</span>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
 {%endblock%}

@@ -47,14 +47,13 @@ class RoomManager:
     
     @staticmethod
     def get_user_meetings_list_from_now(user: User) -> list:
-        # todo1: Group meetings by start_date and display the schedule in a better way
         now = datetime.now().astimezone()
 
         all_meetings = user.profile.user_meetings.all().order_by('start_date', 'start_time')
 
         filtered_meetings = []
         for meeting in all_meetings:
-            if meeting.start_date_time() >= now:
+            if meeting.start_date_time() >= now or meeting.is_currently_ongoing():
                 filtered_meetings.append(meeting)
         
         return filtered_meetings

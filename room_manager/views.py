@@ -113,7 +113,9 @@ def cancel_booking_view(request, *args, **kwargs):
 
 # login + user only
 def my_schedule_view(request, *args, **kwargs):
-    return render(request, 'room_manager/user/my_schedule.html')
+    meetings_list = RoomManager.get_user_meetings_list_from_now(request.user)
+    context = {'meetings_list' : meetings_list}
+    return render(request, 'room_manager/user/my_schedule.html', context)
     
 
 

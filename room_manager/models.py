@@ -49,3 +49,7 @@ class Meeting(models.Model):
 
     def __format_date_time(self, dtime: datetime):
         return dtime.strftime('%Y-%m-%d %H:%M')
+    
+    def is_currently_ongoing(self):
+        now = datetime.now().astimezone()
+        return (now >= self.start_date_time() and now <= self.end_date_time())
