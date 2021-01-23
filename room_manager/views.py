@@ -12,8 +12,9 @@ from django.http import JsonResponse
 from .models import Meeting
 from datetime import datetime
 from django.contrib.auth.models import User
+from accounts.models import Profile
 
-
+# --------------- Views ---------------
 @login_required(login_url='login')
 def dashboard_view(request, *args, **kwargs):
     try:
@@ -122,10 +123,13 @@ def room_schedule_view(request, *args, **kwargs):
     context = {'form': form}
     return render(request, 'room_manager/user/room_schedule.html', context)
 
+
+
+# --------------- REST API ---------------
+
 def get_meeting(request, id, *args, **kwargs):
     meeting = Meeting.objects.filter(pk=id).first()
 
-    print(request.headers)
     if meeting is not None:
         return JsonResponse({
             'id' : meeting.pk,
@@ -145,6 +149,21 @@ def get_meeting(request, id, *args, **kwargs):
             'participants_count': '',
         })
 
+
+
+
+def get_room_schedule(request, id, *args, **kwargs):
+    profile = Profile.objects.filter(pk=id).first()
+    if profile is not None:
+        return JsonResponse({
+            'exists': True,
+        })
+    else:
+        return JsonResponse({
+            'exists': False,
+        })
+
+# --------------- Helper Functions ---------------
 def get_room_schedule_meetings_list(user: User) -> list:
     current_hour = datetime.now().time().hour if user.profile.is_free_now() else user.profile.meeting_now().start_time.hour
     meetings_list = RoomManager.get_room_meeting_list_today_after_hour(user, current_hour)

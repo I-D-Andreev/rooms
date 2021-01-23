@@ -22,12 +22,18 @@ from room_manager.views import *
 urlpatterns = [
     path('', RedirectView.as_view(pattern_name="login")),
     path('dashboard/', dashboard_view, name="dashboard"),
+    # admin
     path('dashboard/create-room', create_room_view, name="create_room"),
-    path('get-meeting/<int:id>', get_meeting, name="get_meeting"),
-    path('dashboard/cancel-booking', cancel_booking_view, name="cancel_booking"),
+
+    # user
     path('dashboard/book-room', book_room_view, name="book_room"),
+    path('dashboard/cancel-booking', cancel_booking_view, name="cancel_booking"),
     path('dashboard/my-schedule', my_schedule_view, name="my_schedule"),
     path('dashboard/room-schedule', room_schedule_view, name="room_schedule"),
     path('dashboard/statistics', statistics_view, name="statistics"),
+    
+    # user REST api
+    path('get-meeting/<int:id>', get_meeting, name="get_meeting"),
+    path('get-room-schedule/<int:id>', get_room_schedule, name="get_room_schedule"),
 
 ]
