@@ -41,7 +41,7 @@
                                 {% endfor%}
                            </div>
 
-                           <button class="btn btn-primary mt-4 float-right">Delete</button>
+                           <button class="btn btn-primary mt-4 float-right">Cancel</button>
                         </div>
                         
                     </div>
@@ -59,9 +59,4 @@
         </div>
     </div>
 </div>
-
-{% csrf_token %}
-<script>
-           const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-</script>
 {% endblock %}
