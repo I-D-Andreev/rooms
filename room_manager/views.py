@@ -125,6 +125,10 @@ def room_schedule_view(request, *args, **kwargs):
     context = {'form': form}
     return render(request, 'room_manager/user/room_schedule.html', context)
 
+def multi_room_schedule_view(request, *args, **kwargs):
+    return render(request, 'room_manager/user/multi_room_schedule.html')
+
+
 # --------------- REST API ---------------
 
 def get_meeting(request, id, *args, **kwargs):

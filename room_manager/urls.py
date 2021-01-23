@@ -30,6 +30,7 @@ urlpatterns = [
     path('dashboard/cancel-booking', cancel_booking_view, name="cancel_booking"),
     path('dashboard/my-schedule', my_schedule_view, name="my_schedule"),
     path('dashboard/room-schedule', room_schedule_view, name="room_schedule"),
+    path('dashboard/multi-room-schedule', multi_room_schedule_view, name="multi_room_schedule"),
     path('dashboard/statistics', statistics_view, name="statistics"),
     
     # user REST api
