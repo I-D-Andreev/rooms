@@ -6,7 +6,7 @@ from room_manager.decorators import user_only
 from accounts.forms import UserRegistrationForm
 from accounts.user_types import UserTypes
 from django.contrib import messages
-from .user_forms import BookRoomForm, DeleteMeetingForm
+from .user_forms import BookRoomForm, DeleteMeetingForm, ChooseRoomForm
 from .room_manager import RoomManager
 from django.http import JsonResponse
 from .models import Meeting
@@ -118,7 +118,9 @@ def my_schedule_view(request, *args, **kwargs):
     return render(request, 'room_manager/user/my_schedule.html', context)
     
 def room_schedule_view(request, *args, **kwargs):
-    return render(request, 'room_manager/user/room_schedule.html')
+    form = ChooseRoomForm()
+    context = {'form': form}
+    return render(request, 'room_manager/user/room_schedule.html', context)
 
 def get_meeting(request, id, *args, **kwargs):
     meeting = Meeting.objects.filter(pk=id).first()

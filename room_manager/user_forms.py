@@ -3,6 +3,7 @@ from django.contrib.admin.widgets import AdminDateWidget, AdminTimeWidget
 from django.contrib.auth.models import User
 
 from accounts.user_types import UserTypes
+from accounts.models import Profile
 from .models import Meeting
 from .room_manager import RoomManager
 
@@ -14,6 +15,7 @@ class BookRoomForm(forms.Form):
     participants_count = forms.IntegerField(min_value=0, label="Attendees", initial=0)
 
 
+# Cancel booking
 class DeleteMeetingForm(forms.ModelForm):
     meeting = forms.CharField()
 
@@ -53,3 +55,7 @@ class DeleteMeetingForm(forms.ModelForm):
             meetings_list.append((meeting.id, str(meeting)))
         
         return meetings_list
+
+# Bind a Select element to display all the rooms
+class ChooseRoomForm(forms.Form):
+    room = forms.ModelChoiceField(queryset=Profile.objects.filter(type__exact=UserTypes.room), empty_label="")
