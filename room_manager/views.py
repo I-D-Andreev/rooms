@@ -117,8 +117,8 @@ def my_schedule_view(request, *args, **kwargs):
     context = {'meetings_list' : meetings_list}
     return render(request, 'room_manager/user/my_schedule.html', context)
     
-
-
+def room_schedule_view(request, *args, **kwargs):
+    return render(request, 'room_manager/user/room_schedule.html')
 
 def get_meeting(request, id, *args, **kwargs):
     meeting = Meeting.objects.filter(pk=id).first()
