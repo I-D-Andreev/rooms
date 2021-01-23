@@ -1,20 +1,20 @@
 $(document).ready(function(){
     $('#id_room').on('change', function(){
         roomId = this.value;
-        console.log(roomId)
         if(roomId == ""){
             console.log("empty");
+        } else {
+            $.ajax({
+                url: `/get-room-schedule/${roomId}`,
+                success: function(data){
+                    // loadMeeting(data.room, data.start_date, data.start_time, data.duration, data.participants_count);
+                    console.log(data);
+                },
+                error: function(err){
+                    console.log(err);
+                }
+            });
         }
-
-        // $.ajax({
-        //     url: `/get-meeting/${mId}`,
-        //     success: function(data){
-        //         loadMeeting(data.room, data.start_date, data.start_time, data.duration, data.participants_count);
-        //     },
-        //     error: function(err){
-        //         console.log(err)
-        //     }
-        // });
     })
 });
 

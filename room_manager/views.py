@@ -13,6 +13,8 @@ from .models import Meeting
 from datetime import datetime
 from django.contrib.auth.models import User
 from accounts.models import Profile
+from django.core import serializers
+from django.http import HttpResponse
 
 # --------------- Views ---------------
 @login_required(login_url='login')
@@ -150,30 +152,27 @@ def get_meeting(request, id, *args, **kwargs):
         })
 
 
-
-
 def get_room_schedule(request, id, *args, **kwargs):
     profile = Profile.objects.filter(pk=id).first()
+ 
     if profile is not None:
-        return JsonResponse({
-            'exists': True,
-        })
+        meetings_list = get_room_schedule_meetings_list(profile.user)
+        meetings_list_json = serializers.serialize('json', meetings_list)
+        return HttpResponse(meetings_list_json, content_type="text/json-comment-filtered")
     else:
-        return JsonResponse({
-            'exists': False,
-        })
+        return HttpResponse("[]", content_type="text/json")
 
 # --------------- Helper Functions ---------------
 def get_room_schedule_meetings_list(user: User) -> list:
     current_hour = datetime.now().time().hour if user.profile.is_free_now() else user.profile.meeting_now().start_time.hour
     meetings_list = RoomManager.get_room_meeting_list_today_after_hour(user, current_hour)
     padded_meetings_list = __pad_with_free_meetings(meetings_list)
-
     return padded_meetings_list
 
 # If there is time between meetings, insert 'ghost' meetings saying that the room is free.
 def __pad_with_free_meetings(meeting_list: list) -> list:
     room_free_text = 'Room Is Free!'
+    today = datetime.now().date()
 
     # If we have no meetings, return only one ghost meeting until midnight.
     if len(meeting_list) == 0:
@@ -182,7 +181,7 @@ def __pad_with_free_meetings(meeting_list: list) -> list:
         current_time = current_time.replace(hour=current_time.hour, minute=0, second=0, microsecond=0)
 
         return [Meeting(creator=None, room=None, name=room_free_text,
-            start_date=None, start_time=current_time,
+            start_date=today, start_time=current_time,
             duration=__time_until_midnight(current_time),
             participants_count=0)]
 
@@ -198,7 +197,7 @@ def __pad_with_free_meetings(meeting_list: list) -> list:
 
         if(time_between_mins >= 1):
             padded_meetings_list.append(Meeting(creator=None, room=None, 
-            name=room_free_text, start_date=None,
+            name=room_free_text, start_date=today,
             start_time = curr_meeting.end_time(),
             duration=time_between_mins, participants_count=0))
 
@@ -209,10 +208,10 @@ def __pad_with_free_meetings(meeting_list: list) -> list:
     #  if the last meeting does not go over 24:00, append one more padded meeting
     if last_meeting.start_date_time().day == last_meeting.end_date_time().day:
         padded_meetings_list.append(Meeting(creator=None, room=None, 
-            name=room_free_text, start_date=None,
+            name=room_free_text, start_date=today,
             start_time = last_meeting.end_time(), 
             duration=__time_until_midnight(last_meeting.end_time()),
-             participants_count=0))
+            participants_count=0))
 
     return padded_meetings_list
 

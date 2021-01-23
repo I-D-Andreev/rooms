@@ -8,7 +8,7 @@ $(document).ready(function(){
                 loadMeeting(data.room, data.start_date, data.start_time, data.duration, data.participants_count);
             },
             error: function(err){
-                console.log(err)
+                console.log(err);
             }
         });
     })
