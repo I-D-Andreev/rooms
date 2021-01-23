@@ -26,6 +26,7 @@ urlpatterns = [
     path('get-meeting/<int:id>', get_meeting, name="get_meeting"),
     path('dashboard/cancel-booking', cancel_booking_view, name="cancel_booking"),
     path('dashboard/book-room', book_room_view, name="book_room"),
+    path('dashboard/my-schedule', my_schedule_view, name="my_schedule"),
     path('dashboard/statistics', statistics_view, name="statistics"),
 
 ]
