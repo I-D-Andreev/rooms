@@ -9,13 +9,13 @@
 
 
 {% block content %}
-<div class="h-100 w-100 p-4">
-    <div class="w-75 h-100 p-0 mx-auto mt-5 overflow-auto">
+<div class="row h-100 w-100 p-4">
+    <div class="col-xl-8 offset-xl-1 col-md-12 h-100 p-0 mx-auto mt-5 overflow-auto">
         <div class="row w-100 h-100 m-0">
             {% for room, meeting_list in list %}
-                <div class="col-4 h-33">
-                    <div class="h6 text-dark mb-3 font-weight-bold">{{room.public_name}}</div>
-                        <div class="h-85 overflow-auto">
+                <div class="col-4 h-33 border border-secondary">
+                    <div class="h6 text-dark mb-1 font-weight-bold">{{room.public_name}}</div>
+                        <div class="h-75 overflow-auto">
                             {% for meeting in meeting_list %}
                                 <div class="list-group-item border-secondary w-75 p-1 {%if meeting.creator is None%} bg-green {% else %} bg-light-red {% endif %}">
                                     <span class="float-left h-6">{{meeting.start_time_str}} - {{meeting.end_time_str}}</span>
