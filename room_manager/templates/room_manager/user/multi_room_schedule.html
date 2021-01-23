@@ -14,10 +14,10 @@
         <div class="row w-100 h-100 m-0">
             {% for room, meeting_list in list %}
                 <div class="col-4 h-33 border border-secondary">
-                    <div class="h6 text-dark mb-1 font-weight-bold">{{room.public_name}}</div>
+                    <div class="h6 text-dark mb-1 mt-1 font-weight-bold w-75 mx-auto">{{room.public_name}}</div>
                         <div class="h-75 overflow-auto">
                             {% for meeting in meeting_list %}
-                                <div class="list-group-item border-secondary w-75 p-1 {%if meeting.creator is None%} bg-green {% else %} bg-light-red {% endif %}">
+                                <div class="list-group-item border-secondary w-75 p-1 mx-auto {%if meeting.creator is None%} bg-green {% else %} bg-light-red {% endif %}">
                                     <span class="float-left h-6">{{meeting.start_time_str}} - {{meeting.end_time_str}}</span>
                                     <span class="ml-4 h-6">{{meeting.name}}</span>    
                                 </div>
