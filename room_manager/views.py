@@ -14,6 +14,7 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from accounts.models import Profile
 from django.http import HttpResponse
+from .forms import AccountInfoForm
 import json
 
 # --------------- Views ---------------
@@ -38,7 +39,19 @@ def dashboard_view(request, *args, **kwargs):
 
 # login + (user or admin)
 def edit_account_view(request, *args, **kwargs):
-    return render(request, 'room_manager/edit_account.html')
+
+    if request.method == 'POST':
+        info_form = AccountInfoForm(request.POST, user=request.user)
+        if info_form.is_valid():
+            if info_form.update_fields():
+                messages.info(request, "Successfully updated your information!")
+            else:
+                messages.error(request, "An error occurred while updating your information!")
+
+
+    info_form = AccountInfoForm(user=request.user)
+    context = {'info_form': info_form}
+    return render(request, 'room_manager/edit_account.html', context)
 
 # @login_required(login_url='login')
 # @user_only

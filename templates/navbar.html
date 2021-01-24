@@ -8,8 +8,8 @@
             <!-- left side -->
             <div class="navbar-nav">
                 <div class="navbar-brand">
-                    {% if user %}
-                        {{user.username}}
+                    {% if user.is_authenticated %}
+                        {{user.profile.public_name}}
                     {% else %}
                         Room Manager
                     {% endif %}
