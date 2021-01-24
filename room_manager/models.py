@@ -63,3 +63,16 @@ class Meeting(models.Model):
     def is_currently_ongoing(self):
         now = datetime.now().astimezone()
         return (now >= self.start_date_time() and now <= self.end_date_time())
+
+    def background_colour(self):
+        # room is free, and a ghost meeting is shown
+        if self.creator is None:
+            return 'bg-green'
+        
+        # currently ongoing meeting
+        if self.is_currently_ongoing():
+            return 'bg-light-red'
+        
+        # normal meeting in future or past
+        if self.creator is not None:
+            return 'bg-orange'

@@ -224,6 +224,7 @@ def get_room_schedule(request, id, *args, **kwargs):
              'start_date': meeting.start_date_str(),
              'start_time': meeting.start_time_str(), 
              'end_time': meeting.end_time_str(),
+             'background_colour': meeting.background_colour(),
              } for meeting in meetings_list])
 
 

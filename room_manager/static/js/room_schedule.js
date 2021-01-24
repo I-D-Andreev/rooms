@@ -27,9 +27,8 @@ function renderMeetingData(data){
 
     if (data.length > 0){
         for(let i=0; i<data.length; i++){
-            let backgroundColour = data[i].creator ? 'bg-light-red' : 'bg-green';
             let element = ` 
-                <div class="list-group-item border-secondary w-75 mx-auto ${backgroundColour}">
+                <div class="list-group-item border-secondary w-75 mx-auto ${data[i].background_colour}">
                     <span class="float-left w-25">${data[i].start_time} - ${data[i].end_time}</span>
                     <span class="ml-4">${data[i].name}</span>
                 </div>

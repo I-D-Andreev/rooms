@@ -22,7 +22,7 @@
             <div class="h-60 w-100 list-group overflow-auto mt-2">
                 {% if meetings_list %}
                     {% for meeting in meetings_list %}
-                        <div class="list-group-item border-secondary {%if meeting.creator is None%} bg-green {% else %} bg-light-red {% endif %}">
+                        <div class="list-group-item border-secondary {{ meeting.background_colour }}">
                             <span class="float-left w-25">{{meeting.start_time_str}} - {{meeting.end_time_str}}</span>
                             <span class="ml-4">{{meeting.name}}</span>                      
                         </div>

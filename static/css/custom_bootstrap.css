@@ -39,6 +39,10 @@
     background-color: rgb(235, 150, 150);
 }
 
+.bg-orange {
+    background-color: orange;
+}
+
 .button-circle {
     width: 60px;
     height: 60px;
