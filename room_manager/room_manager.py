@@ -104,7 +104,7 @@ class RoomManager:
         meetings_from_current_hour = []
 
         for meeting in meetings_today:
-            if meeting.start_time.hour >= current_hour:
+            if meeting.end_time().hour >= current_hour:
                 meetings_from_current_hour.append(meeting)
         
         return meetings_from_current_hour
