@@ -10,9 +10,9 @@
 {% block content %}
 <div class="content w-100 h-100">
     <div class="row w-100 h-100 p-0 m-0">
-        <form action="" method="POST" class="col-xl-3 col-lg-4 col-md-6 col-sm-8 col-xs-10 mx-auto d-flex">
+        <form action="" method="POST" class="col-xl-3 col-lg-4 col-md-6 col-sm-7 col-xs-10 mx-auto d-flex">
             {% csrf_token %}
-            
+
             <div class="card align-self-center">
                 <span class="card-header bg-primary text-white text-center h4">
                     Book Room Now
@@ -30,20 +30,18 @@
                         <div class="text-right">
                             <button class="btn btn-primary mt-2">Book</button>
                         </div>
-                        
-                        {% if messages %}
-                        <div class="mt-3">
-                            {% for message in messages %}
-                                <span class="font-weight-bold text-dark">{{ message }}</span>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
                     </div>
-
                 </div>
             </div>
-          
         </form>
+
+        {% if messages %}
+        <div class="col-sm-3 col-xs-2 w-100 h-100 d-flex">
+            {% for message in messages %}
+                <span class="align-self-center font-weight-bold text-danger">{{ message }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
     </div>
 </div>
 
