@@ -17,6 +17,7 @@ from django.contrib.auth.models import User
 from accounts.models import Profile
 from django.http import HttpResponse
 from .forms import AccountInfoForm
+from .room_forms import BookNowForm
 import json
 
 # --------------- Views ---------------
@@ -166,7 +167,9 @@ def multi_room_schedule_view(request, *args, **kwargs):
 
 # login + room only
 def book_now_view(request, *args, **kwargs):
-    return render(request, 'room_manager/room/book_now.html')
+    form = BookNowForm()
+    context = {'form': form}
+    return render(request, 'room_manager/room/book_now.html', context)
 
 # --------------- REST API ---------------
 

@@ -8,7 +8,43 @@
 
 
 {% block content %}
-<div class="row w-100 h-100 bg-info">
+<div class="content w-100 h-100">
+    <div class="row w-100 h-100 p-0 m-0">
+        <form action="" method="POST" class="col-xl-3 col-lg-4 col-md-6 col-sm-8 col-xs-10 mx-auto d-flex">
+            {% csrf_token %}
+            
+            <div class="card align-self-center">
+                <span class="card-header bg-primary text-white text-center h4">
+                    Book Room Now
+                </span>
+                
+                <div class="card-body bg-white">
+                    <div class="w-60 m-auto">
+                        {% for field in form %}
+                            <div class="form-row p-2">
+                                <label class="mb-1 text-dark w-100">{{field.label}}</label>
+                                {% render_field field class="form-control" %}
+                            </div>
+                        {% endfor %}
+                        
+                        <div class="text-right">
+                            <button class="btn btn-primary mt-2">Book</button>
+                        </div>
+                        
+                        {% if messages %}
+                        <div class="mt-3">
+                            {% for message in messages %}
+                                <span class="font-weight-bold text-dark">{{ message }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+            </div>
+          
+        </form>
+    </div>
 </div>
 
 {% endblock %}
