@@ -44,6 +44,24 @@ class RoomManager:
         # todo1: purge meetings older than 3? months
         pass
 
+
+    
+    @staticmethod
+    def try_book_room_now(room: User, name:str, duration:int) -> bool:
+        curr_date = datetime.now().date()
+        curr_time = datetime.now().time()
+
+        if RoomManager.can_book_room_now(room, curr_date, curr_time, duration):
+            return Meeting.objects.create(name=name, creator=room.profile, room=room.profile, start_date=curr_date, start_time=curr_time, duration=duration, participants_count=0)
+            
+        return None
+
+
+    @staticmethod
+    def can_book_room_now(room: User, curr_date: datetime.date, curr_time: datetime.time, duration: int) -> bool: 
+        return room.profile.is_free(curr_date, curr_time, duration)
+
+
     
     @staticmethod
     def get_user_meetings_list_from_now(user: User) -> list:
