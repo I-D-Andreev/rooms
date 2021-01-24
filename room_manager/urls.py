@@ -23,8 +23,6 @@ urlpatterns = [
     path('', RedirectView.as_view(pattern_name="login")),
     path('dashboard/', dashboard_view, name="dashboard"),
     path('dashboard/edit-account', edit_account_view, name="edit_account"),
-    path('dashboard/edit-account-info', edit_account_view_info, name="edit_account_info"),
-    path('dashboard/edit-account-sinfo', edit_account_view_sensitive_info, name="edit_account_sensitive_info"),
 
     # admin
     path('dashboard/create-room', create_room_view, name="create_room"),

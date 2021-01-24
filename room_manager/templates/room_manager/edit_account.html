@@ -11,7 +11,7 @@
 <div class="content w-100 h-100 d-flex">
     <div class="row w-100 h-75 p-0 m-0 align-self-center">
         <div class="col-lg-5 col-md-6 mx-auto h-100">
-            <form action="{% url 'edit_account_info' %}" method="POST">
+            <form action="{% url 'edit_account' %}" method="POST">
                 {% csrf_token %}
                 <div class="card w-60 mx-auto align-self-center min-width-400">
                     <span class="card-header bg-primary text-white text-center h4">
@@ -49,7 +49,7 @@
         </div>
 
         <div class="col-lg-5 col-md-6 mx-auto h-100">
-            <form action="{% url 'edit_account_sensitive_info' %}" method="POST">
+            <form action="{% url 'edit_account' %}" method="POST">
                 {% csrf_token %}
                 <div class="card w-60 mx-auto align-self-center min-width-400">
                     <span class="card-header bg-primary text-white text-center h4">

@@ -43,47 +43,29 @@ def dashboard_view(request, *args, **kwargs):
 def edit_account_view(request, *args, **kwargs):
 
     info_form = AccountInfoForm(user=request.user)
-    sensitive_info_form = kwargs.get('sensitive_info_form', PasswordChangeForm(request.user))
+    sensitive_info_form = PasswordChangeForm(request.user)
 
+    if request.method == 'POST':
+        if request.POST.__contains__('public_name') or request.POST.__contains__('email'):
+            info_form = AccountInfoForm(request.POST, user=request.user)
+            if info_form.is_valid():
+                if info_form.update_fields():
+                    messages.info(request, "Successfully updated your information!", extra_tags="account_info")
+                else:
+                    messages.error(request, "An error occurred while updating your information!", extra_tags="account_info")
+        
+        elif request.POST.__contains__('old_password') or request.POST.__contains__('new_password'):
+            sensitive_info_form = PasswordChangeForm(data=request.POST, user=request.user)
+
+            if sensitive_info_form.is_valid():
+                sensitive_info_form.save()
+                update_session_auth_hash(request, sensitive_info_form.user)
+                messages.info(request, "Password successfully changed!", extra_tags="sensitive_info")
+            else:
+                messages.error(request, "Failed to change password!", extra_tags="sensitive_info")
+            
     context = {'info_form': info_form, 'sensitive_info_form': sensitive_info_form}
     return render(request, 'room_manager/edit_account.html', context)
-
-
-# login + (user or admin)
-def edit_account_view_info(request, *args, **kwargs):
-# Process Post requests from the Account Info form.
-    if request.method == 'POST':
-        info_form = AccountInfoForm(request.POST, user=request.user)
-        if info_form.is_valid():
-            if info_form.update_fields():
-                messages.info(request, "Successfully updated your information!", extra_tags="account_info")
-            else:
-                messages.error(request, "An error occurred while updating your information!", extra_tags="account_info")
-
-    return redirect('edit_account', *args, **kwargs)
-
-
-# login + (user or admin)
-def edit_account_view_sensitive_info(request, *args, **kwargs):
-# Process Post requests from the Account Sensitive Info form.
-    sensitive_info_form = PasswordChangeForm(user=request.user)
-    
-    if request.method == 'POST':
-        sensitive_info_form = PasswordChangeForm(data=request.POST, user=request.user)
-
-        if sensitive_info_form.is_valid():
-            print('valid')
-            sensitive_info_form.save()
-            update_session_auth_hash(request, sensitive_info_form.user)
-            messages.info(request, "Password successfully changed!", extra_tags="sensitive_info")
-        else:
-            print('not valid')
-            print(sensitive_info_form.errors)
-            messages.error(request, "Failed to change password!", extra_tags="sensitive_info")
-
-    return redirect(edit_account_view, *args, permanent=True, **kwargs)
-
-
 
 # @login_required(login_url='login')
 # @user_only
