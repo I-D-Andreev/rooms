@@ -119,12 +119,14 @@ def my_schedule_view(request, *args, **kwargs):
     meetings_list = RoomManager.get_user_meetings_list_from_now(request.user)
     context = {'meetings_list' : meetings_list}
     return render(request, 'room_manager/user/my_schedule.html', context)
-    
+
+# login + user only
 def room_schedule_view(request, *args, **kwargs):
     form = ChooseRoomForm()
     context = {'form': form}
     return render(request, 'room_manager/user/room_schedule.html', context)
 
+# login + user only
 def multi_room_schedule_view(request, *args, **kwargs):
     rooms = Profile.objects.filter(type__exact = UserTypes.room)
     multi_room_schedule_list = [(room, get_room_schedule_meetings_list(room.user)) for room in rooms]
