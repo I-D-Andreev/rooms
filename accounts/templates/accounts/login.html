@@ -1,33 +1,54 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block head %}
-<title>Log In Page</title>
+    <title>Log In Page</title>
 {% endblock %}
 
 
 {% block body %}
-<h1>Log In</h1>
-<form action="" method="POST">
-    {% csrf_token %}
-    <table>
-        {% for field in form %}
-        <tr>
-            <td>{{field.label}}</td>
-            <td>{{field}}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    <input type="submit" value="Log In" class="btn btn-primary"/>
-    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
-    {% if messages %}
-    <div>
-        {% for message in messages %}
-        <p>{{ message }}</p>
-        {% endfor %}
+<div class="w-100 h-100">
+    <div class="content w-100 h-100 d-flex">
+        <div class="row h-75 w-50 align-self-center mx-auto">
+            <form action="" method="POST" class="col-md-10 col-lg-7 mx-auto">
+                {% csrf_token %}
+                <div class="card min-width-400">
+                    <span class="card-header bg-primary text-white text-center h4">
+                        Log In
+                    </span>
+                    
+                    <div class="card-body bg-white">
+                        <div class="w-60 m-auto">
+                            {% for field in form %}
+                                <div class="form-row p-2">
+                                    <label class="mb-1 text-dark w-100">{{field.label}}</label>
+                                    {% render_field field class="form-control" %}
+                                </div>
+                            {% endfor %}
+                            
+                            <div class="text-right">
+                                <button class="btn btn-primary mt-2">Login</button>
+                            </div>
+
+                            <div class="mt-4">
+                                <span>Don't have an account? <a href="{% url 'register' %}">Register here</a></span>
+                            </div>
+                            
+                            {% if messages %}
+                            <div class="mt-3">
+                                {% for message in messages %}
+                                    <span class="font-weight-bold text-dark">{{ message }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+              
+            </form>
+        </div>
     </div>
-    {% endif %}
-</form>
-
-
+</div>
 {% endblock %}
