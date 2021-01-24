@@ -7,12 +7,9 @@ from accounts.user_types import UserTypes
 class RoomManager:
     @staticmethod
     def schedule_meeting(meeting_name:str, number_attendees:int , start_date: datetime.date, start_time: datetime.time, duration: int, creator:User):
-        rooms = Profile.objects.filter(type__exact=UserTypes.room).filter(capacity__gte=number_attendees).order_by('capacity')
-
         # todo1: RoomManager.purge_old_meetings()
 
-        # rooms are sorted by capacity, so the first free room will be the smallest one possible
-        chosen_room = RoomManager.__choose_first_free_room(rooms, start_date, start_time, duration)
+        chosen_room = RoomManager.__choose_smallest_free_room(number_attendees, start_date, start_time, duration)
 
         if chosen_room is None:
             return None
@@ -21,10 +18,13 @@ class RoomManager:
         
 
 
-    def __choose_first_free_room(rooms, start_date: datetime.date, start_time: datetime.time, duration: int) -> Profile:
+    def __choose_smallest_free_room(number_attendees: int, start_date: datetime.date, start_time: datetime.time, duration: int) -> Profile:
+        rooms = Profile.objects.filter(type__exact=UserTypes.room).filter(capacity__gte=number_attendees).order_by('capacity')
+
         # todo1: synchronization?
         RoomManager.__print_free_rooms(rooms, start_date, start_time, duration)
-
+        
+        # rooms are sorted by capacity, so the first free room will be the smallest one possible
         for room in rooms:
             if room.is_free(start_date, start_time, duration):
                 return room
