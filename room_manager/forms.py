@@ -4,14 +4,6 @@ from django.db import transaction
 class AccountInfoForm(forms.Form):
     public_name = forms.CharField(max_length=255)
     email = forms.EmailField()
-
-    class Meta:
-        fields = ['public_name', 'email']
-        labels = {
-            'public_name': 'Public Name',
-            'email': 'Email'
-        }
-
     
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
@@ -40,3 +32,17 @@ class AccountInfoForm(forms.Form):
                 return False
 
         return False
+
+
+class AccountSensitiveInfoForm(forms.Form):
+    old_password = forms.CharField(widget=forms.PasswordInput())
+    new_password1 = forms.CharField(widget=forms.PasswordInput())
+    new_password2 = forms.CharField(widget=forms.PasswordInput())
+
+    class Meta:
+        fields = ['old_password', 'new_password1' ,'new_password2']
+        labels = {
+            'old_password': 'Old Password',
+            'new_password1': 'New Password',
+            'new_password2': 'Repeat New Password',
+        }
