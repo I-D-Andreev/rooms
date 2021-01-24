@@ -2,7 +2,7 @@ from django import forms
 from django.db import transaction
 
 class AccountInfoForm(forms.Form):
-    public_name = forms.CharField(max_length=255, label="Public Name")
+    public_name = forms.CharField(max_length=255)
     email = forms.EmailField()
     
     def __init__(self, *args, **kwargs):
@@ -32,10 +32,3 @@ class AccountInfoForm(forms.Form):
                 return False
 
         return False
-
-
-class AccountSensitiveInfoForm(forms.Form):
-    old_password = forms.CharField(widget=forms.PasswordInput(), label="Old Password")
-    new_password1 = forms.CharField(widget=forms.PasswordInput(), label="New Password")
-    new_password2 = forms.CharField(widget=forms.PasswordInput(), label="Repeat New Password")
-

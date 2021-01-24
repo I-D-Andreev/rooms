@@ -1,6 +1,8 @@
 from django.contrib.messages.api import success
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from room_manager.decorators import user_only
 from accounts.forms import UserRegistrationForm
@@ -14,7 +16,7 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from accounts.models import Profile
 from django.http import HttpResponse
-from .forms import AccountInfoForm, AccountSensitiveInfoForm
+from .forms import AccountInfoForm
 import json
 
 # --------------- Views ---------------
@@ -41,7 +43,8 @@ def dashboard_view(request, *args, **kwargs):
 def edit_account_view(request, *args, **kwargs):
 
     info_form = AccountInfoForm(user=request.user)
-    sensitive_info_form = AccountSensitiveInfoForm()
+    sensitive_info_form = kwargs.get('sensitive_info_form', PasswordChangeForm(request.user))
+
     context = {'info_form': info_form, 'sensitive_info_form': sensitive_info_form}
     return render(request, 'room_manager/edit_account.html', context)
 
@@ -57,13 +60,29 @@ def edit_account_view_info(request, *args, **kwargs):
             else:
                 messages.error(request, "An error occurred while updating your information!", extra_tags="account_info")
 
-    return edit_account_view(request, *args, **kwargs)
+    return redirect('edit_account', *args, **kwargs)
 
 
 # login + (user or admin)
 def edit_account_view_sensitive_info(request, *args, **kwargs):
 # Process Post requests from the Account Sensitive Info form.
-    return edit_account_view(request, *args, **kwargs)
+    sensitive_info_form = PasswordChangeForm(user=request.user)
+    
+    if request.method == 'POST':
+        sensitive_info_form = PasswordChangeForm(data=request.POST, user=request.user)
+
+        if sensitive_info_form.is_valid():
+            print('valid')
+            sensitive_info_form.save()
+            update_session_auth_hash(request, sensitive_info_form.user)
+            messages.info(request, "Password successfully changed!", extra_tags="sensitive_info")
+        else:
+            print('not valid')
+            print(sensitive_info_form.errors)
+            messages.error(request, "Failed to change password!", extra_tags="sensitive_info")
+
+    return redirect(edit_account_view, *args, permanent=True, **kwargs)
+
 
 
 # @login_required(login_url='login')

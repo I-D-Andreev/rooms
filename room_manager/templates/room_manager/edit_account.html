@@ -30,7 +30,6 @@
                             <div class="text-right">
                                 <button class="btn btn-primary mt-2">Edit</button>
                             </div>
-
                                 
                             {% if messages %}
                                 <div>
@@ -70,11 +69,16 @@
                                 <button class="btn btn-primary mt-2">Edit</button>
                             </div>
 
+                            <div>
+                                {% for field in sensitive_info_form %}
+                                    <p>{{field.errors}}</p>
+                                {% endfor %}
+                            </div>
                                 
                             {% if messages %}
                             <div>
                                 {% for message in messages %}
-                                    {% if "sensitive_account_info" in message.tags %}
+                                    {% if "sensitive_info" in message.tags %}
                                         <div class="mt-3">
                                             <span class="font-weight-bold text-dark">{{ message }}</span>
                                         </div>
