@@ -164,6 +164,10 @@ def multi_room_schedule_view(request, *args, **kwargs):
     return render(request, 'room_manager/user/multi_room_schedule.html', context)
 
 
+# login + room only
+def book_now_view(request, *args, **kwargs):
+    return render(request, 'room_manager/room/book_now.html')
+
 # --------------- REST API ---------------
 
 def get_meeting(request, id, *args, **kwargs):

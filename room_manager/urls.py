@@ -34,6 +34,10 @@ urlpatterns = [
     path('dashboard/room-schedule', room_schedule_view, name="room_schedule"),
     path('dashboard/multi-room-schedule', multi_room_schedule_view, name="multi_room_schedule"),
     path('dashboard/statistics', statistics_view, name="statistics"),
+
+    # room
+    path('dashboard/book-now', book_now_view, name="book_now"),
+
     
     # user REST api
     path('get-meeting/<int:id>', get_meeting, name="get_meeting"),
