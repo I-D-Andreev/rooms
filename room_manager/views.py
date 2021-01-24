@@ -36,9 +36,12 @@ def dashboard_view(request, *args, **kwargs):
 
     return render(request, f'room_manager/{dashboard}_dashboard.html', context)
 
+# login + (user or admin)
+def edit_account_view(request, *args, **kwargs):
+    return render(request, 'room_manager/edit_account.html')
 
-@login_required(login_url='login')
-@user_only
+# @login_required(login_url='login')
+# @user_only
 def statistics_view(request, *args, **kwargs):
     return render(request, 'room_manager/user/statistics.html')
 

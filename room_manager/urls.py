@@ -22,6 +22,8 @@ from room_manager.views import *
 urlpatterns = [
     path('', RedirectView.as_view(pattern_name="login")),
     path('dashboard/', dashboard_view, name="dashboard"),
+    path('dashboard/edit-account', edit_account_view, name="edit_account"),
+
     # admin
     path('dashboard/create-room', create_room_view, name="create_room"),
 

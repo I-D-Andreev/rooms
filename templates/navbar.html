@@ -21,7 +21,7 @@
                 {% if user.is_authenticated %}
                     {% if user.profile.type == 'admin' or user.profile.type == 'user' %}
                         <div class="nav-item">
-                            <a href="#" class="nav-link">Edit Account</a>
+                            <a href="{% url 'edit_account' %}" class="nav-link">Edit Account</a>
                         </div>
                     {% endif %}
                 {% endif %}
