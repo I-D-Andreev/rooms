@@ -9,11 +9,15 @@
 
 {% block body %}
 <div class="w-100 h-100">
-    <div class="content w-100 h-100 d-flex">
-        <div class="row h-75 w-50 align-self-center mx-auto">
-            <form action="" method="POST" class="col-md-10 col-lg-7 mx-auto">
+    <div class="content w-100 h-100">
+        <div class="row h-100 w-100 p-0 m-0">
+            <form action="" method="POST" class="col-xl-3 col-lg-4 col-md-6 col-sm-8 col-xs-10 mx-auto">
                 {% csrf_token %}
-                <div class="card min-width-400">
+
+                <!-- Offset height on PC and mobile portrait, but not landscape. -->
+                <div class="w-100 h-12 bg-transparent d-none d-sm-block"></div>
+
+                <div class="card">
                     <span class="card-header bg-primary text-white text-center h4">
                         Register
                     </span>
@@ -21,7 +25,7 @@
                     <div class="card-body bg-white">
                         <div class="w-60 m-auto">
                             {% for field in form %}
-                                <div class="form-row p-2">
+                                <div class="form-row p-1">
                                     <label class="mb-1 text-dark w-100">{{field.label}}</label>
                                     {% render_field field class="form-control" %}
                                 </div>
