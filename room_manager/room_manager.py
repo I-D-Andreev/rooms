@@ -102,16 +102,16 @@ class RoomManager:
     
     # Get the meetings that will happen today or are happening now (past meetings today are not displayed).
     @staticmethod
-    def get_room_meeting_list_today_after_now(room: User) -> list:
+    def get_room_meeting_list_today_after_hour(room: User, current_hour: int) -> list:
         if room.profile.type != UserTypes.room:
             return []
         
         meetings_today = RoomManager.get_room_meeting_list_today(room)
-
+        
         meetings_from_now = []
 
         for meeting in meetings_today:
-            if not meeting.has_passed():
+            if meeting.start_time.hour >= current_hour or meeting.end_time().hour >= current_hour:
                 meetings_from_now.append(meeting)
         
         return meetings_from_now
