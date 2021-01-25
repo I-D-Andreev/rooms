@@ -251,11 +251,8 @@ def __pad_with_free_meetings(meeting_list: list) -> list:
     
     
     # If we have no meetings, return only one ghost meeting until midnight.
-    if len(meeting_list) == 0:
-        return [Meeting(creator=None, room=None, name=room_free_text,
-            start_date=today, start_time=current_time,
-            duration=__time_until_midnight(current_time),
-            participants_count=0)]
+    if len(meeting_list) == 0:      
+        return [__create_ghost_meeting(today, current_time, __time_until_midnight(current_time))]
 
 
     padded_meetings_list = []
@@ -263,41 +260,36 @@ def __pad_with_free_meetings(meeting_list: list) -> list:
     # If the first meeting is in the future, insert a Ghost meeting before it
     if not meeting_list[0].is_currently_ongoing():
         first_meeting = meeting_list[0]
-        padded_meetings_list.append(Meeting(creator=None, room=None, name=room_free_text,
-                                     start_date=today, start_time=current_time,
-                                     duration=__time_until_meeting(first_meeting, current_date_time),
-                                     participants_count=0))
+        padded_meetings_list.append(__create_ghost_meeting(today, current_time, __time_until_meeting(first_meeting, current_date_time)))
 
 
     for i in range(0, len(meeting_list)-1):
         curr_meeting = meeting_list[i]
         next_meeting = meeting_list[i+1]
 
-        time_between_mins = (next_meeting.start_date_time() - curr_meeting.end_date_time()).total_seconds() // 60
-        # time_between_mins = __time_until_meeting(next_meeting, curr_meeting.end_date_time())
+        # time_between_mins = (next_meeting.start_date_time() - curr_meeting.end_date_time()).total_seconds() // 60
+        time_between_mins = __time_until_meeting(next_meeting, curr_meeting.end_date_time())
 
         padded_meetings_list.append(curr_meeting)
 
         if(time_between_mins >= 1):
-            padded_meetings_list.append(Meeting(creator=None, room=None, 
-            name=room_free_text, start_date=today,
-            start_time = curr_meeting.end_time(),
-            duration=time_between_mins, participants_count=0))
+            padded_meetings_list.append(__create_ghost_meeting(today, curr_meeting.end_time(), time_between_mins))
 
 
     last_meeting = meeting_list[-1]
     padded_meetings_list.append(last_meeting)
     
     #  if the last meeting does not go over 24:00, append one more padded meeting
-    if last_meeting.start_date_time().day == last_meeting.end_date_time().day:
-        padded_meetings_list.append(Meeting(creator=None, room=None, 
-            name=room_free_text, start_date=today,
-            start_time = last_meeting.end_time(), 
-            duration=__time_until_midnight(last_meeting.end_time()),
-            participants_count=0))
+    if last_meeting.start_date_time().day == last_meeting.end_date_time().day:      
+        padded_meetings_list.append(__create_ghost_meeting(today, last_meeting.end_time(), __time_until_midnight(last_meeting.end_time())))
 
     return padded_meetings_list
 
+def __create_ghost_meeting(start_date: datetime.date, start_time: datetime.time, duration: int):
+    room_free_text = 'Room Is Free!'
+    return Meeting(creator=None, room=None, name=room_free_text, 
+        start_date=start_date, start_time=start_time,
+        duration=duration, participants_count=0)
 
 def __time_until_meeting(meeting: Meeting, current_date_time: datetime):
     return (meeting.start_date_time() - current_date_time).total_seconds() // 60
