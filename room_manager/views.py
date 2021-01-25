@@ -234,8 +234,7 @@ def get_room_schedule(request, id, *args, **kwargs):
 
 # --------------- Helper Functions ---------------
 def get_room_schedule_meetings_list(user: User) -> list:
-    current_hour = datetime.now().time().hour if user.profile.is_free_now() else user.profile.meeting_now().start_time.hour
-    meetings_list = RoomManager.get_room_meeting_list_today_after_hour(user, current_hour)
+    meetings_list = RoomManager.get_room_meeting_list_today_after_hour(user)
     padded_meetings_list = __pad_with_free_meetings(meetings_list)
     return padded_meetings_list
 

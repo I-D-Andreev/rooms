@@ -91,20 +91,34 @@ class RoomManager:
         today = date.today()
         return room.profile.meetings.filter(start_date__exact=str(today)).order_by('start_time')
 
-    
-    
-    # Get the meetings today starting from the 00th minute of the current hour.
+
     @staticmethod
-    def get_room_meeting_list_today_after_hour(room: User, current_hour: int) -> list:
+    def get_room_meeting_list_ending_today(room:User) -> list:
         if room.profile.type != UserTypes.room:
             return []
         
-        meetings_today = RoomManager.get_room_meeting_list_today(room)
+        today = date.today()
+        all_meetings = room.profile.meetings.all()
+
+        meetings_list = []
+        for meeting in all_meetings:
+            if meeting.end_date() == today:
+                meetings_list.append(meeting)
+        
+        return meetings_list
+    
+    # Get the meetings today starting from the 00th minute of the current hour or before if there is a continuing meeting.
+    @staticmethod
+    def get_room_meeting_list_today_after_hour(room: User) -> list:
+        if room.profile.type != UserTypes.room:
+            return []
+        
+        meetings_today = RoomManager.get_room_meeting_list_ending_today(room)
 
         meetings_from_current_hour = []
 
         for meeting in meetings_today:
-            if meeting.end_time().hour >= current_hour:
+            if not meeting.has_passed():
                 meetings_from_current_hour.append(meeting)
         
         return meetings_from_current_hour

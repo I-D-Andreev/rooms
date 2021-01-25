@@ -18,6 +18,9 @@ class Meeting(models.Model):
     def long_name(self):
         return f"User: {self.creator.public_name} | Name: {self.name} | Room: {self.room.public_name} | From: {self.start_date_time_str()} | To: {self.end_date_time_str()}"    
 
+    def end_date(self):
+        return self.end_date_time().date()
+
     def start_date_time(self):
         return datetime.combine(self.start_date, self.start_time).astimezone()
 
@@ -57,7 +60,7 @@ class Meeting(models.Model):
         return dtime.strftime('%Y-%m-%d %H:%M')
     
     def has_passed(self):
-        now = datetime.now().astimezone()
+        now = datetime.now().astimezone() + timedelta(minutes=1)
         return (now > self.end_date_time())
 
     def is_currently_ongoing(self):
@@ -65,14 +68,10 @@ class Meeting(models.Model):
         return (now >= self.start_date_time() and now <= self.end_date_time())
 
     def background_colour(self):
-        # room is free, and a ghost meeting is shown
-        if self.creator is None:
-            return 'bg-green'
-        
-        # currently ongoing meeting
         if self.is_currently_ongoing():
-            return 'bg-light-red'
-        
-        # normal meeting in future or past
-        if self.creator is not None:
-            return 'bg-orange'
+            if self.creator is None:
+                return 'bg-green'
+            else:
+                return 'bg-light-red'
+        else:
+            return 'bg-white'
