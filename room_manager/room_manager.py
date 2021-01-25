@@ -84,16 +84,7 @@ class RoomManager:
 
 
     @staticmethod
-    def get_room_meeting_list_today(room: User) -> list:
-        if room.profile.type != UserTypes.room:
-            return []
-        
-        today = date.today()
-        return room.profile.meetings.filter(start_date__exact=str(today)).order_by('start_time')
-
-
-    @staticmethod
-    def get_room_meeting_list_ending_today(room:User) -> list:
+    def get_room_meeting_list_today(room:User) -> list:
         if room.profile.type != UserTypes.room:
             return []
         
@@ -102,7 +93,7 @@ class RoomManager:
 
         meetings_list = []
         for meeting in all_meetings:
-            if meeting.end_date() == today:
+            if meeting.start_date == today or meeting.end_date() == today:
                 meetings_list.append(meeting)
         
         return meetings_list
@@ -113,7 +104,7 @@ class RoomManager:
         if room.profile.type != UserTypes.room:
             return []
         
-        meetings_today = RoomManager.get_room_meeting_list_ending_today(room)
+        meetings_today = RoomManager.get_room_meeting_list_today(room)
 
         meetings_from_current_hour = []
 
