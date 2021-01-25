@@ -98,7 +98,7 @@ class RoomManager:
             return []
         
         today = date.today()
-        all_meetings = room.profile.meetings.all()
+        all_meetings = room.profile.meetings.all().order_by('start_date', 'start_time')
 
         meetings_list = []
         for meeting in all_meetings:

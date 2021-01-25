@@ -243,12 +243,15 @@ def __pad_with_free_meetings(meeting_list: list) -> list:
     room_free_text = 'Room Is Free!'
     today = datetime.now().date()
 
+    # Start from 00th minute of the current hour
+    current_time = datetime.now().time()
+    current_time = current_time.replace(hour=current_time.hour, minute=0, second=0, microsecond=0)
+
+    current_date_time = datetime.combine(today, current_time).astimezone()
+    
+    
     # If we have no meetings, return only one ghost meeting until midnight.
     if len(meeting_list) == 0:
-        current_time = datetime.now().time()
-        # Start from 00th minute of the current hour
-        current_time = current_time.replace(hour=current_time.hour, minute=0, second=0, microsecond=0)
-
         return [Meeting(creator=None, room=None, name=room_free_text,
             start_date=today, start_time=current_time,
             duration=__time_until_midnight(current_time),
@@ -256,11 +259,22 @@ def __pad_with_free_meetings(meeting_list: list) -> list:
 
 
     padded_meetings_list = []
+
+    # If the first meeting is in the future, insert a Ghost meeting before it
+    if not meeting_list[0].is_currently_ongoing():
+        first_meeting = meeting_list[0]
+        padded_meetings_list.append(Meeting(creator=None, room=None, name=room_free_text,
+                                     start_date=today, start_time=current_time,
+                                     duration=__time_until_meeting(first_meeting, current_date_time),
+                                     participants_count=0))
+
+
     for i in range(0, len(meeting_list)-1):
         curr_meeting = meeting_list[i]
         next_meeting = meeting_list[i+1]
 
         time_between_mins = (next_meeting.start_date_time() - curr_meeting.end_date_time()).total_seconds() // 60
+        # time_between_mins = __time_until_meeting(next_meeting, curr_meeting.end_date_time())
 
         padded_meetings_list.append(curr_meeting)
 
@@ -283,6 +297,10 @@ def __pad_with_free_meetings(meeting_list: list) -> list:
             participants_count=0))
 
     return padded_meetings_list
+
+
+def __time_until_meeting(meeting: Meeting, current_date_time: datetime):
+    return (meeting.start_date_time() - current_date_time).total_seconds() // 60
 
 def __time_until_midnight(curr_time: datetime.time):
     return 1439 - (curr_time.hour * 60 + curr_time.minute)
