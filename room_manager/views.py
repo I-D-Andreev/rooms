@@ -234,13 +234,12 @@ def get_room_schedule(request, id, *args, **kwargs):
 
 # --------------- Helper Functions ---------------
 def get_room_schedule_meetings_list(user: User) -> list:
-    meetings_list = RoomManager.get_room_meeting_list_today_after_hour(user)
+    meetings_list = RoomManager.get_room_meeting_list_today_after_now(user)
     padded_meetings_list = __pad_with_free_meetings(meetings_list)
     return padded_meetings_list
 
 # If there is time between meetings, insert 'ghost' meetings saying that the room is free.
 def __pad_with_free_meetings(meeting_list: list) -> list:
-    room_free_text = 'Room Is Free!'
     today = datetime.now().date()
 
     # Start from 00th minute of the current hour
