@@ -73,18 +73,18 @@
             
                 <div class="mt-4 w-100">
                     {% for field in form %}
-                        {% if field.errors %}
+                    {% for error in field.errors %}
                             <div class="alert alert-danger mt-2 w-75 text-center mx-auto">
-                                {{field.errors|striptags}}
+                                {{error}}
                             </div>
-                        {% endif %}
+                        {% endfor %}
                     {% endfor%}
                 </div>
 
                 {% if messages %}
                 <div class="mt-4 w-100">
                     {% for message in messages %}
-                        <div class="alert {% if message.tags == 'error' %} alert-danger {% else %} alert-success {% endif %} mt-2 w-75 text-center mx-auto">
+                        <div class="alert {% if 'error' in message.tags %} alert-danger {% else %} alert-success {% endif %} mt-2 w-75 text-center mx-auto">
                             {{message}}
                         </div>
                     {% endfor %}

@@ -51,7 +51,7 @@ def edit_account_view(request, *args, **kwargs):
             info_form = AccountInfoForm(request.POST, user=request.user)
             if info_form.is_valid():
                 if info_form.update_fields():
-                    messages.info(request, "Successfully updated your information!", extra_tags="account_info")
+                    messages.success(request, "Successfully updated your information!", extra_tags="account_info")
                 else:
                     messages.error(request, "An error occurred while updating your information!", extra_tags="account_info")
         
@@ -61,7 +61,7 @@ def edit_account_view(request, *args, **kwargs):
             if sensitive_info_form.is_valid():
                 sensitive_info_form.save()
                 update_session_auth_hash(request, sensitive_info_form.user)
-                messages.info(request, "Password successfully changed!", extra_tags="sensitive_info")
+                messages.success(request, "Password successfully changed!", extra_tags="sensitive_info")
             else:
                 messages.error(request, "Failed to change password!", extra_tags="sensitive_info")
             
