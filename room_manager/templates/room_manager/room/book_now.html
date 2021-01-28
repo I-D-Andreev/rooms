@@ -36,11 +36,13 @@
         </form>
 
         {% if messages %}
-        <div class="col-sm-3 col-xs-2 w-100 h-100 d-flex">
-            {% for message in messages %}
-                <span class="align-self-center font-weight-bold text-danger">{{ message }}</span>
-            {% endfor %}
-        </div>
+            <div class="col-sm-3 col-xs-2 w-100 h-100 d-flex">
+                {% for message in messages %}
+                    <div class="align-self-center alert {% if 'error' in message.tags %} alert-danger {% else %} alert-success {% endif %} mt-2 w-75 text-center mx-auto">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            </div>
         {% endif %}
     </div>
 </div>
