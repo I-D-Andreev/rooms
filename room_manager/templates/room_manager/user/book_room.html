@@ -73,7 +73,7 @@
             
                 <div class="mt-4 w-100">
                     {% for field in form %}
-                    {% for error in field.errors %}
+                        {% for error in field.errors %}
                             <div class="alert alert-danger mt-2 w-75 text-center mx-auto">
                                 {{error}}
                             </div>
@@ -82,14 +82,15 @@
                 </div>
 
                 {% if messages %}
-                <div class="mt-4 w-100">
-                    {% for message in messages %}
-                        <div class="alert {% if 'error' in message.tags %} alert-danger {% else %} alert-success {% endif %} mt-2 w-75 text-center mx-auto">
-                            {{message}}
-                        </div>
-                    {% endfor %}
-                </div>
+                    <div class="mt-4 w-100">
+                        {% for message in messages %}
+                            <div class="alert {% if 'error' in message.tags %} alert-danger {% else %} alert-success {% endif %} mt-2 w-75 text-center mx-auto">
+                                {{message}}
+                            </div>
+                        {% endfor %}
+                    </div>
                 {% endif %}
+
             </form>
         </div>
     </div>

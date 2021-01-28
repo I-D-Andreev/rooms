@@ -85,15 +85,11 @@ def create_room_view(request, *args, **kwargs):
         form = UserRegistrationForm(edited_request)
 
         if form.is_valid():
-            print("form is valid")
             form.save()
-            messages.info(request, f"Room {form.cleaned_data['username']} created successfully!")
+            messages.success(request, f"Room \"{form.cleaned_data['username']}\" created successfully!")
 
             # clean the form
             form = UserRegistrationForm()
-        else:
-            print('form is not valid')
-            print(form.errors)
 
     context = {'form': form}
     return render(request, 'room_manager/admin/create_room.html', context)
@@ -119,7 +115,7 @@ def book_room_view(request, *args, **kwargs):
             if meeting is None:
                 messages.error(request, 'There is no free room for the chosen time!')
             else:
-                messages.success(request, f"Successfully booked room {meeting.room.public_name} from {meeting.start_time_str()} to {meeting.end_time_str()}.")
+                messages.success(request, f"Successfully booked room \"{meeting.room.public_name}\" from {meeting.start_time_str()} to {meeting.end_time_str()}.")
                 form = BookRoomForm()
 
 
