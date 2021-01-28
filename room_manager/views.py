@@ -117,9 +117,9 @@ def book_room_view(request, *args, **kwargs):
             meeting = RoomManager.schedule_meeting(meeting_name, participants, date, time, duration, request.user)
 
             if meeting is None:
-                messages.info(request, 'There is no free room for the chosen time!')
+                messages.error(request, 'There is no free room for the chosen time!')
             else:
-                messages.info(request, f"Successfully booked room {meeting.room.public_name} from {meeting.start_time_str()} to {meeting.end_time_str()}.")
+                messages.success(request, f"Successfully booked room {meeting.room.public_name} from {meeting.start_time_str()} to {meeting.end_time_str()}.")
                 form = BookRoomForm()
 
 
