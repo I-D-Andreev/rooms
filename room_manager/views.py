@@ -129,13 +129,16 @@ def cancel_booking_view(request, *args, **kwargs):
         meeting_id = request.POST['meeting']
         meeting = Meeting.objects.filter(pk=meeting_id).first()
         
-        message = 'Failed to cancel the booking!'
+        failed_cancel = True
         if meeting is not None:
             resp = meeting.delete()
             if resp[0] >= 1:
-                message = f'The booking has been successfully cancelled!\n {meeting.long_name()}'
-
-        messages.info(request, message)
+                failed_cancel = False
+        
+        if failed_cancel:
+            messages.error(request, 'Failed to cancel the booking!')
+        else:
+            messages.success(request, f'The booking has been successfully cancelled!\n {meeting.long_name()}')
 
     form = DeleteMeetingForm(user=request.user)
     context  = {'form': form}

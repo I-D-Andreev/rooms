@@ -47,12 +47,15 @@
                     </div>
                 </div>
 
+
                 {% if messages %}
-                <div>
-                    {% for message in messages %}
-                    <p>{{ message }}</p>
-                    {% endfor %}
-                </div>
+                    <div class="mt-4 w-100">
+                        {% for message in messages %}
+                            <div class="alert {% if 'error' in message.tags %} alert-danger {% else %} alert-success {% endif %} mt-2 w-75 text-center mx-auto">
+                                {{message}}
+                            </div>
+                        {% endfor %}
+                    </div>
                 {% endif %}
                 
             </form>
