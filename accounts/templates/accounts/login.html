@@ -24,7 +24,7 @@
                     <div class="card-body bg-white">
                         <div class="w-60 m-auto">
                             {% for field in form %}
-                                <div class="form-row p-2">
+                                <div class="form-row p-1">
                                     <label class="mb-1 text-dark w-100">{{field.label}}</label>
                                     {% render_field field class="form-control" %}
                                 </div>
@@ -34,23 +34,24 @@
                                 <button class="btn btn-primary mt-2">Login</button>
                             </div>
 
-                            <div class="mt-3">
+                            <div class="mt-2">
                                 <span class="d-block">Don't have an account? </span>
                                 <span><a href="{% url 'register' %}">Register here</a></span>
                             </div>
-                            
-                            {% if messages %}
-                            <div class="mt-3">
-                                {% for message in messages %}
-                                    <span class="font-weight-bold text-dark">{{ message }}</span>
-                                {% endfor %}
-                            </div>
-                            {% endif %}
                         </div>
 
                     </div>
                 </div>
               
+                {% if messages %}
+                    <div class="mt-2 w-100">
+                        {% for message in messages %}
+                            <div class="alert {% if 'error' in message.tags %} alert-danger {% else %} alert-success {% endif %} mt-2 w-75 text-center mx-auto">
+                                {{message}}
+                            </div>
+                        {% endfor %}
+                </div>
+                {% endif %}
             </form>
         </div>
     </div>
