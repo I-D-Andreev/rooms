@@ -2,11 +2,23 @@ from datetime import datetime, date, timedelta
 from django.db import models
 from accounts.models import Profile
 
+class Building(models.Model):
+    name = models.CharField(max_length=150)
+
+class Floor(models.Model):
+    building = models.ForeignKey(Building, null=False, on_delete=models.CASCADE)
+    name = models.CharField(max_length=150)
+
+    # The index of the floor in the floors array.
+    # Will be equivalent to the actual floor and will be used for floor difference calculations,
+    # as opposed to the floor names, which may be integers, but may also be e.g. "Underground-1".
+    actual_floor = models.IntegerField()
+
 
 class Meeting(models.Model):
     creator = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='user_meetings')
     room = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='meetings')
-    name = models.CharField(max_length=120)
+    name = models.CharField(max_length=150)
     start_date = models.DateField()
     start_time = models.TimeField()
     duration = models.IntegerField()
