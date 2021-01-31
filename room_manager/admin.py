@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from room_manager.models import Meeting, Building
+from room_manager.models import Meeting, Building, Floor
 
 class MeetingAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)
@@ -8,3 +8,4 @@ class MeetingAdmin(admin.ModelAdmin):
 admin.site.register(Meeting, MeetingAdmin)
 
 admin.site.register(Building)
+admin.site.register(Floor)
