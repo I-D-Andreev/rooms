@@ -3,7 +3,7 @@ from django.db import models
 from accounts.models import Profile
 
 class Building(models.Model):
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=150, unique=True)
     description = models.TextField(null=True)
 
 class Floor(models.Model):
