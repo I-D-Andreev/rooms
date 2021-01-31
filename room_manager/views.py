@@ -95,6 +95,11 @@ def create_room_view(request, *args, **kwargs):
     return render(request, 'room_manager/admin/create_room.html', context)
 
 
+# login + admin only
+def create_building_view(request, *args, **kwargs):
+    return render(request, 'room_manager/admin/create_building.html')
+
+
 # login + user only
 def book_room_view(request, *args, **kwargs):
     form = BookRoomForm()

@@ -26,6 +26,7 @@ urlpatterns = [
 
     # admin
     path('dashboard/create-room', create_room_view, name="create_room"),
+    path('dashboard/create-building', create_building_view, name="create_building"),
 
     # user
     path('dashboard/book-room', book_room_view, name="book_room"),
