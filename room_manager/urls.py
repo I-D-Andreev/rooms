@@ -44,5 +44,6 @@ urlpatterns = [
     # user REST api
     path('get-meeting/<int:id>', get_meeting, name="get_meeting"),
     path('get-room-schedule/<int:id>', get_room_schedule, name="get_room_schedule"),
+    path('get-building-floors/<int:id>', get_building_floors, name="get_building_floors"),
 
 ]

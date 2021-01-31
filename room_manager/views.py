@@ -11,7 +11,7 @@ from django.contrib import messages
 from .user_forms import BookRoomForm, DeleteMeetingForm, ChooseRoomForm
 from .room_manager import RoomManager
 from django.http import JsonResponse
-from .models import Meeting
+from .models import Meeting, Building, Floor
 from datetime import datetime
 from django.contrib.auth.models import User
 from accounts.models import Profile
@@ -256,6 +256,16 @@ def get_room_schedule(request, id, *args, **kwargs):
         return HttpResponse(meetings_list_json, content_type="application/json")
     else:
         return HttpResponse("[]", content_type="application/json")
+
+
+def get_building_floors(request, id, *args, **kwargs):
+    building = Building.objects.filter(pk=id).first()
+
+    if building is not None:
+        return HttpResponse("{'hello':'world'}", content_type="application/json")
+    else:
+        return HttpResponse("[]", content_type="application/json")
+
 
 # --------------- Helper Functions ---------------
 def get_room_schedule_meetings_list(user: User) -> list:
