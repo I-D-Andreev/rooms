@@ -6,6 +6,9 @@ class Building(models.Model):
     name = models.CharField(max_length=150, unique=True)
     description = models.TextField(null=True, blank=True)
 
+    def __str__(self) -> str:
+        return self.name
+
 class Floor(models.Model):
     building = models.ForeignKey(Building, null=False, on_delete=models.CASCADE)
     name = models.CharField(max_length=150)

@@ -100,6 +100,17 @@ def create_room_view(request, *args, **kwargs):
 def create_building_view(request, *args, **kwargs):
     form = CreateBuildingForm()
 
+    if request.method == 'POST':
+        form = CreateBuildingForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, f"Building \"{form.cleaned_data['name']}\" createad successfully!")
+
+            # clean the form
+            form = CreateBuildingForm()
+
+
     context = {'form': form}
     return render(request, 'room_manager/admin/create_building.html', context)
 
