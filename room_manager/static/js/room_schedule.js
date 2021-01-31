@@ -23,7 +23,7 @@ function renderMeetingData(data){
     meetings_container = $('#room_meetings');
     
     // remove child elements
-    meetings_container.empty()
+    meetings_container.empty();
 
     if (data.length > 0){
         for(let i=0; i<data.length; i++){

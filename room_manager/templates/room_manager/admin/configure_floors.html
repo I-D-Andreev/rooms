@@ -13,14 +13,19 @@
 <div class="content w-100 h-100 d-flex">
     <div class="row h-75 w-50 align-self-center mx-auto">
         <div class="w-50 mx-auto">
-            <label class="h5 mb-1 text-dark w-100">Choose a Building:</label>
-            {% render_field form.building class="form-control w-75" %}
-        </div>
 
-        <div id="floors">
-            
-        </div>
+            <div class="p-3">
+                <label class="h5 mb-1 text-dark w-100">Choose a Building:</label>
+                {% render_field form.building class="form-control w-75" %}
+            </div>
 
+            <span class="h5 p-3 mt-3 mb-3 text-dark w-100">Floors (Highest on top):</span>
+            <div id="floors" class="h-100 p-3">
+                
+            </div>
+
+        </div>
+       
     </div>
 </div>
 {% endblock %}
