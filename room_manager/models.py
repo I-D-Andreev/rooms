@@ -10,13 +10,16 @@ class Building(models.Model):
         return self.name
 
 class Floor(models.Model):
-    building = models.ForeignKey(Building, null=False, on_delete=models.CASCADE)
+    building = models.ForeignKey(Building, null=False, on_delete=models.CASCADE, related_name='floors')
     name = models.CharField(max_length=150)
 
     # The index of the floor in the floors array.
     # Will be equivalent to the actual floor and will be used for floor difference calculations,
     # as opposed to the floor names, which may be integers, but may also be e.g. "Underground-1".
     actual_floor = models.IntegerField()
+
+    def __str__(self) -> str:
+        return f"{self.name} | {self.actual_floor}"
 
 
 class Meeting(models.Model):

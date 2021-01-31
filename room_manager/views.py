@@ -262,7 +262,15 @@ def get_building_floors(request, id, *args, **kwargs):
     building = Building.objects.filter(pk=id).first()
 
     if building is not None:
-        return HttpResponse("{'hello':'world'}", content_type="application/json")
+        floors_list = building.floors.all().order_by('actual_floor')
+        floors_list_json = json.dumps(
+            [{
+                'id': floor.id,
+                'name': floor.name,
+                'actual_floor': floor.actual_floor,
+            } for floor in floors_list]
+        )
+        return HttpResponse(floors_list_json, content_type="application/json")
     else:
         return HttpResponse("[]", content_type="application/json")
 
