@@ -1,7 +1,10 @@
+var buildingId = "";
+
 $(document).ready(function(){
     $('#id_building').on('change', function(){
         buildingId = this.value;
-        if(buildingId == ""){
+
+        if(buildingId === ""){
             renderFloorData(null);
         } else {
             $.ajax({
@@ -22,12 +25,24 @@ $(document).ready(function(){
 
     // Focus text area when prompt shows.
     $('#add_floor_prompt').on('shown.bs.modal', function(){
-        $('#floor_name_textarea').focus();
+        let floorNameArea =$('#floor_name_textarea'); 
+        floorNameArea.val('');
+        floorNameArea.focus();
     });
 });
 
 function addFloor(){
-    console.log('add floor clicked');
+    let floorNameArea =$('#floor_name_textarea'); 
+    let floorsContainer = $('#floors');
+
+    let floorName = floorNameArea.val();
+    
+    if(buildingId!=="" && floorName!==""){
+        floorsContainer.prepend(createFloorElement(floorName));
+    }
+
+    floorNameArea.val('');
+    $('#add_floor_prompt').modal('hide');
 }
 
 
