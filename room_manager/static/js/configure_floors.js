@@ -29,6 +29,15 @@ $(document).ready(function(){
         floorNameArea.val('');
         floorNameArea.focus();
     });
+
+    // 'Click' Add Floor button on enter click when prompt is shown.
+    $('#floor_name_textarea').on('keydown', function(event){
+
+        if(event.keyCode === 13){
+            $('#add_floor').click();
+            event.preventDefault();
+        }
+    })
 });
 
 function addFloor(){
@@ -39,6 +48,8 @@ function addFloor(){
     
     if(buildingId!=="" && floorName!==""){
         floorsContainer.prepend(createFloorElement(floorName));
+    } else {
+        // todo1: show errors
     }
 
     floorNameArea.val('');
