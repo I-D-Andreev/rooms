@@ -9,3 +9,7 @@ class CreateBuildingForm(forms.ModelForm):
             'name': 'Building Name',
             'description': 'Description (optional)'
         }
+
+        widgets = {
+            'description': forms.Textarea(attrs={'rows':4, 'style': 'resize:none'})
+        }

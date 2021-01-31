@@ -17,6 +17,7 @@ from django.contrib.auth.models import User
 from accounts.models import Profile
 from django.http import HttpResponse
 from .forms import AccountInfoForm
+from .admin_forms import CreateBuildingForm
 from .room_forms import BookNowForm
 import json
 
@@ -97,7 +98,10 @@ def create_room_view(request, *args, **kwargs):
 
 # login + admin only
 def create_building_view(request, *args, **kwargs):
-    return render(request, 'room_manager/admin/create_building.html')
+    form = CreateBuildingForm()
+
+    context = {'form': form}
+    return render(request, 'room_manager/admin/create_building.html', context)
 
 
 # login + user only
