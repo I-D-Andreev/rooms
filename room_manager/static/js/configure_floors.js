@@ -19,6 +19,11 @@ $(document).ready(function(){
 
     $('#add_floor').on('click', addFloor);
     $('#save_floors').on('click', saveFloors);
+
+    // Focus text area when prompt shows.
+    $('#add_floor_prompt').on('shown.bs.modal', function(){
+        $('#floor_name_textarea').focus();
+    });
 });
 
 function addFloor(){

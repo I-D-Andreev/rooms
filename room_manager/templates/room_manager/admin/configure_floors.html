@@ -10,9 +10,30 @@
 {% endblock %}
 
 {% block content %}
+<div class="modal fade" id="add_floor_prompt" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        
+            <div class="modal-header">
+                <h5 class="modal-title text-dark">Choose Floor Name</h5>
+            </div>
+            
+            <div class="modal-body">
+                <textarea id="floor_name_textarea" class="form-control" rows="2" style="resize: none;"></textarea>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="add_floor" type="button" class="btn btn-primary">Add Floor</button>
+            </div>
+      
+        </div>
+    </div>
+</div>
+
 <div class="content w-100 h-100 d-flex">
     <div class="row h-75 w-50 align-self-center mx-auto">
-        <div class="h-100 w-50 mx-auto">
+        <div class="h-100 w-50 min-width-400 mx-auto">
 
             <div class="p-3">
                 <label class="h5 mb-1 text-dark w-100">Choose a Building:</label>
@@ -26,7 +47,7 @@
 
             <div class="mt-2">
                 <button id="save_floors" class="btn btn-primary float-right">Save Floors</button>
-                <button id="add_floor" class="btn btn-primary float-right mr-3">Add Floor</button>
+                <button type="button" class="btn btn-primary float-right mr-3" data-toggle="modal" data-target="#add_floor_prompt">Add Floor</button>
             </div>
         </div>
     </div>
