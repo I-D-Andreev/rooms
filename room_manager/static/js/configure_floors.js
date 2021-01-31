@@ -16,25 +16,31 @@ $(document).ready(function(){
             });
         }
     });
+
+    $('#add_floor').on('click', addFloor);
+    $('#save_floors').on('click', saveFloors);
 });
 
+function addFloor(){
+    console.log('add floor clicked');
+}
 
-function renderFloorData(floors_list){
-    floors_container = $('#floors');
+
+function saveFloors(){
+    console.log('save floors clicked');
+}
+
+
+function renderFloorData(floorsList){
+    floorsContainer = $('#floors');
 
     // remove child elements
-    floors_container.empty();
+    floorsContainer.empty();
 
-    if(floors_list !== null){
-        if(floors_list.length > 0){
-            for(let i=floors_list.length-1; i>=0; i--){
-                let element = `
-                    <div>
-                        <h4> ${floors_list[i].name} </h4>
-                    </div>
-                `;
-
-                floors_container.append(element);
+    if(floorsList !== null){
+        if(floorsList.length > 0){
+            for(let i=floorsList.length-1; i>=0; i--){
+                floorsContainer.append(createFloorElement(floorsList[i].name));
             }
         }
         else {
@@ -43,7 +49,15 @@ function renderFloorData(floors_list){
                 <h4> No floors </h4>
             </div>
         `;
-            floors_container.append(element);
+            floorsContainer.append(element);
         }
     }
+}
+
+function createFloorElement(name){
+    return `
+        <div>
+            <h4> ${name} </h4>
+        </div>
+    `;
 }
