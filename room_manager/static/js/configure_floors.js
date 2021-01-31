@@ -1,3 +1,11 @@
 $(document).ready(function(){
-    console.log('hello world');
+    $('#id_building').on('change', function(){
+        buildingId = this.value;
+        console.log(buildingId);
+    });
 });
+
+
+function renderFloorData(){
+
+}
