@@ -1,4 +1,5 @@
 from django.contrib.messages.api import success
+from django.http.response import Http404
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
@@ -273,6 +274,17 @@ def get_building_floors(request, id, *args, **kwargs):
         return HttpResponse(floors_list_json, content_type="application/json")
     else:
         return HttpResponse("[]", content_type="application/json")
+
+
+def save_building_floors(request, id, *args, **kwargs):
+    building = Building.objects.filter(pk=id).first() 
+
+    if (request.method == 'POST') and (building is not None):
+        return HttpResponse(status=200)
+    else:
+        raise Http404()
+
+
 
 
 # --------------- Helper Functions ---------------

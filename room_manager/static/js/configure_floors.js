@@ -78,7 +78,12 @@ function addFloor(){
 
 
 function saveFloors(){
-    console.log('save floors clicked');
+    if(buildingId === ""){
+        showErrorAlert(getAlertHolder(), "You must choose a building!");
+        return;
+    }
+
+    
 }
 
 
