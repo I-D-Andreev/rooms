@@ -56,10 +56,20 @@ function addFloor(){
 
     let floorName = floorNameArea.val();
     
-    if(buildingId!=="" && floorName!==""){
-        floorsContainer.prepend(createFloorElement(floorName));
-    } else {
-        // todo1: show errors
+    if(buildingId === ""){
+        showErrorAlert(getAlertHolder(), "You must choose a building!");
+    }
+    else if(floorName === ""){
+        showErrorAlert(getAlertHolder(), "Floor name must not be empty!");
+    }
+    else {
+        let currentFloors = getCurrentFloors();
+        if(currentFloors.includes(floorName)){
+            showErrorAlert(getAlertHolder(), `Floor with name '${floorName}' already exists!`);
+        } else {
+            floorsContainer.prepend(createFloorElement(floorName));
+            showSuccessAlert(getAlertHolder(), `Floor '${floorName}' added successfully!`);
+        }
     }
 
     floorNameArea.val('');
@@ -98,11 +108,17 @@ function renderFloorData(floorsList){
 function createFloorElement(name){
     return `
         <div>
-            <h4> ${name} </h4>
+            <h4 name="floor">${name}</h4>
         </div>
     `;
 }
 
 function getAlertHolder(){
     return $("#alert_holder");
+}
+
+function getCurrentFloors(){
+    return $("[name='floor']").map(function(){
+        return this.innerHTML;
+    }).get();
 }

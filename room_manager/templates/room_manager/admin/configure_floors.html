@@ -5,6 +5,7 @@
 {% block head %}
 
     <title>Configure Floors</title>
+    <script src="{% static 'js/fading_alert.js' %}"></script>
     <script src="{% static 'js/configure_floors.js' %}"></script>
 
 {% endblock %}
@@ -45,9 +46,13 @@
                 <!-- Populated by JavaScript. -->
             </div>
 
-            <div class="mt-2">
-                <button id="save_floors" class="btn btn-primary float-right">Save Floors</button>
-                <button type="button" class="btn btn-primary float-right mr-3" data-toggle="modal" data-target="#add_floor_prompt">Add Floor</button>
+            <div class="mt-2 text-right">
+                <button id="add_floor_prompt_button" type="button" class="btn btn-primary mr-1" data-toggle="modal" data-target="#add_floor_prompt">Add Floor</button>
+                <button id="save_floors" class="btn btn-primary">Save Floors</button>
+            </div>
+
+            <div id="alert_holder" class="mt-4 w-100">
+                <!-- <div class="alert alert-primary">Hello world</div> -->
             </div>
         </div>
     </div>
