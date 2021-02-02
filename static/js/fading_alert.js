@@ -8,7 +8,7 @@ function showErrorAlert(alertHolder, alertText){
 
 function showAlert(alertHolder, alertText, isSuccess){
     let maxNum = 5000;
-    let delayBeforeFade = 3000; // ms
+    let delayBeforeFade = 2500; // ms
 
     let alertType = isSuccess ? "alert-success" : "alert-danger";
     let tempId = randomNumber(maxNum);
