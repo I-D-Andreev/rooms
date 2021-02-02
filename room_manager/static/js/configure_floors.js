@@ -72,6 +72,9 @@ function addFloor(){
         }
     }
 
+    // Remove the No floors sign if it exists
+    $("#no_floors").remove()
+
     floorNameArea.val('');
     $('#add_floor_prompt').modal('hide');
 }
@@ -116,7 +119,7 @@ function renderFloorData(floorsList){
         }
         else {
             let element = `
-            <div>
+            <div id="no_floors">
                 <h4> No floors </h4>
             </div>
         `;
