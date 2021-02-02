@@ -34,13 +34,14 @@ class Building(models.Model):
                         floor.delete()
                 
             return True
-        except:
+        except Exception as e:
+            print(e)
             return False
 
 
 class Floor(models.Model):
     building = models.ForeignKey(Building, null=False, on_delete=models.CASCADE, related_name='floors')
-    name = models.CharField(max_length=150, unique=True)
+    name = models.CharField(max_length=150)
 
     # The index of the floor in the floors array.
     # Will be equivalent to the actual floor and will be used for floor difference calculations,
