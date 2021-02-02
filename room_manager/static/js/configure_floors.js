@@ -83,6 +83,21 @@ function saveFloors(){
         return;
     }
 
+    $.ajax({
+        headers: {'X-CSRFToken' : csrftoken},
+        type: 'POST',
+        mode: 'same-origin',
+        data: {'floors': getCurrentFloors().reverse()},
+        url: `/save-building-floors/${buildingId}`,
+        success: function(data){
+            console.log('Success');
+            showSuccessAlert(getAlertHolder(), 'Successfully updated floors!');
+        },
+        error: function(err){
+            console.log('error');
+            showErrorAlert(getAlertHolder(), 'An error occurred. Failed to update floors!');
+        }
+    });
     
 }
 

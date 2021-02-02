@@ -57,4 +57,10 @@
         </div>
     </div>
 </div>
+
+{% csrf_token %}
+<script>
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+</script>
+
 {% endblock %}

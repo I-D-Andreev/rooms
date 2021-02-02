@@ -280,11 +280,14 @@ def save_building_floors(request, id, *args, **kwargs):
     building = Building.objects.filter(pk=id).first() 
 
     if (request.method == 'POST') and (building is not None):
-        return HttpResponse(status=200)
+        if request.POST.__contains__('floors[]'):
+            new_floors = request.POST.getlist('floors[]')
+            res = building.update_floors(new_floors)
+            
+            status = 200 if res else 500
+            return HttpResponse(status=status)
     else:
         raise Http404()
-
-
 
 
 # --------------- Helper Functions ---------------
