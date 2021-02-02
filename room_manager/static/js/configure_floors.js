@@ -1,12 +1,17 @@
 var buildingId = "";
 
 $(document).ready(function(){
+    enableButtons(false);
+
     $('#id_building').on('change', function(){
         buildingId = this.value;
 
         if(buildingId === ""){
             renderFloorData(null);
+            enableButtons(false);
         } else {
+            enableButtons(true);
+
             $.ajax({
                 url: `/get-building-floors/${buildingId}`,
                 success: function(data){
@@ -39,6 +44,11 @@ $(document).ready(function(){
         }
     })
 });
+
+function enableButtons(isEnabled){
+    $('#save_floors').attr("disabled", !isEnabled);
+    $('#add_floor_prompt_button').attr("disabled", !isEnabled);
+}
 
 function addFloor(){
     let floorNameArea =$('#floor_name_textarea'); 
@@ -91,4 +101,8 @@ function createFloorElement(name){
             <h4> ${name} </h4>
         </div>
     `;
+}
+
+function getAlertHolder(){
+    return $("#alert_holder");
 }
