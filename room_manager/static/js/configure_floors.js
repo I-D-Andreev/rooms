@@ -130,8 +130,13 @@ function renderFloorData(floorsList){
 
 function createFloorElement(name){
     return `
-        <div>
-            <h4 name="floor">${name}</h4>
+        <div class="row p-2">
+            <div class="h4 col-6 text-center" name="floor">${name}</div>
+            <div class="col-6">
+                <i class="far fa-arrow-alt-circle-up fa-2x"></i>
+                <i class="far fa-arrow-alt-circle-down fa-2x"></i>
+                <i class="far fa-times-circle fa-2x"></i>
+            </div>
         </div>
     `;
 }
