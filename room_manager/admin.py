@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from room_manager.models import Meeting, Building, Floor
+from room_manager.models import Meeting
+from room_manager.location_models import Building, Floor
 
 class MeetingAdmin(admin.ModelAdmin):
     readonly_fields = ('id',)

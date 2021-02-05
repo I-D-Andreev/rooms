@@ -1,5 +1,5 @@
 from django import forms
-from .models import Building
+from .location_models import Building
 
 class CreateBuildingForm(forms.ModelForm):
     class Meta:

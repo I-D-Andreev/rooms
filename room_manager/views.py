@@ -12,7 +12,8 @@ from django.contrib import messages
 from .user_forms import BookRoomForm, DeleteMeetingForm, ChooseRoomForm
 from .room_manager import RoomManager
 from django.http import JsonResponse
-from .models import Meeting, Building, Floor
+from .models import Meeting
+from .location_models import Building, Floor
 from datetime import datetime
 from django.contrib.auth.models import User
 from accounts.models import Profile
