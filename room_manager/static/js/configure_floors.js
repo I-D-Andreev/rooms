@@ -133,13 +133,26 @@ function createFloorElement(name){
         <div class="row p-2">
             <div class="h4 col-4 text-center" name="floor">${name}</div>
             <div class="col-8">
-                <span class="cursor-pointer"> <i class="text-primary fas fa-arrow-alt-circle-up fa-2x"></i> </span>
-                <span class="cursor-pointer"> <i class="text-primary fas fa-arrow-alt-circle-down fa-2x"></i> </span>
-                <span class="cursor-pointer"> <i class="text-danger fas fa-times-circle fa-2x"></i> </span>
+                <span class="cursor-pointer" onclick="upArrowClicked()"> <i class="text-primary fas fa-arrow-alt-circle-up fa-2x"></i> </span>
+                <span class="cursor-pointer" onclick="downArrowClicked()"> <i class="text-primary fas fa-arrow-alt-circle-down fa-2x"></i> </span>
+                <span class="cursor-pointer" onclick="crossClicked()"> <i class="text-danger fas fa-times-circle fa-2x"></i> </span>
             </div>
         </div>
     `;
 }
+
+function upArrowClicked() {
+    console.log("up clicked");
+}
+
+function downArrowClicked() {
+    console.log("down clicked");
+}
+
+function crossClicked() {
+    console.log("cross clicked");
+}
+
 
 function getAlertHolder(){
     return $("#alert_holder");
