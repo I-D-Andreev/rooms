@@ -49,4 +49,4 @@ class Floor(models.Model):
 
     def __str__(self) -> str:
         building_name = self.building.name if self.building else ''
-        return f"{building_name} | {self.actual_floor}"
+        return f"{building_name} | Floor: {self.name}"
