@@ -154,13 +154,21 @@ function createFloorElement(name){
     `;
 }
 
-function upArrowClicked() {
-    console.log("up clicked");
+function upArrowClicked(floorId) {
+
+    let currentFloor = $(`#${floorId}`);
+    let upperFloor = currentFloor.prev();
+
+    upperFloor.before(currentFloor);
 }
 
-function downArrowClicked() {
-    console.log("down clicked");
+function downArrowClicked(floorId) {
+    let currentFloor = $(`#${floorId}`);
+    let lowerFloor = currentFloor.next();
+
+    currentFloor.before(lowerFloor);
 }
+
 
 function crossClicked(floorId) {
     $(`#${floorId}`).remove();
