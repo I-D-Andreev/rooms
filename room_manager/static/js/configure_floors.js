@@ -9,6 +9,7 @@ $(document).ready(function(){
     });
 
     $('#add_floor').on('click', addFloor);
+    $('#cancel_changes').on('click', cancelChanges);
     $('#save_floors').on('click', saveFloors);
 
     // Focus text area when prompt shows.
@@ -29,6 +30,7 @@ $(document).ready(function(){
 });
 
 function enableButtons(isEnabled){
+    $('#cancel_changes').attr("disabled", !isEnabled);
     $('#save_floors').attr("disabled", !isEnabled);
     $('#add_floor_prompt_button').attr("disabled", !isEnabled);
 }
@@ -77,6 +79,10 @@ function renderFloorData(floorsList){
     }
 }
 
+function cancelChanges(){
+    // just load again the floors of the current building
+    showFloors();
+}
 
 function addFloor(){
     let floorNameArea =$('#floor_name_textarea'); 
