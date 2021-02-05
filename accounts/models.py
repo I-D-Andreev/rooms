@@ -1,13 +1,17 @@
-from django.db import models
+from django.db import models 
 from django.contrib.auth.models import User
 from accounts.user_types import UserTypes
 from datetime import datetime, time, timedelta, timezone
+
+from room_manager.location_models import Floor
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     public_name = models.CharField(max_length=255)
     type = models.CharField(max_length=255, choices=UserTypes.as_choice_list())
     capacity = models.IntegerField(default=0)
+    floor = models.OneToOneField(Floor, on_delete=models.SET_NULL, null=True)
+
 
 # to add location and room-type
     def __str__(self):
