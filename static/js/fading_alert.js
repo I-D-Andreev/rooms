@@ -1,16 +1,18 @@
-function showSuccessAlert(alertHolder, alertText){
-    showAlert(alertHolder, alertText, true);
+function showSuccessAlert(alertHolder, alertText, delayBeforeFadeMs = 2500){
+    showAlert(alertHolder, alertText, "alert-success", delayBeforeFadeMs);
 }
 
-function showErrorAlert(alertHolder, alertText){
-    showAlert(alertHolder, alertText, false);
+function showErrorAlert(alertHolder, alertText, delayBeforeFadeMs = 2500){
+    showAlert(alertHolder, alertText, "alert-danger", delayBeforeFadeMs);
 }
 
-function showAlert(alertHolder, alertText, isSuccess){
+function showWarningAlert(alertHolder, alertText, delayBeforeFadeMs=2500){
+    showAlert(alertHolder, alertText, "alert-warning", delayBeforeFadeMs);
+}
+
+function showAlert(alertHolder, alertText, alertType, delayBeforeFadeMs){
     let maxNum = 5000;
-    let delayBeforeFade = 2500; // ms
 
-    let alertType = isSuccess ? "alert-success" : "alert-danger";
     let tempId = randomNumber(maxNum);
 
     let element = `
@@ -21,7 +23,7 @@ function showAlert(alertHolder, alertText, isSuccess){
 
     alertHolder.append(element);
 
-    $(`#${tempId}`).delay(delayBeforeFade).fadeOut();
+    $(`#${tempId}`).delay(delayBeforeFadeMs).fadeOut();
 }
 
 

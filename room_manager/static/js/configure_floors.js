@@ -129,6 +129,9 @@ function saveFloors(){
         success: function(data){
             console.log('Success');
             showSuccessAlert(getAlertHolder(), 'Successfully updated floors!');
+            showWarningAlert(getAlertHolder(),
+            "You have changed the floor layout. Please check that the locations of the users and rooms in the building are still correct.",
+            8000)
         },
         error: function(err){
             console.log('error');
