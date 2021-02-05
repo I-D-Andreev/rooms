@@ -129,13 +129,15 @@ function renderFloorData(floorsList){
 }
 
 function createFloorElement(name){
+    let randomNum = Math.floor(Math.random() * 10000) + 12345;
+    let floorId = "floor_" + name + randomNum;
     return `
-        <div class="row p-2">
+        <div id="${floorId}" class="row p-2">
             <div class="h4 col-4 text-center" name="floor">${name}</div>
             <div class="col-8">
-                <span class="cursor-pointer" onclick="upArrowClicked()"> <i class="text-primary fas fa-arrow-alt-circle-up fa-2x"></i> </span>
-                <span class="cursor-pointer" onclick="downArrowClicked()"> <i class="text-primary fas fa-arrow-alt-circle-down fa-2x"></i> </span>
-                <span class="cursor-pointer" onclick="crossClicked()"> <i class="text-danger fas fa-times-circle fa-2x"></i> </span>
+                <span class="cursor-pointer" onclick="upArrowClicked('${floorId}')"> <i class="text-primary fas fa-arrow-alt-circle-up fa-2x"></i> </span>
+                <span class="cursor-pointer" onclick="downArrowClicked('${floorId}')"> <i class="text-primary fas fa-arrow-alt-circle-down fa-2x"></i> </span>
+                <span class="cursor-pointer" onclick="crossClicked('${floorId}')"> <i class="text-danger fas fa-times-circle fa-2x"></i> </span>
             </div>
         </div>
     `;
@@ -149,8 +151,8 @@ function downArrowClicked() {
     console.log("down clicked");
 }
 
-function crossClicked() {
-    console.log("cross clicked");
+function crossClicked(floorId) {
+    $(`#${floorId}`).remove();
 }
 
 
