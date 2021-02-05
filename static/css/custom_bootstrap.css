@@ -59,3 +59,7 @@
 .bg-yellow {
     background-color: yellow;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
