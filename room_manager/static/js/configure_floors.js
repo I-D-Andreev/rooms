@@ -50,6 +50,31 @@ function enableButtons(isEnabled){
     $('#add_floor_prompt_button').attr("disabled", !isEnabled);
 }
 
+
+function renderFloorData(floorsList){
+    floorsContainer = $('#floors');
+
+    // remove child elements
+    floorsContainer.empty();
+
+    if(floorsList !== null){
+        if(floorsList.length > 0){
+            for(let i=floorsList.length-1; i>=0; i--){
+                floorsContainer.append(createFloorElement(floorsList[i].name));
+            }
+        }
+        else {
+            let element = `
+            <div id="no_floors">
+                <h4> No floors </h4>
+            </div>
+        `;
+            floorsContainer.append(element);
+        }
+    }
+}
+
+
 function addFloor(){
     let floorNameArea =$('#floor_name_textarea'); 
     let floorsContainer = $('#floors');
@@ -104,29 +129,6 @@ function saveFloors(){
     
 }
 
-
-function renderFloorData(floorsList){
-    floorsContainer = $('#floors');
-
-    // remove child elements
-    floorsContainer.empty();
-
-    if(floorsList !== null){
-        if(floorsList.length > 0){
-            for(let i=floorsList.length-1; i>=0; i--){
-                floorsContainer.append(createFloorElement(floorsList[i].name));
-            }
-        }
-        else {
-            let element = `
-            <div id="no_floors">
-                <h4> No floors </h4>
-            </div>
-        `;
-            floorsContainer.append(element);
-        }
-    }
-}
 
 function createFloorElement(name){
     let randomNum = Math.floor(Math.random() * 10000) + 12345;
