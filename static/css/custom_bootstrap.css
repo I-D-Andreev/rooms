@@ -35,6 +35,18 @@
     background-color:rgb(37, 211, 37);
 }
 
+.bg-light-green {
+    background-color: lightgreen;
+}
+
+.bg-light-gray {
+    background-color: lightgray;
+}
+
+.bg-light-blue {
+    background-color: lightblue;
+}
+
 .bg-light-red {
     background-color: rgb(235, 150, 150);
 }

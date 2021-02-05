@@ -141,13 +141,25 @@ function saveFloors(){
     
 }
 
+function nextBackgroundColour(){
+    let colours = ['bg-light-green', 'bg-light-gray', 'bg-light-blue', 'bg-light-red']
+    if(typeof nextBackgroundColour.counter === 'undefined'){
+        nextBackgroundColour.counter = 0;
+    } else {
+        nextBackgroundColour.counter++;
+    }
+
+    return colours[nextBackgroundColour.counter % colours.length];
+}
 
 function createFloorElement(name){
+    let backgroundColour = nextBackgroundColour();
+
     let randomNum = Math.floor(Math.random() * 10000) + 12345;
     let floorId = "floor_" + name + randomNum;
     return `
         <div id="${floorId}" class="row p-2">
-            <div class="h4 col-4 text-center" name="floor">${name}</div>
+            <div class="h4 col-4 text-center ${backgroundColour}" name="floor">${name}</div>
             <div class="col-8">
                 <span class="cursor-pointer" onclick="upArrowClicked('${floorId}')"> <i class="text-primary fas fa-arrow-alt-circle-up fa-2x"></i> </span>
                 <span class="cursor-pointer" onclick="downArrowClicked('${floorId}')"> <i class="text-primary fas fa-arrow-alt-circle-down fa-2x"></i> </span>
