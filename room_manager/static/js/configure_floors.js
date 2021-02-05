@@ -5,24 +5,7 @@ $(document).ready(function(){
 
     $('#id_building').on('change', function(){
         buildingId = this.value;
-
-        if(buildingId === ""){
-            renderFloorData(null);
-            enableButtons(false);
-        } else {
-            enableButtons(true);
-
-            $.ajax({
-                url: `/get-building-floors/${buildingId}`,
-                success: function(data){
-                    console.log(data);
-                    renderFloorData(data);
-                },
-                error: function(err){
-                    console.log(err);
-                }
-            });
-        }
+        showFloors();        
     });
 
     $('#add_floor').on('click', addFloor);
@@ -48,6 +31,26 @@ $(document).ready(function(){
 function enableButtons(isEnabled){
     $('#save_floors').attr("disabled", !isEnabled);
     $('#add_floor_prompt_button').attr("disabled", !isEnabled);
+}
+
+function showFloors(){
+    if(buildingId === ""){
+        renderFloorData(null);
+        enableButtons(false);
+    } else {
+        enableButtons(true);
+
+        $.ajax({
+            url: `/get-building-floors/${buildingId}`,
+            success: function(data){
+                console.log(data);
+                renderFloorData(data);
+            },
+            error: function(err){
+                console.log(err);
+            }
+        });
+    }
 }
 
 
