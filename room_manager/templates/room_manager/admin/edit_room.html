@@ -1,0 +1,64 @@
+{% extends 'navbar.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block head %}
+    <title>Edit a Room</title>
+{% endblock %}
+
+{% block content %}
+<div class="content w-100 h-100 d-flex">
+    <div class="row h-75 w-50 align-self-center mx-auto">
+        <form action="{% url 'create_room' %}" method="POST" class="mx-auto col-md-10 col-lg-7">
+            {% csrf_token %}
+            <div class="card">
+                <span class="card-header bg-primary text-white text-center h4">Edit a Room</span>
+                <div class="card-body">
+
+                 <div class="w-75 m-auto">
+                        <div class="form-row">
+                            <label class="mb-1 text-dark" for="username">Choose Room:</label>
+                            <!-- {% render_field form.username class="form-control" %} -->
+                        </div>
+
+                        <!-- all fields without the first and the last one -->
+                        <!-- {% for field in form.visible_fields|slice:"1:-1" %}
+                            <div class="form-row mt-3">
+                                <label class="mb-1 text-dark">{{field.label}}</label>
+                                {% render_field field class="form-control" %}
+                            </div>
+                        {% endfor %} -->
+
+                     <div class="text-right">
+                            <button type="button" class="btn btn-primary mr-2" onclick="location.reload();">Cancel</button>
+                            <button class="btn btn-primary">Edit</button>
+                     </div>
+                 </div> 
+
+                </div>
+            </div>
+            
+            <div class="mt-4 w-100">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger mt-2 w-75 text-center mx-auto">
+                            {{error}}
+                        </div>
+                    {% endfor %}
+                {% endfor%}
+            </div>
+
+            {% if messages %}
+                <div class="mt-4 w-100">
+                    {% for message in messages %}
+                        <div class="alert {% if 'error' in message.tags %} alert-danger {% else %} alert-success {% endif %} mt-2 w-75 text-center mx-auto">
+                            {{message}}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+        </form>
+    </div>
+</div>
+{% endblock %}

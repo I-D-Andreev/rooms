@@ -99,6 +99,10 @@ def create_room_view(request, *args, **kwargs):
 
 
 # login + admin only
+def edit_room_view(request, *args, **kwargs):
+    return render(request, 'room_manager/admin/edit_room.html')
+
+# login + admin only
 def create_building_view(request, *args, **kwargs):
     form = CreateBuildingForm()
 

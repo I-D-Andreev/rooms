@@ -26,6 +26,7 @@ urlpatterns = [
 
     # admin
     path('dashboard/create-room', create_room_view, name="create_room"),
+    path('dashboard/edit-room', edit_room_view, name="edit_room"),
     path('dashboard/create-building', create_building_view, name="create_building"),
     path('dashboard/configure-floors', configure_floors_view, name="configure_floors"),
 
