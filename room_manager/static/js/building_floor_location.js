@@ -1,7 +1,4 @@
 function loadFloorsOnBuildingChange(buildingSelect, floorsSelect){
-    buildingSelect = $('#id_building');
-    floorsSelect = $('#id_floor');
-
     buildingSelect.on('change', function(){
         let currentId = this.value
         let url = currentId ? `/get-building-floors/${currentId}` : '/get-building-floors';
@@ -32,7 +29,3 @@ function loadDataInSecondSelect(floorsSelect, data){
         floorsSelect.append(element);
     }
 }
-
-$(document).ready(function(){
-    loadFloorsOnBuildingChange();
-})
