@@ -7,7 +7,7 @@ class AccountInfoForm(forms.Form):
     public_name = forms.CharField(max_length=255)
     email = forms.EmailField()
     building = forms.ModelChoiceField(queryset=Building.objects.all(), empty_label='All Buildings', label='Building', required=False)
-    floor = forms.ModelChoiceField(queryset=Floor.objects.all(), empty_label='', label='Location')
+    floor = forms.ModelChoiceField(queryset=Floor.objects.all(), empty_label='', label='Location', required=False)
     
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
@@ -23,6 +23,10 @@ class AccountInfoForm(forms.Form):
         self.fields['public_name'].initial = self.initial_public_name
         self.fields['floor'].initial = self.initial_floor
         self.fields['building'].initial = self.initial_building
+
+        if self.initial_building:
+            self.fields['floor'].queryset = self.initial_building.floors.all()
+
 
 
     def update_fields(self):
