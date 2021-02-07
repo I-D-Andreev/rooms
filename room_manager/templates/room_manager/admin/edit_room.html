@@ -9,16 +9,16 @@
 {% block content %}
 <div class="content w-100 h-100 d-flex">
     <div class="row h-75 w-50 align-self-center mx-auto">
-        <form action="{% url 'create_room' %}" method="POST" class="mx-auto col-md-10 col-lg-7">
+        <form action="{% url 'edit_room' %}" method="POST" class="mx-auto col-md-10 col-lg-7">
             {% csrf_token %}
             <div class="card">
                 <span class="card-header bg-primary text-white text-center h4">Edit a Room</span>
                 <div class="card-body">
 
-                 <div class="w-75 m-auto">
+                 <div class="w-60 m-auto">
                         <div class="form-row">
-                            <label class="mb-1 text-dark" for="username">Choose Room:</label>
-                            <!-- {% render_field form.username class="form-control" %} -->
+                            <label class="mb-1 text-dark">Choose Room:</label>
+                            {% render_field choose_room.room class="form-control" %}
                         </div>
 
                         <!-- all fields without the first and the last one -->
@@ -29,7 +29,7 @@
                             </div>
                         {% endfor %} -->
 
-                     <div class="text-right">
+                     <div class="text-right mt-3">
                             <button type="button" class="btn btn-primary mr-2" onclick="location.reload();">Cancel</button>
                             <button class="btn btn-primary">Edit</button>
                      </div>
