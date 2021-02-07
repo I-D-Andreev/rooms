@@ -1,11 +1,12 @@
 from django import forms
 from django.db import transaction
 
-from .location_models import Floor
+from .location_models import Floor, Building
 
 class AccountInfoForm(forms.Form):
     public_name = forms.CharField(max_length=255)
     email = forms.EmailField()
+    building = forms.ModelChoiceField(queryset=Building.objects.all(), empty_label='All Buildings', label='Building', required=False)
     floor = forms.ModelChoiceField(queryset=Floor.objects.all(), empty_label='', label='Location')
     
     def __init__(self, *args, **kwargs):
@@ -16,10 +17,12 @@ class AccountInfoForm(forms.Form):
         self.initial_email = self.user.email
         self.initial_public_name = self.user.profile.public_name
         self.initial_floor = self.user.profile.floor
+        self.initial_building = self.initial_floor.building if self.initial_floor else None
 
         self.fields['email'].initial = self.initial_email
         self.fields['public_name'].initial = self.initial_public_name
         self.fields['floor'].initial = self.initial_floor
+        self.fields['building'].initial = self.initial_building
 
 
     def update_fields(self):
