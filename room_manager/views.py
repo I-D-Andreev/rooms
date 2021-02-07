@@ -260,21 +260,37 @@ def get_room_schedule(request, id, *args, **kwargs):
         return HttpResponse("[]", content_type="application/json")
 
 
+def get_all_building_floors(request, *args, **kwargs):
+    floors = Floor.objects.all()
+
+    if floors is not None:
+        floors_list_json = json.dumps(
+            [__floor_to_dict(floor) for floor in floors]
+        )
+        return HttpResponse(floors_list_json, content_type="application/json")
+    else:
+        return HttpResponse("[]", content_type="application/json")
+
+
 def get_building_floors(request, id, *args, **kwargs):
     building = Building.objects.filter(pk=id).first()
 
     if building is not None:
         floors_list = building.floors.all().order_by('actual_floor')
         floors_list_json = json.dumps(
-            [{
-                'id': floor.id,
-                'name': floor.name,
-                'actual_floor': floor.actual_floor,
-            } for floor in floors_list]
+            [__floor_to_dict(floor) for floor in floors_list]
         )
         return HttpResponse(floors_list_json, content_type="application/json")
     else:
         return HttpResponse("[]", content_type="application/json")
+
+def __floor_to_dict(floor: Floor):
+    return {
+        'id': floor.id,
+        'name': floor.name,
+        'actual_floor': floor.actual_floor,
+        'full_name': str(floor)
+    }
 
 
 def save_building_floors(request, id, *args, **kwargs):

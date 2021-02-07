@@ -45,6 +45,7 @@ urlpatterns = [
     path('get-meeting/<int:id>', get_meeting, name="get_meeting"),
     path('get-room-schedule/<int:id>', get_room_schedule, name="get_room_schedule"),
     path('get-building-floors/<int:id>', get_building_floors, name="get_building_floors"),
+    path('get-building-floors', get_all_building_floors, name="get_all_building_floors"),
     path('save-building-floors/<int:id>', save_building_floors, name="save_building_floors"),
 
 ]
