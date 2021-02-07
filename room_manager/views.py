@@ -20,7 +20,7 @@ from accounts.models import Profile
 from django.http import HttpResponse
 from .forms import AccountInfoForm
 from .admin_forms import CreateBuildingForm, ChooseBuildingForm
-from .room_forms import BookNowForm
+from .room_forms import BookNowForm, EditRoomForm
 import json
 
 # --------------- Views ---------------
@@ -101,8 +101,9 @@ def create_room_view(request, *args, **kwargs):
 # login + admin only
 def edit_room_view(request, *args, **kwargs):
     choose_room = ChooseRoomForm()
+    form = EditRoomForm()
 
-    context = {'choose_room': choose_room}
+    context = {'choose_room': choose_room, 'form': form}
     return render(request, 'room_manager/admin/edit_room.html', context)
 
 # login + admin only

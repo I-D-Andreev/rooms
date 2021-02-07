@@ -21,13 +21,12 @@
                             {% render_field choose_room.room class="form-control" %}
                         </div>
 
-                        <!-- all fields without the first and the last one -->
-                        <!-- {% for field in form.visible_fields|slice:"1:-1" %}
+                        {% for field in form.visible_fields %}
                             <div class="form-row mt-3">
                                 <label class="mb-1 text-dark">{{field.label}}</label>
                                 {% render_field field class="form-control" %}
                             </div>
-                        {% endfor %} -->
+                        {% endfor %}
 
                      <div class="text-right mt-3">
                             <button type="button" class="btn btn-primary mr-2" onclick="location.reload();">Cancel</button>
