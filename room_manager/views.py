@@ -100,17 +100,22 @@ def create_room_view(request, *args, **kwargs):
 
 # login + admin only
 def edit_room_view(request, *args, **kwargs):
-    choose_room = ChooseRoomForm()
     form = EditRoomForm()
 
     if request.method == 'POST':
-        choose_room = ChooseRoomForm(request.POST)
         form = EditRoomForm(request.POST)
 
+        res = False
         if form.is_valid():
-            form.update_fields()
+            res = form.update_fields()
 
-    context = {'choose_room': choose_room, 'form': form}
+        if res:
+            messages.success(request, "Information updated successfully!")
+        else:
+            messages.error(request, "Failed to update room information!")
+
+
+    context = {'form': form}
     return render(request, 'room_manager/admin/edit_room.html', context)
 
 # login + admin only
