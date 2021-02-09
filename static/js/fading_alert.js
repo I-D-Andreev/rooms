@@ -12,6 +12,7 @@ function showWarningAlert(alertHolder, alertText, delayBeforeFadeMs=2500){
 
 function showAlert(alertHolder, alertText, alertType, delayBeforeFadeMs){
     let maxNum = 5000;
+    let fadeOutTime = 2000;
 
     let tempId = randomNumber(maxNum);
 
@@ -23,7 +24,9 @@ function showAlert(alertHolder, alertText, alertType, delayBeforeFadeMs){
 
     alertHolder.append(element);
 
-    $(`#${tempId}`).delay(delayBeforeFadeMs).fadeOut();
+    $(`#${tempId}`).delay(delayBeforeFadeMs).fadeOut(fadeOutTime, function(){
+        $(this).remove();
+    });
 }
 
 
