@@ -1,5 +1,6 @@
 from django.db import models 
 from django.contrib.auth.models import User
+from django.db.models.fields import related
 from accounts.user_types import UserTypes
 from datetime import datetime, time, timedelta, timezone
 
@@ -10,7 +11,7 @@ class Profile(models.Model):
     public_name = models.CharField(max_length=255)
     type = models.CharField(max_length=255, choices=UserTypes.as_choice_list())
     capacity = models.IntegerField(default=0)
-    floor = models.OneToOneField(Floor, on_delete=models.SET_NULL, null=True)
+    floor = models.ForeignKey(Floor, on_delete=models.SET_NULL, null=True, related_name="profiles")
 
 
 # to add location and room-type
