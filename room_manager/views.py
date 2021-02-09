@@ -223,7 +223,32 @@ def book_now_view(request, *args, **kwargs):
     context = {'form': form}
     return render(request, 'room_manager/room/book_now.html', context)
 
+
+
 # --------------- REST API ---------------
+def get_room(request, profile_id, *args, **kwargs):
+    room = Profile.objects.filter(pk=profile_id).first()
+
+    print(f"Room is {room}")
+
+    if (room is None) or (room.type != UserTypes.room):
+        # return HttpResponse("{}", content_type="application/json")
+        raise Http404
+    else:
+        floor = room.floor
+        print(f"Floor is {floor}")
+        floorId = floor.id if floor else ''
+        buildingId = floor.building.id if floor else ''
+       
+        return JsonResponse({
+            'id': room.id,
+            'public_name': room.public_name,
+            'email': room.user.email,
+            'capacity': room.capacity,
+            'floorId': floorId,
+            'buildingId': buildingId
+        })
+
 
 def get_meeting(request, id, *args, **kwargs):
     meeting = Meeting.objects.filter(pk=id).first()

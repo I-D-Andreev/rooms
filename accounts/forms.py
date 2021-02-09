@@ -22,7 +22,7 @@ class UserRegistrationForm(UserCreationForm):
         cleaned_type = self.cleaned_data['type']
         cleaned_capacity = self.cleaned_data.get('capacity', 0)
 
-        account_type = cleaned_type if cleaned_type in UserTypes.as_list() else UserTypes.as_list()[1]
+        account_type = cleaned_type if cleaned_type in UserTypes.as_list() else UserTypes.user
 
         user = super(UserCreationForm, self).save(commit=False)
         user.set_password(self.cleaned_data['password1'])

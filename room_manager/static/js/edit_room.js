@@ -14,14 +14,32 @@ function loadRoomOnSelectChange(){
         if(roomId === ''){
             disableFillableFields(true);
         } else {
-            disableFillableFields(false);
+            let url = `/get-room/${roomId}`
+            $.ajax({
+                url: url,
+                success: function(data){
+                    disableFillableFields(false);
+                    fillFormData(data);
+                },
+                error: function(err){
+                    console.log(err);
+                }
+            });
 
-            
         }
     });
 
 }
 
+function fillFormData(data){
+    if(data){
+        $('#id_public_name').val(data.public_name);
+        $('#id_email').val(data.email);
+        $('#id_capacity').val(data.capacity);
+        $('#id_building').val(data.buildingId);
+        $('#id_floor').val(data.floorId);
+    }
+}
 
 function disableFillableFields(isDisabled){
     $('#id_public_name').attr('disabled', isDisabled);
