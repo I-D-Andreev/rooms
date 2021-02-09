@@ -13,6 +13,7 @@ function loadRoomOnSelectChange(){
         let roomId = this.value;
         if(roomId === ''){
             disableFillableFields(true);
+            fillFormData(null);
         } else {
             let url = `/get-room/${roomId}`
             $.ajax({
@@ -31,7 +32,11 @@ function loadRoomOnSelectChange(){
 
 }
 
+
+
 function fillFormData(data){
+    clearFormData();
+
     if(data){
         $('#id_public_name').val(data.public_name);
         $('#id_email').val(data.email);
@@ -39,6 +44,15 @@ function fillFormData(data){
         $('#id_building').val(data.buildingId);
         $('#id_floor').val(data.floorId);
     }
+}
+
+function clearFormData(){
+    $('#id_public_name').val('');
+    $('#id_email').val('');
+    $('#id_capacity').val('');
+    $('#id_building').val('');
+    $('#id_floor').val('');
+
 }
 
 function disableFillableFields(isDisabled){
