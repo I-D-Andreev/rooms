@@ -14,16 +14,11 @@
     <div class="row h-75 w-50 align-self-center mx-auto">
         <form action="{% url 'edit_room' %}" method="POST" class="mx-auto col-md-10 col-lg-7">
             {% csrf_token %}
-            <div class="card">
+            <div class="card min-width-400">
                 <span class="card-header bg-primary text-white text-center h4">Edit a Room</span>
                 <div class="card-body">
 
                  <div class="w-60 m-auto">
-                        <div class="form-row">
-                            <label class="mb-1 text-dark">Choose Room:</label>
-                            {% render_field choose_room.room class="form-control" %}
-                        </div>
-
                         {% for field in form.visible_fields %}
                             <div class="form-row mt-3">
                                 <label class="mb-1 text-dark">{{field.label}}</label>
