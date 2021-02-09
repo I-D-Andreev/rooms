@@ -35,7 +35,7 @@ class EditRoomForm(forms.Form):
                     profile.user.save()
 
                 return True
-            except:
-                pass
-        
+            except Exception as ex:
+                print(ex)
+
         return False
