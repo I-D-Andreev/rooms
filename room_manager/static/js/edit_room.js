@@ -1,12 +1,22 @@
+var lastFormData = null;
+
 $(document).ready(function(){
     let buildingSelect = $('#id_building');
     let floorsSelect = $('#id_floor');
+    
+    disableFillableFields(!$('#id_room').val());
 
-
+    attachCancelButton($("#cancel_button"));
     loadFloorsOnBuildingChange(buildingSelect, floorsSelect);
     loadRoomOnSelectChange();
-    disableFillableFields(true);
+
 })
+
+function attachCancelButton(button){
+    button.on('click', function(){
+        fillFormData(lastFormData);
+    });
+}
 
 function loadRoomOnSelectChange(){
     $('#id_room').on('change', function(){
@@ -35,6 +45,7 @@ function loadRoomOnSelectChange(){
 
 
 function fillFormData(data){
+    lastFormData = data;
     clearFormData();
 
     if(data){

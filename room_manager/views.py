@@ -103,6 +103,13 @@ def edit_room_view(request, *args, **kwargs):
     choose_room = ChooseRoomForm()
     form = EditRoomForm()
 
+    if request.method == 'POST':
+        choose_room = ChooseRoomForm(request.POST)
+        form = EditRoomForm(request.POST)
+
+        if form.is_valid():
+            form.update_fields()
+
     context = {'choose_room': choose_room, 'form': form}
     return render(request, 'room_manager/admin/edit_room.html', context)
 
@@ -229,14 +236,11 @@ def book_now_view(request, *args, **kwargs):
 def get_room(request, profile_id, *args, **kwargs):
     room = Profile.objects.filter(pk=profile_id).first()
 
-    print(f"Room is {room}")
-
     if (room is None) or (room.type != UserTypes.room):
         # return HttpResponse("{}", content_type="application/json")
         raise Http404
     else:
         floor = room.floor
-        print(f"Floor is {floor}")
         floorId = floor.id if floor else ''
         buildingId = floor.building.id if floor else ''
        

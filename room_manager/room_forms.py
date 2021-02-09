@@ -13,4 +13,10 @@ class EditRoomForm(forms.Form):
     capacity = forms.IntegerField()
 
     building = forms.ModelChoiceField(queryset=Building.objects.all(), empty_label='All Buildings', label='Building', required=False)
-    floor = forms.ModelChoiceField(queryset=Floor.objects.all(), empty_label='', label='Location')
+    floor = forms.ModelChoiceField(queryset=Floor.objects.all(), empty_label='', label='Location', required=False)
+
+    def update_fields(self):
+        if self.is_valid():
+            print("Form is valid")
+        else:
+            print("Form is not valid")
