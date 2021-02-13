@@ -1,9 +1,9 @@
 from datetime import datetime, date, timedelta
 from django.db import models
 from accounts.models import Profile
+from .meeting_distance_types import MeetingDistanceTypes
 
 class Meeting(models.Model):
-
     creator = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='user_meetings')
     room = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='meetings')
     name = models.CharField(max_length=150)
@@ -75,3 +75,29 @@ class Meeting(models.Model):
                 return 'bg-light-red'
         else:
             return 'bg-white'
+
+
+# Only one instance will be stored. Will keep track of system constants.
+class SystemConstants(models.Model):
+    distance_type = models.CharField(choices=MeetingDistanceTypes.as_choice_list(), max_length=255)
+    distance_floors = models.IntegerField(null=True)
+
+
+    @staticmethod
+    def get_constants():
+        constants = SystemConstants.objects.first()
+
+        if constants is None:
+            constants = SystemConstants.__create_default_constants()
+        
+        return constants
+
+
+    @staticmethod
+    def __create_default_constants():
+        return SystemConstants.objects.create(distance_type=MeetingDistanceTypes.same_building, distance_floors=0)
+
+
+    @staticmethod
+    def update_meeting_room_distance_constants(distance_type: str, distance_floors = 0):
+        pass
