@@ -1,5 +1,6 @@
 from django import forms
 from .meeting_distance_types import MeetingDistanceTypes
+from .models import SystemConstants
 from .location_models import Building
 
 class CreateBuildingForm(forms.ModelForm):
@@ -22,5 +23,5 @@ class ChooseBuildingForm(forms.Form):
 
 
 class MeetingRoomDistanceForm(forms.Form):
-    type = forms.CharField(widget=forms.Select(choices=MeetingDistanceTypes.as_choice_list()))
-    floors = forms.IntegerField(min_value=0, initial=0, required=False)
+    type = forms.CharField(widget=forms.Select(choices=MeetingDistanceTypes.as_choice_list()),initial=SystemConstants.get_constants().distance_type)
+    floors = forms.IntegerField(min_value=0, initial=SystemConstants.get_constants().distance_floors, required=False)

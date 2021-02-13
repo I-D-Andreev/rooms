@@ -80,7 +80,7 @@ class Meeting(models.Model):
 # Only one instance will be stored. Will keep track of system constants.
 class SystemConstants(models.Model):
     distance_type = models.CharField(choices=MeetingDistanceTypes.as_choice_list(), max_length=255)
-    distance_floors = models.IntegerField(null=True)
+    distance_floors = models.PositiveIntegerField()
 
 
     @staticmethod
