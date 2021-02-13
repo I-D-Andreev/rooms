@@ -1,0 +1,34 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+{% block head %}
+
+    <title>System Constants</title>
+
+{% endblock %}
+
+
+{% block content %}
+<div class="content w-100 h-100 d-flex">
+    <div class="col-7 h-75 mx-auto align-self-center">
+        <div class="card h-100 min-width-400">
+            <div class="card-body border border-secondary">
+                
+                <div class="w-100 h-25">
+                    <div class="w-100 h-25">
+                        <span class="h5 text-secondary font-weight-bold">Meeting Room Distance</span>
+                    </div>
+
+                    <div class="w-100 h-75 text-center">
+                        
+                       <button class="btn btn-primary m-1">Save</button>
+                    </div>
+                </div>
+                <hr class="bg-secondary">
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+{% endblock %}

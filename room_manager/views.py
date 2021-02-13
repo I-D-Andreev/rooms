@@ -143,6 +143,11 @@ def configure_floors_view(request, *args, **kwargs):
     context = {'form': form}
     return render(request, 'room_manager/admin/configure_floors.html', context)
 
+
+# login + admin only
+def system_constants_view(request, *args, **kwargs):
+    return render(request, 'room_manager/admin/system_constants.html')
+
 # login + user only
 def book_room_view(request, *args, **kwargs):
     form = BookRoomForm()
