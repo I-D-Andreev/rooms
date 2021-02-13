@@ -33,3 +33,14 @@ function showAlert(alertHolder, alertText, alertType, delayBeforeFadeMs){
 function randomNumber(maxNum){
     return Math.floor(Math.random() * maxNum);
 }
+
+function fadePythonMessages(){
+    let delayBeforeFadeMs = 2500;
+
+    let messages = $('div.alert');
+    for(let i=0; i<messages.length; i++){
+        messages.eq(i).delay(delayBeforeFadeMs).fadeOut(2000, function(){
+            $(this).remove();
+        });
+    }
+}

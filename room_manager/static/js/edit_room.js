@@ -9,19 +9,9 @@ $(document).ready(function(){
     attachCancelButton($("#cancel_button"));
     loadFloorsOnBuildingChange(buildingSelect, floorsSelect);
     loadRoomOnSelectChange();
-    fadeMessages();
+    fadePythonMessages();
 })
 
-function fadeMessages(){
-    let delayBeforeFadeMs = 2500;
-
-    let messages = $('div.alert');
-    for(let i=0; i<messages.length; i++){
-        messages.eq(i).delay(delayBeforeFadeMs).fadeOut(2000, function(){
-            $(this).remove();
-        });
-    }
-}
 
 function attachCancelButton(button){
     button.on('click', function(){
