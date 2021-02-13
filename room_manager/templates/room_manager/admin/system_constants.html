@@ -5,6 +5,7 @@
 {% block head %}
 
     <title>System Constants</title>
+    <script src="{% static 'js/system_constants.js' %}"></script>
 
 {% endblock %}
 
@@ -34,9 +35,9 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xl-2 col-3 mt-3">
+                                <div id="floors_holder" class="col-xl-2 col-3 mt-3">
                                     <label class="mb-1 text-secondary w-100 h6">Floors:</label>
-                                    <div class="">
+                                    <div>
                                         {% render_field meeting_form.floors class="form-control"%}
                                     </div>
                                 </div>
