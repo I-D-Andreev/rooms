@@ -19,7 +19,7 @@ from django.contrib.auth.models import User
 from accounts.models import Profile
 from django.http import HttpResponse
 from .forms import AccountInfoForm
-from .admin_forms import CreateBuildingForm, ChooseBuildingForm
+from .admin_forms import CreateBuildingForm, ChooseBuildingForm, MeetingRoomDistanceForm
 from .room_forms import BookNowForm, EditRoomForm
 import json
 
@@ -146,7 +146,9 @@ def configure_floors_view(request, *args, **kwargs):
 
 # login + admin only
 def system_constants_view(request, *args, **kwargs):
-    return render(request, 'room_manager/admin/system_constants.html')
+    meeting_form = MeetingRoomDistanceForm()
+    context = {'meeting_form': meeting_form}
+    return render(request, 'room_manager/admin/system_constants.html', context)
 
 # login + user only
 def book_room_view(request, *args, **kwargs):

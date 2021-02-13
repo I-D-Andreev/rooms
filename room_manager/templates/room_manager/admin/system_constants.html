@@ -1,5 +1,6 @@
 {% extends 'navbar.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block head %}
 
@@ -11,17 +12,42 @@
 {% block content %}
 <div class="content w-100 h-100 d-flex">
     <div class="col-7 h-75 mx-auto align-self-center">
-        <div class="card h-100 min-width-400">
-            <div class="card-body border border-secondary">
+        <div class="card h-100">
+            <div class="card-body border border-secondary min-width-400">
                 
-                <div class="w-100 h-25">
-                    <div class="w-100 h-25">
+                <div class="w-100 h-50">
+                    <div class="w-100">
                         <span class="h5 text-secondary font-weight-bold">Meeting Room Distance</span>
                     </div>
 
-                    <div class="w-100 h-75 text-center">
-                        
-                       <button class="btn btn-primary m-1">Save</button>
+                    <div class="w-100 h-25">
+                       <div class="w-100 text-secondary mt-1">The distance between a user's location and the booked room should at most be:</div>
+                       
+                       <form action="{% url 'system_constants' %}" method="POST">
+                           {% csrf_token %}
+
+                            <div class="row ml-3">
+                                <div class="col-xl-4 col-6 mt-3">
+                                    <label class="mb-1 text-secondary w-100 h6">Distance:</label>
+                                    <div class="">
+                                        {% render_field meeting_form.type class="form-control"%}
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-2 col-3 mt-3">
+                                    <label class="mb-1 text-secondary w-100 h6">Floors:</label>
+                                    <div class="">
+                                        {% render_field meeting_form.floors class="form-control"%}
+                                    </div>
+                                </div>
+
+                                <div class="w-100 ml-3">
+                                    <button class="btn btn-primary mt-3">Cancel</button>
+                                    <button class="btn btn-primary mt-3 ml-2">Save</button>
+                                </div>
+                            </div>
+
+                       </form>
                     </div>
                 </div>
                 <hr class="bg-secondary">

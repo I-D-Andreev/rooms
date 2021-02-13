@@ -6,6 +6,10 @@
     width: 60%;
 }
 
+.w-66 {
+    width: 66.66%;
+}
+
 .h-12 {
     height: 12.5%;
 }
@@ -26,6 +30,11 @@
 .min-width-400 {
     min-width: 400px;
 }
+
+.min-width-600 {
+    min-width: 650px;
+}
+
 
 .text-green {
     color:rgb(37, 211, 37);
