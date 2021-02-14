@@ -9,15 +9,18 @@ class RoomManager:
     def schedule_meeting(meeting_name:str, number_attendees:int , start_date: datetime.date, start_time: datetime.time, duration: int, creator:User):
         # todo1: RoomManager.purge_old_meetings()
 
+        if creator.profile.floor is None:
+            return None, "Can't book a room as your location has not been set!"
+
         chosen_room = RoomManager.__choose_smallest_free_room(number_attendees, start_date, start_time, duration)
 
         if chosen_room is None:
-            return None
+            return None, 'There is no free room for the chosen time!'
         
-        return Meeting.objects.create(name=meeting_name, creator=creator.profile, room=chosen_room, start_date=start_date, start_time=start_time, duration=duration, participants_count=number_attendees)
+        return Meeting.objects.create(name=meeting_name, creator=creator.profile, room=chosen_room, start_date=start_date, start_time=start_time, duration=duration, participants_count=number_attendees), None
         
 
-
+    @staticmethod
     def __choose_smallest_free_room(number_attendees: int, start_date: datetime.date, start_time: datetime.time, duration: int) -> Profile:
         rooms = Profile.objects.filter(type__exact=UserTypes.room).filter(capacity__gte=number_attendees).order_by('capacity')
 
@@ -29,6 +32,13 @@ class RoomManager:
             if room.is_free(start_date, start_time, duration):
                 return room
         return None
+
+
+    @staticmethod
+    def __filter_rooms_by_distance(rooms):
+        filter_rooms_lambda = lambda x: x
+
+        
 
 
     # for testing purposes
