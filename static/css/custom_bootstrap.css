@@ -84,3 +84,8 @@
 .cursor-pointer {
     cursor: pointer;
 }
+
+.unfocus-button-click:focus {
+    outline: none;
+    box-shadow: none;
+}
