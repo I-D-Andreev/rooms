@@ -1,3 +1,4 @@
+import builtins
 from django.db import models
 from django.db import transaction
 
@@ -5,6 +6,8 @@ from django.db import transaction
 class Building(models.Model):
     name = models.CharField(max_length=150, unique=True)
     description = models.TextField(null=True, blank=True)
+
+    close_buildings = models.ManyToManyField('self')
 
     def __str__(self) -> str:
         return self.name
@@ -37,6 +40,21 @@ class Building(models.Model):
             print(e)
             return False
 
+
+    @staticmethod
+    def all_nearby_buildings_list():
+        nearby_buildings_list = []
+        already_appeared = set()
+
+        buildings = Building.objects.all()
+        
+        for building in buildings:
+            for close_building in building.close_buildings.all():
+                if ((building.id, close_building.id) not in already_appeared) and ((close_building.id, building.id) not in already_appeared):
+                    already_appeared.add((building.id, close_building.id))
+                    nearby_buildings_list.append((building, close_building))
+
+        return nearby_buildings_list
 
 class Floor(models.Model):
     building = models.ForeignKey(Building, null=False, on_delete=models.CASCADE, related_name='floors')

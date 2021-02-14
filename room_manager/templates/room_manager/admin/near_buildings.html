@@ -30,9 +30,30 @@
     </div>
 </div> -->
 
-<div class="content w-100 h-100 d-flex bg-info">
-    <div class="row h-75 w-50 align-self-center mx-auto bg-danger">
-        
+<div class="content w-100 h-100 d-flex">
+    <div class="row h-85 w-50 align-self-center mx-auto">
+
+        <div class="col-10 m-auto h-100">
+            <div class="w-100 text-dark h3 text-center pb-2">
+                Buildings In Close Proximity
+            </div>
+
+            <div class="w-100 h-100">
+                <div class="w-100 h-75">
+                    {% for building1,building2 in  nearby_buildings %}
+                        <div>{{building1}} - {{building2}}</div>
+                    {% endfor %}
+                </div>
+    
+                <div class="w-100 h-25 mt-3">
+                    <div class="w-100 text-dark h4">Add near-buildings pair:</div>
+                    <div class="">
+
+                    </div>
+                </div>
+            </div>
+            
+        </div>
     </div>
 </div>
 {% endblock %}

@@ -146,7 +146,10 @@ def configure_floors_view(request, *args, **kwargs):
 
 # login + admin only
 def near_buildings_view(request, *args, **kwargs):
-    return render(request, 'room_manager/admin/near_buildings.html')
+    nearby_buildings = Building.all_nearby_buildings_list()
+    
+    context = {'nearby_buildings': nearby_buildings}
+    return render(request, 'room_manager/admin/near_buildings.html', context)
 
 
 # login + admin only
