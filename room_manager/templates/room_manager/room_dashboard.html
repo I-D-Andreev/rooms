@@ -8,45 +8,60 @@
 
 
 {% block content %}
-<div class="w-100 h-100">
-  <div class="row w-100 h-100">
-        <div class="col-sm-9 offset-sm-1 h-100 mh-100">
-            <div class="h-25 text-center d-flex align-items-center">
-                {% if user.profile.is_free_now %}
-                    <div class="h1 w-100 text-green">Free</div>
-                {% else %}
-                    <div class="h1 w-100 text-danger">Busy</div>
-                {% endif %}
+<div class="w-100 h-100 d-flex">
+    
+    {% if user.profile.floor %}
+        <div class="row w-100 h-100">
+            <div class="col-sm-9 offset-sm-1 h-100 mh-100">
+                <div class="h-25 text-center d-flex align-items-center">
+                    {% if user.profile.is_free_now %}
+                        <div class="h1 w-100 text-green">Free</div>
+                    {% else %}
+                        <div class="h1 w-100 text-danger">Busy</div>
+                    {% endif %}
+                </div>
+
+                <div class="h-60 w-100 list-group overflow-auto mt-2">
+                    {% if meetings_list %}
+                        {% for meeting in meetings_list %}
+                            <div class="list-group-item border-secondary {{ meeting.background_colour }}">
+                                <span class="float-left w-25">{{meeting.start_time_str}} - {{meeting.end_time_str}}</span>
+                                <span class="ml-4">{{meeting.name}}</span>                      
+                            </div>
+                        {% endfor %}
+                    {% else%}
+                        <span class="h4 w-100 text-center mt-3">Could Not Load Meetings!</span>
+                    {% endif %}
+                </div>
             </div>
 
-            <div class="h-60 w-100 list-group overflow-auto mt-2">
-                {% if meetings_list %}
-                    {% for meeting in meetings_list %}
-                        <div class="list-group-item border-secondary {{ meeting.background_colour }}">
-                            <span class="float-left w-25">{{meeting.start_time_str}} - {{meeting.end_time_str}}</span>
-                            <span class="ml-4">{{meeting.name}}</span>                      
-                        </div>
-                    {% endfor %}
-                {% else%}
-                    <span class="h4 w-100 text-center mt-3">Could Not Load Meetings!</span>
-                {% endif %}
-            </div>
+            <div class="col-sm-2">                
+                <button class="btn btn-primary btn-sm mt-4 button-circle bg-green text-dark" onclick='location.href="{%url 'book_now' %}"'>
+                    Book Now
+                </button>
+
+                <button class="btn btn-primary btn-sm mt-4 button-circle bg-yellow text-dark">
+                    Nearest Room
+                </button>
+
+                <button class="btn btn-primary btn-sm mt-4 button-circle bg-danger">
+                    Cancel Meeting
+                </button>
+            </div> 
         </div>
+    {% else %}
+        <div class="w-75 h-75 m-auto align-self-center text-center">
+            <div class="h3 text-danger">This room's location has not been configured in the system!</div>
+            <div class="h4 text-dark">It can't be booked or used.</div>
+            <div class="h5 text-dark">Please contact an administrator to configure the room.</div>
+            
+            <div class="h6 text-dark pt-3">Room Public Name: {{user.profile.public_name}}</div>
+            <div class="h6 text-dark">Room Username: {{user.username}}</div>
+        </div>
+    {% endif %}
 
-        <div class="col-sm-2">                
-            <button class="btn btn-primary btn-sm mt-4 button-circle bg-green text-dark" onclick='location.href="{%url 'book_now' %}"'>
-                Book Now
-            </button>
 
-            <button class="btn btn-primary btn-sm mt-4 button-circle bg-yellow text-dark">
-                Nearest Room
-            </button>
 
-            <button class="btn btn-primary btn-sm mt-4 button-circle bg-danger">
-                Cancel Meeting
-            </button>
-        </div> 
-  </div>
 </div>
 
 {% endblock %}
