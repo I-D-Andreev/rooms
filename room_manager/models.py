@@ -86,7 +86,6 @@ class SystemConstants(models.Model):
     @staticmethod
     def get_constants():
         constants = SystemConstants.objects.first()
-        print(f"Get constants: {constants}")
 
         if constants is None:
             constants = SystemConstants.__create_default_constants()
