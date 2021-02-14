@@ -146,6 +146,18 @@ def configure_floors_view(request, *args, **kwargs):
 
 # login + admin only
 def system_constants_view(request, *args, **kwargs):
+    if request.method == 'POST':
+        meeting_form = MeetingRoomDistanceForm(request.POST)
+        result = False
+
+        if meeting_form.is_valid():
+            result = meeting_form.update_data()
+
+        if result:
+            messages.success(request, "Successfully updated!")
+        else:
+            messages.error(request, "Failed to update!")
+    
     meeting_form = MeetingRoomDistanceForm()
     context = {'meeting_form': meeting_form}
     return render(request, 'room_manager/admin/system_constants.html', context)

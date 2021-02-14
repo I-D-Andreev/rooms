@@ -16,6 +16,8 @@ $(document).ready(function(){
     }
 
     $("#cancel_button").on("click", cancelButtonClicked);
+
+    fadePythonMessages();
 });
 
 function cancelButtonClicked(){
@@ -30,6 +32,11 @@ function cancelButtonClicked(){
 function showOrHideFloors(shouldShow){
     
     let floorsInput = $("#floors_holder");
+    let floors = $("#id_floors")
+
+    if(floors.val() === ""){
+        floors.val("0");
+    }
 
     if(shouldShow){
         floorsInput.show();

@@ -23,5 +23,26 @@ class ChooseBuildingForm(forms.Form):
 
 
 class MeetingRoomDistanceForm(forms.Form):
-    type = forms.CharField(widget=forms.Select(choices=MeetingDistanceTypes.as_choice_list()),initial=SystemConstants.get_constants().distance_type)
-    floors = forms.IntegerField(min_value=0, initial=SystemConstants.get_constants().distance_floors, required=False)
+    type = forms.CharField(widget=forms.Select(choices=MeetingDistanceTypes.as_choice_list()))
+    floors = forms.IntegerField(min_value=0, required=True)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        constants = SystemConstants.get_constants()
+        self.fields['type'].initial = constants.distance_type
+        self.fields['floors'].initial = constants.distance_floors
+
+
+    def update_data(self):
+        if self.is_valid():
+            try:
+                cleaned_type = self.cleaned_data['type']
+                cleaned_floors = int(self.cleaned_data['floors'])
+                
+                SystemConstants.update_meeting_room_distance_constants(cleaned_type, cleaned_floors) 
+                return True
+            except Exception as e:
+                print(e)
+
+        return False

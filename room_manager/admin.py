@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from room_manager.models import Meeting
+from room_manager.models import Meeting, SystemConstants
 from room_manager.location_models import Building, Floor
 
 class MeetingAdmin(admin.ModelAdmin):
@@ -10,3 +10,4 @@ admin.site.register(Meeting, MeetingAdmin)
 
 admin.site.register(Building)
 admin.site.register(Floor)
+admin.site.register(SystemConstants)

@@ -5,6 +5,7 @@
 {% block head %}
 
     <title>System Constants</title>
+    <script src="{% static 'js/fading_alert.js' %}"></script>
     <script src="{% static 'js/system_constants.js' %}"></script>
 
 {% endblock %}
@@ -55,6 +56,18 @@
                 
             </div>
         </div>
+        <div class="w-100 h-25">
+            {% if messages %}
+                <div class="mt-4 w-100">
+                    {% for message in messages %}
+                        <div class="alert {% if 'error' in message.tags %} alert-danger {% else %} alert-success {% endif %} mt-2 w-75 text-center mx-auto">
+                            {{message}}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
     </div>
 </div>
     

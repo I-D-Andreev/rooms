@@ -86,6 +86,7 @@ class SystemConstants(models.Model):
     @staticmethod
     def get_constants():
         constants = SystemConstants.objects.first()
+        print(f"Get constants: {constants}")
 
         if constants is None:
             constants = SystemConstants.__create_default_constants()
@@ -99,5 +100,14 @@ class SystemConstants(models.Model):
 
 
     @staticmethod
-    def update_meeting_room_distance_constants(distance_type: str, distance_floors = 0):
-        pass
+    def update_meeting_room_distance_constants(distance_type: str, distance_floors:int = 0):
+        if distance_type != MeetingDistanceTypes.number_floors:
+            distance_floors = 0
+        
+        print(distance_type)
+        print(distance_floors)
+
+        constants = SystemConstants.get_constants()
+        constants.distance_type = distance_type
+        constants.distance_floors = distance_floors
+        constants.save()
