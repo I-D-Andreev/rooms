@@ -49,28 +49,36 @@
         </div>
         
         <div class="content col-sm-7 col-xl-6">
-            <div class="panel h-50 w-75 mx-auto mt-5">
-                <div class="panel-heading text-center mb-2">
-                    <span class="h2">Today's Schedule</span>
-                </div>
+            {% if user.profile.floor %}
+                <div class="panel h-50 w-75 mx-auto mt-5">
+                    <div class="panel-heading text-center mb-2">
+                        <span class="h2">Today's Schedule</span>
+                    </div>
 
-                <div class="panel-body mh-100 mt-3 overflow-auto">
-                    <div class="list-group">
-                        {% if meetings_list %}
-                            {% for meeting in meetings_list %}
-                                <div class="list-group-item border-secondary {% if meeting.has_passed%} bg-light-red {% elif meeting.is_currently_ongoing %} bg-green {% endif %}">
-                                    <span class="float-left w-25">{{meeting.start_time_str}} - {{meeting.end_time_str}}</span>
-                                    <span class="float-left w-25 ml-5">{{meeting.name}}</span>
-                                    <span class="float-right w-25">Room: {{meeting.room.public_name}}</span>
-                                </div>
-                            {% endfor %}
-                        {% else%}
-                            <span class="h5 align-self-center mt-5">No upcoming meetings</span>
-                        {% endif %}
+                    <div class="panel-body mh-100 mt-3 overflow-auto">
+                        <div class="list-group">
+                            {% if meetings_list %}
+                                {% for meeting in meetings_list %}
+                                    <div class="list-group-item border-secondary {% if meeting.has_passed%} bg-light-red {% elif meeting.is_currently_ongoing %} bg-green {% endif %}">
+                                        <span class="float-left w-25">{{meeting.start_time_str}} - {{meeting.end_time_str}}</span>
+                                        <span class="float-left w-25 ml-5">{{meeting.name}}</span>
+                                        <span class="float-right w-25">Room: {{meeting.room.public_name}}</span>
+                                    </div>
+                                {% endfor %}
+                            {% else%}
+                                <span class="h5 align-self-center mt-5">No upcoming meetings</span>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
+            {% else %}
+                <div class="h-50 w-75 mx-auto mt-5 text-center">
+                    <div class="h1 text-danger mt-5">This account's location is not set!</div>
+                    <div class="text-dark h3">You will not be able to book rooms before setting it.</div>
+                    <div class="text-dark h5">You can do so by editing your account or clicking <a href="{% url 'edit_account'%}">here.</a></div>
+                </div>
+            {% endif %}
 
-            </div>
             
         </div>
 
