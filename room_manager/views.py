@@ -145,6 +145,11 @@ def configure_floors_view(request, *args, **kwargs):
 
 
 # login + admin only
+def near_buildings_view(request, *args, **kwargs):
+    return render(request, 'room_manager/admin/near_buildings.html')
+
+
+# login + admin only
 def system_constants_view(request, *args, **kwargs):
     if request.method == 'POST':
         meeting_form = MeetingRoomDistanceForm(request.POST)
