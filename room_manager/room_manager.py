@@ -1,7 +1,8 @@
 from datetime import datetime, date, timedelta
 from django.contrib.auth.models import User
 from accounts.models import Profile
-from .models import Meeting
+from .models import Meeting, SystemConstants
+from .meeting_distance_types import MeetingDistanceTypes
 from accounts.user_types import UserTypes
 
 class RoomManager:
@@ -12,7 +13,7 @@ class RoomManager:
         if creator.profile.floor is None:
             return None, "Can't book a room as your location has not been set!"
 
-        chosen_room = RoomManager.__choose_smallest_free_room(number_attendees, start_date, start_time, duration)
+        chosen_room = RoomManager.__choose_smallest_free_room(number_attendees, start_date, start_time, duration, creator.profile)
 
         if chosen_room is None:
             return None, 'There is no free room for the chosen time!'
@@ -21,12 +22,23 @@ class RoomManager:
         
 
     @staticmethod
-    def __choose_smallest_free_room(number_attendees: int, start_date: datetime.date, start_time: datetime.time, duration: int) -> Profile:
+    def __choose_smallest_free_room(number_attendees: int, start_date: datetime.date, start_time: datetime.time, duration: int, creator_profile: Profile) -> Profile:
         rooms = Profile.objects.filter(type__exact=UserTypes.room).filter(capacity__gte=number_attendees).order_by('capacity')
 
         # todo1: synchronization?
-        RoomManager.__print_free_rooms(rooms, start_date, start_time, duration)
+
+        # print("--- Print all free rooms ---")
+        # RoomManager.__print_free_rooms(rooms, start_date, start_time, duration)
+
+        rooms = RoomManager.__filter_rooms_by_distance(rooms, creator_profile)
         
+        # print("--- All rooms after distance is set ---")
+        # for r in rooms:
+        #     print(f"Room {r.public_name} with capacity {r.capacity}")
+        
+        print("--- Free rooms after distance is set ---")
+        RoomManager.__print_free_rooms(rooms, start_date, start_time, duration)
+
         # rooms are sorted by capacity, so the first free room will be the smallest one possible
         for room in rooms:
             if room.is_free(start_date, start_time, duration):
@@ -35,11 +47,30 @@ class RoomManager:
 
 
     @staticmethod
-    def __filter_rooms_by_distance(rooms):
-        filter_rooms_lambda = lambda x: x
-
+    def __filter_rooms_by_distance(rooms, creator_profile):
+        # only check rooms that have location set
+        location_rooms = [room for room in rooms if room.floor is not None]
         
+        filter_rooms_lambda = lambda room: True
+        constants = SystemConstants.get_constants()
 
+        if constants.distance_type == MeetingDistanceTypes.same_floor:
+            print("Distance type: same floor")
+            filter_rooms_lambda = lambda room: bool(room.floor.id == creator_profile.floor.id)
+        elif constants.distance_type == MeetingDistanceTypes.same_building:
+            print("Distance type: same building")
+            filter_rooms_lambda = lambda room: bool(room.floor.building.id == creator_profile.floor.building.id)
+        elif constants.distance_type == MeetingDistanceTypes.number_floors:
+            floors_distance = constants.distance_floors
+            print(f"Distance type: number floors {floors_distance}")
+            filter_rooms_lambda = lambda room: bool(room.floor.building.id == creator_profile.floor.building.id \
+                and abs(room.floor.actual_floor - creator_profile.floor.actual_floor)<=floors_distance)
+        elif constants.distance_type == MeetingDistanceTypes.near_buildings:
+            # todo
+            pass
+
+
+        return [r for r in location_rooms if filter_rooms_lambda(r)]
 
     # for testing purposes
     @staticmethod
