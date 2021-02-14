@@ -19,7 +19,7 @@ from django.contrib.auth.models import User
 from accounts.models import Profile
 from django.http import HttpResponse
 from .forms import AccountInfoForm
-from .admin_forms import CreateBuildingForm, ChooseBuildingForm, MeetingRoomDistanceForm
+from .admin_forms import CreateBuildingForm, ChooseBuildingForm, MeetingRoomDistanceForm, NearbyBuildingsForm
 from .room_forms import BookNowForm, EditRoomForm
 import json
 
@@ -147,8 +147,9 @@ def configure_floors_view(request, *args, **kwargs):
 # login + admin only
 def near_buildings_view(request, *args, **kwargs):
     nearby_buildings = Building.all_nearby_buildings_list()
-    
-    context = {'nearby_buildings': nearby_buildings}
+    form = NearbyBuildingsForm()
+
+    context = {'nearby_buildings': nearby_buildings, 'form': form}
     return render(request, 'room_manager/admin/near_buildings.html', context)
 
 

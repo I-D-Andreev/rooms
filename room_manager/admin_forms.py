@@ -46,3 +46,8 @@ class MeetingRoomDistanceForm(forms.Form):
                 print(e)
 
         return False
+
+
+class NearbyBuildingsForm(forms.Form):
+    building1 = forms.ModelChoiceField(queryset=Building.objects.all(), empty_label='', required=True)
+    building2 = forms.ModelChoiceField(queryset=Building.objects.all(), empty_label='', required=True)
