@@ -66,11 +66,18 @@ class RoomManager:
             filter_rooms_lambda = lambda room: bool(room.floor.building.id == creator_profile.floor.building.id \
                 and abs(room.floor.actual_floor - creator_profile.floor.actual_floor)<=floors_distance)
         elif constants.distance_type == MeetingDistanceTypes.near_buildings:
-            # todo
-            pass
-
+            print("Distance type: near buildings")
+            building_ids = RoomManager.__get_near_building_ids(creator_profile)
+            print(f"Near building ids: {building_ids}")
+            filter_rooms_lambda = lambda room: bool(room.floor.building.id in building_ids)
 
         return [r for r in location_rooms if filter_rooms_lambda(r)]
+
+    @staticmethod
+    def __get_near_building_ids(creator_profile):
+        near_buildings = [creator_profile.floor.building] + list(creator_profile.floor.building.close_buildings.all())
+        return  set([building.id for building in near_buildings])
+
 
     # for testing purposes
     @staticmethod
