@@ -75,7 +75,7 @@
                     </div>
 
 
-                    <div class="w-100 mt-2">
+                    <div id="alert_holder" class="w-100 mt-3">
                         {% if messages %}
                             <div class="mt-4 w-100">
                                 {% for message in messages %}
@@ -92,4 +92,10 @@
         </div>
     </div>
 </div>
+
+{% csrf_token %}
+<script>
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+</script>
+
 {% endblock %}

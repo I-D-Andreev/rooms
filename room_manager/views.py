@@ -279,6 +279,21 @@ def book_now_view(request, *args, **kwargs):
 
 
 # --------------- REST API ---------------
+def near_buildings_pair(request, building_id1, building_id2, *args, **kwargs):
+    building1 = Building.objects.filter(pk=building_id1).first() 
+    building2 = Building.objects.filter(pk=building_id2).first() 
+
+    if (request.method == 'DELETE') and (building_id1 is not None) and (building_id2 is not None):
+        try:
+            building1.close_buildings.remove(building2)
+            return HttpResponse(status=200)
+        except Exception as e:
+            print(f"Error: {e}")
+            return HttpResponse(status=500)
+    else:
+        raise Http404()
+
+
 def get_room(request, profile_id, *args, **kwargs):
     room = Profile.objects.filter(pk=profile_id).first()
 

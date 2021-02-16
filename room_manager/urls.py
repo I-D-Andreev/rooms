@@ -51,5 +51,6 @@ urlpatterns = [
     path('get-building-floors/<int:id>', get_building_floors, name="get_building_floors"),
     path('get-building-floors', get_all_building_floors, name="get_all_building_floors"),
     path('save-building-floors/<int:id>', save_building_floors, name="save_building_floors"),
+    path('near-buildings-pair/<int:building_id1>/<int:building_id2>', near_buildings_pair, name="delete_near_building_pair"),
 
 ]
