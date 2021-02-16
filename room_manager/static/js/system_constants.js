@@ -12,7 +12,8 @@ $(document).ready(function(){
 
     INITIAL_DATA = {
         "type": typeSelect.val(),
-        "floors": $("#id_floors").val()
+        "floors": $("#id_floors").val(),
+        "infer": $("#id_infer_nearby_buildings").is(":checked")
     }
 
     $("#cancel_button").on("click", cancelButtonClicked);
@@ -24,6 +25,7 @@ function cancelButtonClicked(){
     let typeSelect = $("#id_type");
     typeSelect.val(INITIAL_DATA.type);
     $("id_floors").val(INITIAL_DATA.floors);
+    $("#id_infer_nearby_buildings").prop('checked', INITIAL_DATA.infer)
 
     typeSelect.trigger("change");
 }
