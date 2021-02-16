@@ -23,7 +23,10 @@
             <div class="w-100 h-100">
                 <div class="w-100 h-50 p-2">
                     {% for building1,building2 in  nearby_buildings %}
-                        <div>{{building1}} - {{building2}}</div>
+                        <div id="{{building1.id}}_{{building2.id}}" class="text-center p-2">
+                           <span class="h5 text-dark font-weight-bold"> {{building1}} - {{building2}}</span>
+                            <span class="cursor-pointer" onclick="crossClicked('{{building1.id}}', '{{building2.id}}')"><i class="text-danger fas fa-times-circle fa-lg"></i></span>
+                        </div>
                     {% endfor %}
                 </div>
                 
