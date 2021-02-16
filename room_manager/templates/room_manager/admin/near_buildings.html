@@ -42,19 +42,34 @@
             </div>
 
             <div class="w-100 h-100">
-                <div class="w-100 h-50 p-2 overflow-auto">
-                    {% for building1,building2 in  nearby_buildings %}
-                        <div id="{{building1.id}}_{{building2.id}}_div" class="text-center p-2">
-                            <span id="{{building1.id}}_{{building2.id}}_pair" class="h5 text-dark font-weight-bold">{{building1}} - {{building2}}</span>
-                            <span class="cursor-pointer" onclick="crossClicked('{{building1.id}}', '{{building2.id}}')"><i class="text-danger fas fa-times-circle fa-lg"></i></span>
-                        </div>
+                <div class="w-100 h-55 p-2 overflow-auto">
+                    {% for building1,building2,is_direct in  nearby_buildings %}
+                        {% if is_direct %}
+                            <div id="{{building1.id}}_{{building2.id}}_div" class="text-center p-2">
+                                <span id="{{building1.id}}_{{building2.id}}_pair" class="h5 text-dark font-weight-bold">{{building1}} - {{building2}}</span>
+                                <span class="cursor-pointer" onclick="crossClicked('{{building1.id}}', '{{building2.id}}')"><i class="text-danger fas fa-times-circle fa-lg"></i></span>
+                            </div>
+                        {% endif %}
                     {% endfor %}
+
+                    {% if shouldInfer %}
+                        <hr class="bg-secondary w-75">
+                        {% for building1,building2,is_direct in  nearby_buildings %}
+                            {% if not is_direct %}
+                                <div id="{{building1.id}}_{{building2.id}}_div" class="text-center p-2" name="inferred">
+                                    <span id="{{building1.id}}_{{building2.id}}_pair" class="h5 text-dark font-weight-bold">{{building1}} - {{building2}}</span>
+                                    <span class="ml-2 font-italic">(inferred)</span>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
                 </div>
                 
                 <form action="{% url 'near_buildings' %}" method="POST">
                     {% csrf_token %}
 
-                    <div class="card w-100 mt-3">
+                    <div class="card w-100 mt-5">
                         <div class="card-header w-100 text-dark h4 text-center bg-light-gray">Add near-buildings pair:</div>
                         <div class="card-body row p-4">
                             <div class="col-4 offset-2">

@@ -12,7 +12,7 @@ from django.contrib import messages
 from .user_forms import BookRoomForm, DeleteMeetingForm, ChooseRoomForm
 from .room_manager import RoomManager
 from django.http import JsonResponse
-from .models import Meeting
+from .models import Meeting, SystemConstants
 from .location_models import Building, Floor
 from datetime import datetime
 from django.contrib.auth.models import User
@@ -161,8 +161,11 @@ def near_buildings_view(request, *args, **kwargs):
             messages.error(request, message)
 
     form = NearbyBuildingsForm()
-    nearby_buildings = Building.all_nearby_building_pairs_list()
-    context = {'nearby_buildings': nearby_buildings, 'form': form}
+    # todo1 change to infer_nearby_buildings_constant
+    shouldInfer = SystemConstants.get_constants().infer_nearby_buildings
+
+    nearby_buildings = Building.all_nearby_building_pairs_list(shouldInfer)
+    context = {'nearby_buildings': nearby_buildings, 'shouldInfer': shouldInfer, 'form': form}
     return render(request, 'room_manager/admin/near_buildings.html', context)
 
 

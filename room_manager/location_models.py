@@ -60,21 +60,33 @@ class Building(models.Model):
 
         return near_buildings
 
+    def is_directly_nearby(self, building):
+        return bool(building in self.close_buildings.all())
 
     @staticmethod
-    def all_nearby_building_pairs_list():
+    def all_nearby_building_pairs_list(shouldInfer):
         nearby_buildings_list = []
         already_appeared = set()
 
         buildings = Building.objects.all()
         
         for building in buildings:
-            for close_building in building.close_buildings.all():
-                if ((building.id, close_building.id) not in already_appeared) and ((close_building.id, building.id) not in already_appeared):
+            close_buildings = building.get_near_buildings_infer() if shouldInfer else building.get_near_buildings()
+
+            for close_building in close_buildings:
+                if building.id != close_building.id \
+                    and ((building.id, close_building.id) not in already_appeared) \
+                    and ((close_building.id, building.id) not in already_appeared):
+                    
                     already_appeared.add((building.id, close_building.id))
-                    nearby_buildings_list.append((building, close_building))
+                    nearby_buildings_list.append((building, close_building, building.is_directly_nearby(close_building)))
 
         return nearby_buildings_list
+
+
+
+
+
 
 class Floor(models.Model):
     building = models.ForeignKey(Building, null=False, on_delete=models.CASCADE, related_name='floors')
