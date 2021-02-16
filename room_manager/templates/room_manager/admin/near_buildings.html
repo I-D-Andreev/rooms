@@ -21,7 +21,7 @@
             </div>
 
             <div class="w-100 h-100">
-                <div class="w-100 h-50 p-2">
+                <div class="w-100 h-50 p-2 overflow-auto">
                     {% for building1,building2 in  nearby_buildings %}
                         <div id="{{building1.id}}_{{building2.id}}" class="text-center p-2">
                            <span class="h5 text-dark font-weight-bold"> {{building1}} - {{building2}}</span>
