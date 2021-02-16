@@ -12,10 +12,35 @@
 {% endblock %}
 
 {% block content %}
+<div class="modal fade" id="confirm_delete" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        
+            <div class="modal-header">
+                <h5 class="modal-title text-dark">Confirm delete</h5>
+            </div>
+            
+            <!-- <div class="modal-body">
+                <textarea id="floor_name_textarea" class="form-control" rows="1" style="resize: none;" required></textarea>
+            </div> -->
+
+            <div class="modal-body">
+                <p id="confirm_delete_text">Do you want to delete the pair?</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button id="delete_pair" type="button" class="btn btn-primary">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="content w-100 h-100 d-flex">
     <div class="row h-85 w-50 align-self-center mx-auto">
 
-        <div class="col-10 m-auto h-100">
+        <div class="col-10 m-auto h-100 min-width-400">
             <div class="w-100 text-dark h3 text-center pb-2">
                 Buildings In Close Proximity
             </div>
@@ -23,8 +48,8 @@
             <div class="w-100 h-100">
                 <div class="w-100 h-50 p-2 overflow-auto">
                     {% for building1,building2 in  nearby_buildings %}
-                        <div id="{{building1.id}}_{{building2.id}}" class="text-center p-2">
-                           <span class="h5 text-dark font-weight-bold"> {{building1}} - {{building2}}</span>
+                        <div id="{{building1.id}}_{{building2.id}}_div" class="text-center p-2">
+                            <span id="{{building1.id}}_{{building2.id}}_pair" class="h5 text-dark font-weight-bold">{{building1}} - {{building2}}</span>
                             <span class="cursor-pointer" onclick="crossClicked('{{building1.id}}', '{{building2.id}}')"><i class="text-danger fas fa-times-circle fa-lg"></i></span>
                         </div>
                     {% endfor %}
