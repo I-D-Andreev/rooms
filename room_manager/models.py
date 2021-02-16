@@ -81,6 +81,7 @@ class Meeting(models.Model):
 class SystemConstants(models.Model):
     distance_type = models.CharField(choices=MeetingDistanceTypes.as_choice_list(), max_length=255)
     distance_floors = models.PositiveIntegerField()
+    infer_nearby_buildings = models.BooleanField()
 
 
     @staticmethod
@@ -95,7 +96,7 @@ class SystemConstants(models.Model):
 
     @staticmethod
     def __create_default_constants():
-        return SystemConstants.objects.create(distance_type=MeetingDistanceTypes.same_building, distance_floors=0)
+        return SystemConstants.objects.create(distance_type=MeetingDistanceTypes.same_building, distance_floors=0, infer_nearby_buildings=False)
 
 
     @staticmethod
