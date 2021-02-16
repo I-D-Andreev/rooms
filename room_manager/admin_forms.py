@@ -25,6 +25,7 @@ class ChooseBuildingForm(forms.Form):
 class MeetingRoomDistanceForm(forms.Form):
     type = forms.CharField(widget=forms.Select(choices=MeetingDistanceTypes.as_choice_list()))
     floors = forms.IntegerField(min_value=0, required=True)
+    infer_nearby_buildings = forms.BooleanField(required=True)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -32,6 +33,7 @@ class MeetingRoomDistanceForm(forms.Form):
         constants = SystemConstants.get_constants()
         self.fields['type'].initial = constants.distance_type
         self.fields['floors'].initial = constants.distance_floors
+        self.fields['infer_nearby_buildings'].initial = constants.infer_nearby_buildings
 
 
     def update_data(self):
