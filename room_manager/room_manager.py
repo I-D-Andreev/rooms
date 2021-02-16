@@ -4,6 +4,8 @@ from accounts.models import Profile
 from .models import Meeting, SystemConstants
 from .meeting_distance_types import MeetingDistanceTypes
 from accounts.user_types import UserTypes
+from .location_models import Building
+from queue import Queue
 
 class RoomManager:
     @staticmethod
@@ -67,8 +69,14 @@ class RoomManager:
                 and abs(room.floor.actual_floor - creator_profile.floor.actual_floor)<=floors_distance)
         elif constants.distance_type == MeetingDistanceTypes.near_buildings:
             print("Distance type: near buildings")
-            building_ids = RoomManager.__get_near_building_ids(creator_profile)
+            
+            inb = SystemConstants.get_constants().infer_nearby_buildings
+            print(f"Infer nearby buildings : {inb}")
+
+            building_ids = RoomManager.__get_near_building_ids_infer(creator_profile) if inb \
+                else RoomManager.__get_near_building_ids(creator_profile)
             print(f"Near building ids: {building_ids}")
+
             filter_rooms_lambda = lambda room: bool(room.floor.building.id in building_ids)
 
         return [r for r in location_rooms if filter_rooms_lambda(r)]
@@ -77,6 +85,33 @@ class RoomManager:
     def __get_near_building_ids(creator_profile):
         near_buildings = [creator_profile.floor.building] + list(creator_profile.floor.building.close_buildings.all())
         return  set([building.id for building in near_buildings])
+
+    @staticmethod
+    def __get_near_building_ids_infer(creator_profile):
+        near_buildings = RoomManager.get_near_buildings_infer(creator_profile.floor.building)
+        return set([nb.id for nb in near_buildings])
+        
+
+    @staticmethod
+    def get_near_buildings_infer(building):
+        # BFS
+        # For each building, add all its close_buildings that are not yet in
+        # the near_buildings set.
+        q = Queue()
+        near_buildings = set()
+
+        q.put(building)
+
+        while not q.empty():
+            building = q.get()
+            near_buildings.add(building)
+
+            for b in list(building.close_buildings.all()):
+                if b not in near_buildings:
+                    q.put(b)
+
+        return near_buildings
+
 
 
     # for testing purposes
