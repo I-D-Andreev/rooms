@@ -100,14 +100,17 @@ class SystemConstants(models.Model):
 
 
     @staticmethod
-    def update_meeting_room_distance_constants(distance_type: str, distance_floors:int = 0):
+    def update_meeting_room_distance_constants(distance_type: str, distance_floors:int, infer_nearby_buildings: bool):
         if distance_type != MeetingDistanceTypes.number_floors:
             distance_floors = 0
         
-        print(distance_type)
-        print(distance_floors)
+        if distance_type != MeetingDistanceTypes.near_buildings:
+            infer_nearby_buildings = False
+
 
         constants = SystemConstants.get_constants()
         constants.distance_type = distance_type
         constants.distance_floors = distance_floors
+        constants.infer_nearby_buildings = infer_nearby_buildings
+
         constants.save()

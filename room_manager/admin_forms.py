@@ -41,8 +41,9 @@ class MeetingRoomDistanceForm(forms.Form):
             try:
                 cleaned_type = self.cleaned_data['type']
                 cleaned_floors = int(self.cleaned_data['floors'])
-                
-                SystemConstants.update_meeting_room_distance_constants(cleaned_type, cleaned_floors) 
+                cleaned_infer = self.cleaned_data['infer_nearby_buildings']
+
+                SystemConstants.update_meeting_room_distance_constants(cleaned_type, cleaned_floors, cleaned_infer) 
                 return True
             except Exception as e:
                 print(e)
