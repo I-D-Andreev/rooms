@@ -1,14 +1,18 @@
-var SHOULD_SHOW_ID = "Specific Number Of Floors";
+var SHOULD_SHOW_FLOORS_ID = "Specific Number Of Floors";
+var SHOULD_SHOW_INFER_ID = "This And Nearby Buildings";
+
 var INITIAL_DATA = null;
 
 $(document).ready(function(){
     let typeSelect = $("#id_type");
-    showOrHideFloors(typeSelect.val() == SHOULD_SHOW_ID)
     
     typeSelect.on("change", function(){
         let selectId = this.value;
-        showOrHideFloors(selectId===SHOULD_SHOW_ID);
+        showOrHideFloors(selectId===SHOULD_SHOW_FLOORS_ID);
+        showOrHideInfer(selectId===SHOULD_SHOW_INFER_ID);
     });
+
+    typeSelect.trigger('change');
 
     INITIAL_DATA = {
         "type": typeSelect.val(),
@@ -32,8 +36,7 @@ function cancelButtonClicked(){
 
 
 function showOrHideFloors(shouldShow){
-    
-    let floorsInput = $("#floors_holder");
+    let floorsHolder = $("#floors_holder");
     let floors = $("#id_floors")
 
     if(floors.val() === ""){
@@ -41,8 +44,18 @@ function showOrHideFloors(shouldShow){
     }
 
     if(shouldShow){
-        floorsInput.show();
+        floorsHolder.show();
     } else {
-        floorsInput.hide();
+        floorsHolder.hide();
+    }
+}
+
+function showOrHideInfer(shouldShow){
+    let inferHolder = $("#infer_holder");
+
+    if(shouldShow){
+        inferHolder.show();
+    } else {
+        inferHolder.hide();
     }
 }

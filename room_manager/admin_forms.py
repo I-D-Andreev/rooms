@@ -25,7 +25,7 @@ class ChooseBuildingForm(forms.Form):
 class MeetingRoomDistanceForm(forms.Form):
     type = forms.CharField(widget=forms.Select(choices=MeetingDistanceTypes.as_choice_list()))
     floors = forms.IntegerField(min_value=0, required=True)
-    infer_nearby_buildings = forms.BooleanField(required=True)
+    infer_nearby_buildings = forms.BooleanField(required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
