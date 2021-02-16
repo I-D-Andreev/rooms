@@ -85,7 +85,7 @@
     cursor: pointer;
 }
 
-.unfocus-button-click:focus {
+.unfocus-click:focus {
     outline: none;
     box-shadow: none;
 }
