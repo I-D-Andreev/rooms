@@ -146,9 +146,22 @@ def configure_floors_view(request, *args, **kwargs):
 
 # login + admin only
 def near_buildings_view(request, *args, **kwargs):
-    nearby_buildings = Building.all_nearby_buildings_list()
-    form = NearbyBuildingsForm()
+    
+    if request.method == 'POST':
+        form = NearbyBuildingsForm(request.POST)
 
+        result = False
+        message = 'Failed to add the building pair!'
+        if form.is_valid():
+            result, message = form.add_near_buildings_pair()
+        
+        if result:
+            messages.success(request, message)
+        else:
+            messages.error(request, message)
+
+    form = NearbyBuildingsForm()
+    nearby_buildings = Building.all_nearby_buildings_list()
     context = {'nearby_buildings': nearby_buildings, 'form': form}
     return render(request, 'room_manager/admin/near_buildings.html', context)
 

@@ -5,6 +5,9 @@
 {% block head %}
 
     <title>Configure Near Buildings</title>
+    <script src="{% static 'js/fading_alert.js' %}"></script>
+    <script src="{% static 'js/near_buildings.js' %}"></script>
+
 
 {% endblock %}
 
@@ -23,26 +26,43 @@
                         <div>{{building1}} - {{building2}}</div>
                     {% endfor %}
                 </div>
+                
+                <form action="{% url 'near_buildings' %}" method="POST">
+                    {% csrf_token %}
+
+                    <div class="card w-100 mt-3">
+                        <div class="card-header w-100 text-dark h4 text-center bg-light-gray">Add near-buildings pair:</div>
+                        <div class="card-body row p-4">
+                            <div class="col-4 offset-2">
+                                <label class="mb-1 text-dark w-100">{{form.building1.label}}</label>
+                                {% render_field form.building1 class="form-control" %}
+                            </div>
     
-                <div class="card w-100 mt-3">
-                    <div class="card-header w-100 text-dark h4 text-center bg-light-gray">Add near-buildings pair:</div>
-                    <div class="card-body row p-4">
-                        <div class="col-4 offset-2">
-                            <label class="mb-1 text-dark w-100">{{form.building1.label}}</label>
-                            {% render_field form.building1 class="form-control" %}
-                        </div>
-
-                        <div class="col-4">
-                            <label class="mb-1 text-dark w-100">{{form.building2.label}}</label>
-                            {% render_field form.building2 class="form-control" %}
-                        </div>
-                        <div class="col-2"></div>
-
-                        <div class="text-right col-10 mt-3">
-                            <button class="btn btn-primary">Add</button>
+                            <div class="col-4">
+                                <label class="mb-1 text-dark w-100">{{form.building2.label}}</label>
+                                {% render_field form.building2 class="form-control" %}
+                            </div>
+                            <div class="col-2"></div>
+    
+                            <div class="text-right col-10 mt-3">
+                                <button class="btn btn-primary">Add</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+
+
+                    <div class="w-100 mt-2">
+                        {% if messages %}
+                            <div class="mt-4 w-100">
+                                {% for message in messages %}
+                                    <div class="alert {% if 'error' in message.tags %} alert-danger {% else %} alert-success {% endif %} mt-2 w-75 text-center mx-auto">
+                                        {{message}}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                         {% endif %}
+                    </div>
+                </form>
             </div>
             
         </div>
