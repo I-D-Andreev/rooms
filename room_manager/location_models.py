@@ -1,7 +1,7 @@
 import builtins
 from django.db import models
 from django.db import transaction
-
+from queue import Queue
 
 class Building(models.Model):
     name = models.CharField(max_length=150, unique=True)
@@ -40,9 +40,29 @@ class Building(models.Model):
             print(e)
             return False
 
+    def get_near_buildings(self):
+        return [self] + list(self.close_buildings.all())
+
+
+    def get_near_buildings_infer(self):
+        q = Queue()
+        near_buildings = set()
+
+        q.put(self)
+
+        while not q.empty():
+            building = q.get()
+            near_buildings.add(building)
+
+            for b in list(building.close_buildings.all()):
+                if b not in near_buildings:
+                    q.put(b)
+
+        return near_buildings
+
 
     @staticmethod
-    def all_nearby_buildings_list():
+    def all_nearby_building_pairs_list():
         nearby_buildings_list = []
         already_appeared = set()
 

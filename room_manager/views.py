@@ -161,7 +161,7 @@ def near_buildings_view(request, *args, **kwargs):
             messages.error(request, message)
 
     form = NearbyBuildingsForm()
-    nearby_buildings = Building.all_nearby_buildings_list()
+    nearby_buildings = Building.all_nearby_building_pairs_list()
     context = {'nearby_buildings': nearby_buildings, 'form': form}
     return render(request, 'room_manager/admin/near_buildings.html', context)
 
