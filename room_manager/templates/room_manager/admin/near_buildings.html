@@ -42,7 +42,7 @@
             </div>
 
             <div class="w-100 h-100">
-                <div class="w-100 h-55 p-2 overflow-auto">
+                <div id="pairs_holder" class="w-100 h-55 p-2 overflow-auto">
                     {% for building1,building2,is_direct in  nearby_buildings %}
                         {% if is_direct %}
                             <div id="{{building1.id}}_{{building2.id}}_div" class="text-center p-2">
@@ -56,8 +56,8 @@
                         <hr class="bg-secondary w-75">
                         {% for building1,building2,is_direct in  nearby_buildings %}
                             {% if not is_direct %}
-                                <div id="{{building1.id}}_{{building2.id}}_div" class="text-center p-2" name="inferred">
-                                    <span id="{{building1.id}}_{{building2.id}}_pair" class="h5 text-dark font-weight-bold">{{building1}} - {{building2}}</span>
+                                <div class="text-center p-2" name="inferred">
+                                    <span class="h5 text-dark font-weight-bold">{{building1}} - {{building2}}</span>
                                     <span class="ml-2 font-italic">(inferred)</span>
                                 </div>
                             {% endif %}

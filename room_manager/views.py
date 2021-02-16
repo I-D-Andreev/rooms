@@ -289,7 +289,20 @@ def near_buildings_pair(request, building_id1, building_id2, *args, **kwargs):
     if (request.method == 'DELETE') and (building_id1 is not None) and (building_id2 is not None):
         try:
             building1.close_buildings.remove(building2)
-            return HttpResponse(status=200)
+
+            data = "[]"
+            shouldInfer = SystemConstants.get_constants().infer_nearby_buildings
+
+            if shouldInfer:
+                all_pairs = Building.all_nearby_building_pairs_list(shouldInfer)
+                inferred_pair = [pair for pair in all_pairs if not pair[2]]
+                data = json.dumps(
+                    [{
+                        'building1_name': inf_pair[0].name,
+                        'building2_name': inf_pair[1].name,
+                    } for inf_pair in inferred_pair])
+
+            return HttpResponse(data, status=200, content_type="application/json")
         except Exception as e:
             print(f"Error: {e}")
             return HttpResponse(status=500)
