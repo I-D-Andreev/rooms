@@ -22,6 +22,8 @@ $(document).ready(function(){
 
     $("#cancel_button").on("click", cancelButtonClicked);
 
+    $('[data-toggle="tooltip"]').tooltip()
+    
     fadePythonMessages();
 });
 

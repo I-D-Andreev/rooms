@@ -47,7 +47,14 @@
                             <div id="infer_holder" class="ml-3 row">
                                     <div class="align-items-end d-inline-flex ml-3 mt-2">
                                      {% render_field meeting_form.infer_nearby_buildings class="form-control unfocus-click" style="width:20px; height=20px;"%}
-                                    <span class="h6 ml-2">Infer Nearby Buildings</span>
+                                    <span class="h6 ml-2">Infer Nearby Buildings 
+                                    <i class="far fa-question-circle fa-md ml-1" data-toggle="tooltip" data-placement="right" 
+                                    title="The system will automatically infer nearby buildings based on the provided pairs.
+                                    If building 'A' is close to building 'B', and building 'B' is close to building 'C',
+                                    then the system will infer that building 'A' is also close to building 'C'.
+                                    You will still be able to add the 'A - C' pair manually, even if it is already inferred."></i>
+                                </span>
+                                    
                                 </div> 
                             </div>
 
