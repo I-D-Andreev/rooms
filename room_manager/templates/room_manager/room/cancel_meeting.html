@@ -1,0 +1,30 @@
+{% extends 'navbar.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block head %}
+    <title>Cancel Meeting</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="content w-100 h-100">
+    <div class="row w-100 h-100 p-0 m-0">
+        <form action="" method="POST" class="col-xl-3 col-lg-4 col-md-6 col-sm-7 col-xs-10 mx-auto d-flex bg-info">
+            {% csrf_token %}
+        
+        </form>
+
+        {% if messages %}
+            <div class="col-sm-3 col-xs-2 w-100 h-100 d-flex">
+                {% for message in messages %}
+                    <div class="align-self-center alert {% if 'error' in message.tags %} alert-danger {% else %} alert-success {% endif %} mt-2 w-75 text-center mx-auto">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

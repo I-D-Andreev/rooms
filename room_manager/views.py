@@ -292,13 +292,17 @@ def book_now_view(request, *args, **kwargs):
 
 
 # login + room only
-def nearest_room_view(request, *args, **kwargs):
+def nearest_room_view(request, *args, **kwargs): # Similar Rooms
     room_profile = request.user.profile
     rooms = RoomManager.get_free_rooms(room_profile.capacity, room_profile)
 
     context = {'rooms': rooms}
     return render(request, 'room_manager/room/nearest_room.html', context)
 
+# login + room only
+def cancel_meeting_view(request, *args, **kwargs):
+    return render(request, 'room_manager/room/cancel_meeting.html')
+    
 
 # --------------- REST API ---------------
 def near_buildings_pair(request, building_id1, building_id2, *args, **kwargs):

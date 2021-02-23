@@ -43,6 +43,7 @@ urlpatterns = [
     # room
     path('dashboard/book-now', book_now_view, name="book_now"),
     path('dashboard/similar-rooms', nearest_room_view, name="nearest_room"),
+    path('dashboard/cancel_meeting', cancel_meeting_view, name="cancel_meeting"),
 
     
     # user REST api
