@@ -1,9 +1,10 @@
-from django.forms.widgets import PasswordInput
+from django.contrib.auth import authenticate
 from room_manager.room_manager import RoomManager
 from django import forms
 from django.db import transaction
 
 from .location_models import Floor, Building
+from .models import Meeting
 from accounts.models import Profile
 from accounts.user_types import UserTypes
 
@@ -45,8 +46,8 @@ class EditRoomForm(forms.Form):
 
 class CancelMeetingForm(forms.Form):
     meeting = forms.CharField(widget=None, label='Choose a Meeting')
-    username = forms.CharField()
-    password = forms.CharField(widget=forms.PasswordInput, required=False)
+    username = forms.CharField(required=False)
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'autocomplete': 'off'}), required=False)
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
@@ -65,3 +66,33 @@ class CancelMeetingForm(forms.Form):
         meetings = RoomManager.get_room_meetings_list_from_now(self.room)
         return [(meeting.id, str(meeting)) for meeting in meetings]
 
+    def try_cancel_meeting(self):
+        if self.is_valid():
+            cleaned_data = self.cleaned_data
+            
+            meeting_id = cleaned_data['meeting']
+            password = cleaned_data['password']
+
+            meeting = Meeting.objects.filter(pk=meeting_id).first()
+            if meeting:
+                
+                # Instant-bookings to be canceled by everyone
+                if meeting.creator.type == UserTypes.room:
+                    return self.__try_delete_meeting(meeting)
+
+                username = meeting.creator.user.username
+                user = authenticate(username=username, password=password)
+
+                if user and user.id == meeting.creator.user.id:
+                    return self.__try_delete_meeting(meeting)
+
+        return False
+
+
+
+    def __try_delete_meeting(self, meeting: Meeting):
+        resp = meeting.delete()
+        if resp[0] >= 1:
+            return True
+        
+        return False

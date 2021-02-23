@@ -259,11 +259,8 @@ def multi_room_schedule_view(request, *args, **kwargs):
 # login + room only
 def book_now_view(request, *args, **kwargs):
     profile_id = request.POST.get('id', None) if request.method == "POST" else request.GET.get('id', None)
-    profile = None if not profile_id else Profile.objects.get(pk=profile_id)
+    profile = None if not profile_id else Profile.objects.filter(pk=profile_id).first()
 
-    print("--------------------")
-    print(f"Profile id: {profile_id}")
-    print(f"Request type: {request.method}")
 
     if request.method == 'POST':
         form = BookNowForm(request.POST)
@@ -302,7 +299,20 @@ def nearest_room_view(request, *args, **kwargs): # Similar Rooms
 # login + room only
 def cancel_meeting_view(request, *args, **kwargs):
     form = CancelMeetingForm(user=request.user)
-    
+
+    if request.method == "POST":
+        form = CancelMeetingForm(request.POST, user=request.user)
+
+        if form.is_valid():
+            resp = form.try_cancel_meeting()
+
+        
+        if resp:
+            messages.success(request, "Successfully cancelled the meeting!")
+            form = CancelMeetingForm(user=request.user)
+        else:
+            messages.error(request, "Failed to cancel the meeting!")
+
     context = {'form': form}
     return render(request, 'room_manager/room/cancel_meeting.html', context)
     
