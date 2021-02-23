@@ -280,6 +280,10 @@ def book_now_view(request, *args, **kwargs):
     return render(request, 'room_manager/room/book_now.html', context)
 
 
+# login + room only
+def nearest_room_view(request, *args, **kwargs):
+    return render(request, 'room_manager/room/nearest_room.html')
+
 
 # --------------- REST API ---------------
 def near_buildings_pair(request, building_id1, building_id2, *args, **kwargs):
