@@ -4,8 +4,8 @@ from accounts.models import Profile
 from .meeting_distance_types import MeetingDistanceTypes
 
 class Meeting(models.Model):
-    creator = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='user_meetings')
-    room = models.ForeignKey(Profile, null=True, on_delete=models.SET_NULL, related_name='meetings')
+    creator = models.ForeignKey(Profile, null=True, on_delete=models.CASCADE, related_name='user_meetings')
+    room = models.ForeignKey(Profile, null=True, on_delete=models.CASCADE, related_name='meetings')
     name = models.CharField(max_length=150)
     start_date = models.DateField()
     start_time = models.TimeField()
