@@ -13,9 +13,18 @@
         <form action="" method="POST" class="col-xl-3 col-lg-4 col-md-6 col-sm-7 col-xs-10 mx-auto d-flex">
             {% csrf_token %}
 
+            {% if profile %}
+            <input type="hidden" name="id" value="{{profile.id}}"/>
+            
+            {% endif %}
+
             <div class="card align-self-center">
                 <span class="card-header bg-primary text-white text-center h4">
+                    {% if profile %}
+                    Book {{ profile.public_name }}
+                    {% else %}
                     Book Room Now
+                    {% endif %}
                 </span>
                 
                 <div class="card-body bg-white">

@@ -258,7 +258,12 @@ def multi_room_schedule_view(request, *args, **kwargs):
 
 # login + room only
 def book_now_view(request, *args, **kwargs):
-    form = BookNowForm()
+    profile_id = request.POST.get('id', None) if request.method == "POST" else request.GET.get('id', None)
+    profile = None if not profile_id else Profile.objects.get(pk=profile_id)
+
+    print("--------------------")
+    print(f"Profile id: {profile_id}")
+    print(f"Request type: {request.method}")
 
     if request.method == 'POST':
         form = BookNowForm(request.POST)
@@ -268,15 +273,21 @@ def book_now_view(request, *args, **kwargs):
             meeting_name = cleaned_data['meeting_name']
             duration = cleaned_data['duration']
 
-            meeting = RoomManager.try_book_room_now(request.user, meeting_name, duration)
+            # If valid id is passed, book the room with specified id, else book current room.
+            room_to_book = request.user
+            if profile:
+                room_to_book = profile.user
+
+            meeting = RoomManager.try_book_room_now(room_to_book, meeting_name, duration)
 
             if meeting is not None:
-                return redirect(dashboard_view, *args, **kwargs)
+                messages.success(request, f"Room {room_to_book.profile.public_name} booked successfully!")
+            else:
+                messages.error(request, "Booking failed!")
 
-        
-        messages.error(request, "Booking failed!")
-    
-    context = {'form': form}
+    form = BookNowForm()
+         
+    context = {'form': form, 'profile': profile}
     return render(request, 'room_manager/room/book_now.html', context)
 
 
