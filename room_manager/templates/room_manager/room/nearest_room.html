@@ -15,8 +15,10 @@
             </div>
             <div class="h-60 w-100 list-group overflow-auto mt-2">
                 {% for room in rooms%}
-                    <div class="list-group-item w-75 mx-auto border-secondary">
-                        <span>{{room.public_name}} (capacity: {{room.capacity}}) - {{room.floor}}</span>
+                    <div class="list-group-item w-85 mx-auto border-secondary text-center">
+                        <span class="float-left ">{{room.public_name}} ({{room.capacity}}) </span>
+                        <span>{{room.floor}}</span>
+                        <button class="btn btn-primary float-right btn-small button-rounded-borders">Book</button>
                     </div>
                 {% empty %}
                     <div class="text-center mt-2 w-75 mx-auto">

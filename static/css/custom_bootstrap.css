@@ -10,6 +10,10 @@
     width: 66.66%;
 }
 
+.w-85 {
+    width: 85%;
+}
+
 .h-12 {
     height: 12.5%;
 }
@@ -17,7 +21,6 @@
 .h-15 {
     height: 15%;
 }
-
 
 .h-33 {
     height: 33.33%;
@@ -79,6 +82,13 @@
     border-radius: 35px;
     font-size: 12px;
     text-align: center;
+}
+
+.button-rounded-borders {
+    padding: 4px 10px;
+    border-radius: 15px;
+    text-align: center;
+    
 }
 
 .bg-green {
