@@ -55,6 +55,9 @@ class CancelMeetingForm(forms.Form):
 
         choices_list = [('', '')] + self.__meeting_choice_list()
         self.fields['meeting'].widget = forms.Select(choices=choices_list)
+        
+        # Will be populated by us with the meeting creator's name
+        self.fields['username'].disabled = True
 
 
     def __meeting_choice_list(self):

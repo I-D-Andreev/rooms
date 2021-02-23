@@ -22,13 +22,21 @@
                 
                 <div class="card-body bg-white">
                     <div class="w-60 mx-auto mt-0">
-                        {% for field in form %}
-                            <div class="form-row p-1">
-                                <label class="mb-0 text-dark w-100">{{field.label}}</label>
-                                {% render_field field class="form-control" %}
-                            </div>
-                        {% endfor %}
-                        
+
+                        <div class="form-row p-1">
+                            <label class="mb-0 text-dark w-100">{{form.meeting.label}}</label>
+                            {% render_field form.meeting class="form-control" %}
+                        </div>
+
+                        <div id="vis_invis_holder">
+                            {% for field in form.visible_fields|slice:"1:" %}
+                                <div class="form-row p-1">
+                                    <label class="mb-0 text-dark w-100">{{field.label}}</label>
+                                    {% render_field field class="form-control" %}
+                                </div>
+                            {% endfor %}
+                            
+                        </div>
                         <div class="text-right">
                             <button class="btn btn-primary mt-2">Cancel Meeting</button>
                         </div>

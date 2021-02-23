@@ -3,11 +3,12 @@ $(document).ready(function(){
         meetingId = this.value;
         if(meetingId === ''){
             console.log("empty");
+            loadData(null);
         } else {
             $.ajax({
                 url: `/get-meeting-creator/${meetingId}`,
                 success: function(data){
-                    // loadMeeting(data.room, data.start_date, data.start_time, data.duration, data.participants_count);
+                    loadData(data);
                     console.log(data);
                 },
                 error: function(err){
@@ -16,13 +17,33 @@ $(document).ready(function(){
             });
         }
     });
+
+    $('#id_meeting').trigger('change');
 });
 
 
-function loadMeeting(room, start_date, start_time, duration, participants_count){
-    // $('#id_room').val(room); 
-    // $('#id_start_date').val(start_date); 
-    // $('#id_start_time').val(start_time);
-    // $('#id_duration').val(duration);
-    // $('#id_participants_count').val(participants_count);
+function loadData(data){
+    if(data){
+        if(data.account_type !== "room"){
+            showHideAuthenticationFields(true);
+            $("#id_username").val(data.creator_username);
+            // $("#id_password").focus();
+        }
+        else {
+            showHideAuthenticationFields(false);
+        }
+
+    } else {
+        showHideAuthenticationFields(false);
+    }
 }
+
+function showHideAuthenticationFields(shouldShow){
+    let holder = $("#vis_invis_holder");
+    if(shouldShow){
+        holder.show();
+    } else {
+        holder.hide();
+    }
+}
+
