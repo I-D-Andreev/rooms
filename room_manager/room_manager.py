@@ -23,19 +23,8 @@ class RoomManager:
         
 
     @staticmethod
-    def __choose_smallest_free_room(number_attendees: int, start_date: datetime.date, start_time: datetime.time, duration: int, creator_profile: Profile) -> Profile:
-        rooms = Profile.objects.filter(type__exact=UserTypes.room).filter(capacity__gte=number_attendees).order_by('capacity')
-
-        # todo1: synchronization?
-
-        # print("--- Print all free rooms ---")
-        # RoomManager.__print_free_rooms(rooms, start_date, start_time, duration)
-
-        rooms = RoomManager.__filter_rooms_by_distance(rooms, creator_profile)
-        
-        # print("--- All rooms after distance is set ---")
-        # for r in rooms:
-        #     print(f"Room {r.public_name} with capacity {r.capacity}")
+    def __choose_smallest_free_room(number_attendees: int, start_date: datetime.date, start_time: datetime.time, duration: int, user_profile: Profile) -> Profile:
+        rooms = RoomManager.get_free_rooms(number_attendees, user_profile)
         
         print("--- Free rooms after distance is set ---")
         RoomManager.__print_free_rooms(rooms, start_date, start_time, duration)
@@ -45,6 +34,16 @@ class RoomManager:
             if room.is_free(start_date, start_time, duration):
                 return room
         return None
+
+
+    @staticmethod
+    def get_free_rooms(number_attendees: int, user_profile: Profile):
+        rooms = Profile.objects.filter(type__exact=UserTypes.room).filter(capacity__gte=number_attendees).order_by('capacity')
+        # todo1: synchronization? atomicity?
+
+        rooms = RoomManager.__filter_rooms_by_distance(rooms, user_profile)
+
+        return rooms
 
 
     @staticmethod
