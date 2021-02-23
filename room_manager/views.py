@@ -283,12 +283,8 @@ def book_now_view(request, *args, **kwargs):
 # login + room only
 def nearest_room_view(request, *args, **kwargs):
     room_profile = request.user.profile
-    # print(room_profile)
     rooms = RoomManager.get_free_rooms(room_profile.capacity, room_profile)
 
-    # for r in rooms:
-    #     print(f"Free room {r.public_name}  ({r.capacity})  - {r.floor}")
-    
     context = {'rooms': rooms}
     return render(request, 'room_manager/room/nearest_room.html', context)
 
