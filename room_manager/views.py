@@ -379,6 +379,19 @@ def get_meeting(request, id, *args, **kwargs):
             'participants_count': '',
         })
 
+def get_meeting_creator(request, id, *args, **kwargs):
+    meeting = Meeting.objects.filter(pk=id).first()
+
+    if meeting is not None:
+        return JsonResponse({
+            'meeting_id': id,
+            'creator_user_id': meeting.creator.user.id,
+            'creator_username': meeting.creator.user.username,
+            'account_type': meeting.creator.type
+        })
+    else:
+        raise Http404
+
 
 def get_room_schedule(request, id, *args, **kwargs):
     profile = Profile.objects.filter(pk=id).first()

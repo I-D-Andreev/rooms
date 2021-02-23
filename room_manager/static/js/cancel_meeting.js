@@ -1,11 +1,11 @@
 $(document).ready(function(){
     $('#id_meeting').on('change', function(){
-        mId = this.value;
-        if(mId === ''){
+        meetingId = this.value;
+        if(meetingId === ''){
             console.log("empty");
         } else {
             $.ajax({
-                url: `/get-meeting/${mId}`,
+                url: `/get-meeting-creator/${meetingId}`,
                 success: function(data){
                     // loadMeeting(data.room, data.start_date, data.start_time, data.duration, data.participants_count);
                     console.log(data);
