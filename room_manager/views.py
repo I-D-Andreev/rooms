@@ -20,7 +20,7 @@ from accounts.models import Profile
 from django.http import HttpResponse
 from .forms import AccountInfoForm
 from .admin_forms import CreateBuildingForm, ChooseBuildingForm, MeetingRoomDistanceForm, NearbyBuildingsForm
-from .room_forms import BookNowForm, EditRoomForm
+from .room_forms import BookNowForm, EditRoomForm, CancelMeetingForm
 import json
 
 # --------------- Views ---------------
@@ -294,14 +294,17 @@ def book_now_view(request, *args, **kwargs):
 # login + room only
 def nearest_room_view(request, *args, **kwargs): # Similar Rooms
     room_profile = request.user.profile
-    rooms = RoomManager.get_free_rooms(room_profile.capacity, room_profile)
+    rooms = RoomManager.get_rooms_free_now(room_profile.capacity, room_profile)
 
     context = {'rooms': rooms}
     return render(request, 'room_manager/room/nearest_room.html', context)
 
 # login + room only
 def cancel_meeting_view(request, *args, **kwargs):
-    return render(request, 'room_manager/room/cancel_meeting.html')
+    form = CancelMeetingForm(user=request.user)
+    
+    context = {'form': form}
+    return render(request, 'room_manager/room/cancel_meeting.html', context)
     
 
 # --------------- REST API ---------------

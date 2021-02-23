@@ -1,3 +1,4 @@
+from room_manager.room_manager import RoomManager
 from django import forms
 from django.db import transaction
 
@@ -39,3 +40,26 @@ class EditRoomForm(forms.Form):
                 print(ex)
 
         return False
+
+
+class CancelMeetingForm(forms.Form):
+    meeting = forms.CharField(widget=None, label='Choose a Meeting')
+    username = forms.CharField()
+    password = forms.CharField()
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super(CancelMeetingForm, self).__init__(*args, **kwargs)
+    
+        self.room = user
+
+        # choose some random big number that will never exist as a meeting ID,
+        # as Django doesn't allow negative integers in URL
+        choices_list = [(3812731892738916, '')] + self.__meeting_choice_list()
+        self.fields['meeting'].widget = forms.Select(choices=choices_list)
+
+
+    def __meeting_choice_list(self):
+        meetings = RoomManager.get_room_meetings_list_from_now(self.room)
+        return [(meeting.id, str(meeting)) for meeting in meetings]
+
