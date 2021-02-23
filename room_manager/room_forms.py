@@ -1,3 +1,4 @@
+from django.forms.widgets import PasswordInput
 from room_manager.room_manager import RoomManager
 from django import forms
 from django.db import transaction
@@ -45,7 +46,7 @@ class EditRoomForm(forms.Form):
 class CancelMeetingForm(forms.Form):
     meeting = forms.CharField(widget=None, label='Choose a Meeting')
     username = forms.CharField()
-    password = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput, required=False)
 
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')

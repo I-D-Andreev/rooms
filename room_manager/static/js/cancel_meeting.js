@@ -9,7 +9,6 @@ $(document).ready(function(){
                 url: `/get-meeting-creator/${meetingId}`,
                 success: function(data){
                     loadData(data);
-                    console.log(data);
                 },
                 error: function(err){
                     console.log(err);
@@ -23,11 +22,12 @@ $(document).ready(function(){
 
 
 function loadData(data){
+    passwordField = $("#id_password")
     if(data){
         if(data.account_type !== "room"){
             showHideAuthenticationFields(true);
             $("#id_username").val(data.creator_username);
-            // $("#id_password").focus();
+            passwordField.val("");
         }
         else {
             showHideAuthenticationFields(false);
@@ -40,10 +40,16 @@ function loadData(data){
 
 function showHideAuthenticationFields(shouldShow){
     let holder = $("#vis_invis_holder");
+    passwordField = $("#id_password")
+    
     if(shouldShow){
         holder.show();
+        passwordField.prop('required', true);
+
     } else {
+        passwordField.prop('required', false);
         holder.hide();
+
     }
 }
 
