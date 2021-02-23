@@ -43,7 +43,7 @@ class RoomManager:
 
         rooms = RoomManager.__filter_rooms_by_distance(rooms, user_profile)
 
-        return rooms
+        return [room for room in rooms if room.is_free_now()]
 
 
     @staticmethod
