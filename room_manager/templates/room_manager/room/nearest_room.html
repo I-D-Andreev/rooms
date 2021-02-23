@@ -17,8 +17,10 @@
                 {% for room in rooms%}
                     <div class="list-group-item w-85 mx-auto border-secondary text-center">
                         <span class="float-left ">{{room.public_name}} ({{room.capacity}}) </span>
+                        <span class="float-left ml-3">To: {{room.free_up_to_formatted}}  </span>
+                        
                         <span>{{room.floor}}</span>
-                        <button class="btn btn-primary float-right btn-small button-rounded-borders">Book</button>
+                        <button class="btn btn-primary float-right btn-small button-rounded-borders" onclick="redirect({{room.id}});">Book</button>
                     </div>
                 {% empty %}
                     <div class="text-center mt-2 w-75 mx-auto">
@@ -29,5 +31,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    const bookUrl = "{% url 'book_now' %}";
+    function redirect(id){
+        let bookUrlId = `${bookUrl}?id=${id}`;
+        location.href = bookUrlId;
+    }
+</script>
 
 {% endblock %}

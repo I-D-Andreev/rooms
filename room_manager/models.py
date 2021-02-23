@@ -67,6 +67,9 @@ class Meeting(models.Model):
         now = datetime.now().astimezone()
         return (now >= self.start_date_time() and now <= self.end_date_time())
 
+    def in_future(self):
+        return (not self.has_passed()) and (not self.is_currently_ongoing())
+
     def background_colour(self):
         if self.is_currently_ongoing():
             if self.creator is None:

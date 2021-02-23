@@ -67,3 +67,28 @@ class Profile(models.Model):
                 return meeting
         
         return None
+
+
+    def free_up_to(self) -> time:
+        if self.type != UserTypes.room:
+            return None
+        
+        
+        current_date_time = datetime.now().astimezone()
+        future_meetings_today = [meeting for meeting in self.meetings.all()
+             if meeting.in_future() and meeting.start_date == current_date_time.date()]
+        
+        up_to = time(hour=23, minute=59)
+        for fm in future_meetings_today:
+            up_to = min(up_to, fm.start_date_time().time())
+
+        return up_to
+
+    def free_up_to_formatted(self) -> str:
+        return self.__format_time(self.free_up_to())
+
+
+    def __format_time(self, time: datetime.time):
+        hours = f"0{time.hour}" if time.hour < 10 else f"{time.hour}"
+        minutes = f"0{time.minute}" if time.minute < 10 else f"{time.minute}"
+        return f"{hours}:{minutes}"
