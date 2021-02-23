@@ -24,10 +24,10 @@ class RoomManager:
 
     @staticmethod
     def __choose_smallest_free_room(number_attendees: int, start_date: datetime.date, start_time: datetime.time, duration: int, user_profile: Profile) -> Profile:
-        rooms = RoomManager.get_free_rooms(number_attendees, user_profile)
+        rooms = RoomManager.__get_close_enough_rooms(number_attendees, user_profile)
         
-        print("--- Free rooms after distance is set ---")
-        RoomManager.__print_free_rooms(rooms, start_date, start_time, duration)
+        print(f"--- Rooms after distance is set | {start_date} | {start_time} ---")
+        RoomManager.__print_rooms(rooms, start_date, start_time, duration)
 
         # rooms are sorted by capacity, so the first free room will be the smallest one possible
         for room in rooms:
@@ -37,14 +37,17 @@ class RoomManager:
 
 
     @staticmethod
-    def get_free_rooms(number_attendees: int, user_profile: Profile) -> list:
-        rooms = Profile.objects.filter(type__exact=UserTypes.room).filter(capacity__gte=number_attendees).order_by('capacity')
-        # todo1: synchronization? atomicity?
-
-        rooms = RoomManager.__filter_rooms_by_distance(rooms, user_profile)
-
+    def get_rooms_free_now(number_attendees: int, user_profile: Profile) -> list:
+        rooms = RoomManager.__get_close_enough_rooms(number_attendees, user_profile)
         return [room for room in rooms if room.is_free_now()]
 
+
+    @staticmethod
+    def __get_close_enough_rooms(number_attendees: int, user_profile: Profile) -> list:
+        # todo1: synchronization? atomicity?
+        rooms = Profile.objects.filter(type__exact=UserTypes.room).filter(capacity__gte=number_attendees).order_by('capacity')
+        rooms = RoomManager.__filter_rooms_by_distance(rooms, user_profile)
+        return rooms
 
     @staticmethod
     def __filter_rooms_by_distance(rooms, creator_profile):
@@ -96,7 +99,7 @@ class RoomManager:
 
     # for testing purposes
     @staticmethod
-    def __print_free_rooms(rooms, start_date: datetime.date, start_time: datetime.time, duration: int):
+    def __print_rooms(rooms, start_date: datetime.date, start_time: datetime.time, duration: int):
         for room in rooms:
             is_free = 'free' if room.is_free(start_date, start_time, duration) else 'not free'
             print(f"Room {room.public_name} (capacity {room.capacity}) is {is_free}")
@@ -138,6 +141,12 @@ class RoomManager:
                 filtered_meetings.append(meeting)
         
         return filtered_meetings
+
+    
+    @staticmethod
+    def get_room_meetings_list_from_now(room: User):
+        all_meetings = room.profile.meetings.all().order_by('start_date', 'start_time')
+        return [meeting for meeting in all_meetings if not meeting.has_passed()]
 
     
     @staticmethod
