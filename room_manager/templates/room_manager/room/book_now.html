@@ -14,8 +14,7 @@
             {% csrf_token %}
 
             {% if profile %}
-            <input type="hidden" name="id" value="{{profile.id}}"/>
-            
+                <input type="hidden" name="id" value="{{profile.id}}"/>
             {% endif %}
 
             <div class="card align-self-center">
