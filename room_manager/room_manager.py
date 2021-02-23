@@ -37,7 +37,7 @@ class RoomManager:
 
 
     @staticmethod
-    def get_free_rooms(number_attendees: int, user_profile: Profile):
+    def get_free_rooms(number_attendees: int, user_profile: Profile) -> list:
         rooms = Profile.objects.filter(type__exact=UserTypes.room).filter(capacity__gte=number_attendees).order_by('capacity')
         # todo1: synchronization? atomicity?
 
