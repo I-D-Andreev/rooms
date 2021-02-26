@@ -1,0 +1,58 @@
+{% extends 'navbar.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block head %}
+    <title>Logout</title>
+
+{% endblock %}
+
+
+{% block content %}
+<div class="content w-100 h-100">
+    <div class="row w-100 h-100 p-0 m-0">
+        <form action="" method="POST" class="col-xl-4 col-lg-4 col-md-7 col-sm-7 col-xs-10 mx-auto d-flex" autocomplete="off">
+            {% csrf_token %}
+
+            <div class="card align-self-center">
+                <div class="card-header bg-primary text-white text-center h4 p-2">
+                    Logout
+                </div>
+        
+                <div class="text-danger font-weight-bolder p-1 w-60 mx-auto mt-1">
+                    Authenticate as this room or any administrator to log out!
+                </div>
+        
+
+                <div class="card-body bg-white">
+                    <div class="w-60 mx-auto mt-0">
+                        {% for field in form %}
+                            <div class="form-row p-1">
+                                <label class="mb-0 text-dark w-100">{{field.label}}</label>
+                                {% render_field field class="form-control" %}
+                            </div>
+                        {% endfor %}
+                            
+                        <div class="text-right">
+                            <button class="btn btn-primary mt-2">Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+
+        {% if messages %}
+            <div class="col-sm-3 col-xs-2 w-100 h-100 d-flex">
+                {% for message in messages %}
+                    <div class="align-self-center alert {% if 'error' in message.tags %} alert-danger {% else %} alert-success {% endif %} mt-2 w-75 text-center mx-auto">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

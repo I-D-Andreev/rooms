@@ -96,3 +96,29 @@ class CancelMeetingForm(forms.Form):
             return True
         
         return False
+
+class RoomLogoutForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'autocomplete': 'off'}))
+
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super(RoomLogoutForm, self).__init__(*args, **kwargs)
+
+        self.room = user
+    
+    def try_logout(self):
+        if self.is_valid():
+            cleaned_data = self.cleaned_data
+
+            username = cleaned_data['username']
+            password  = cleaned_data['password']
+
+            user = authenticate(username=username, password=password)
+
+            if user:
+                if user.profile.type == UserTypes.admin or user.id == self.room.id:
+                    return True
+
+        return False
