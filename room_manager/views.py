@@ -3,7 +3,6 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from accounts.user_types import UserTypes
-from django.contrib import messages
 from .room_manager import RoomManager
 from django.http import JsonResponse
 from .models import Meeting, SystemConstants
@@ -12,7 +11,6 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from accounts.models import Profile
 from django.http import HttpResponse
-from .room_forms import CancelMeetingForm
 import json
 
 # --------------- Views ---------------
@@ -44,34 +42,6 @@ def multi_room_schedule_view(request, *args, **kwargs):
     context = {'list': multi_room_schedule_list}
     return render(request, 'room_manager/user/multi_room_schedule.html', context)
 
-# login + room only
-def nearest_room_view(request, *args, **kwargs): # Similar Rooms
-    room_profile = request.user.profile
-    rooms = RoomManager.get_rooms_free_now(room_profile.capacity, room_profile)
-
-    context = {'rooms': rooms}
-    return render(request, 'room_manager/room/nearest_room.html', context)
-
-# login + room only
-def cancel_meeting_view(request, *args, **kwargs):
-    form = CancelMeetingForm(user=request.user)
-
-    if request.method == "POST":
-        form = CancelMeetingForm(request.POST, user=request.user)
-
-        if form.is_valid():
-            resp = form.try_cancel_meeting()
-
-        
-        if resp:
-            messages.success(request, "Successfully cancelled the meeting!")
-            form = CancelMeetingForm(user=request.user)
-        else:
-            messages.error(request, "Failed to cancel the meeting!")
-
-    context = {'form': form}
-    return render(request, 'room_manager/room/cancel_meeting.html', context)
-    
 
 # --------------- REST API ---------------
 def near_buildings_pair(request, building_id1, building_id2, *args, **kwargs):
@@ -296,3 +266,4 @@ def __time_until_midnight(curr_time: datetime.time):
 from .user_statistics_views import *
 from .admin_views import *
 from .user_views import *
+from .room_views import *
