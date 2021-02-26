@@ -1,13 +1,11 @@
 {% extends 'statistics_template.html' %}
 {% load static %}
 
-{% block head %}
-    <title>Statistics</title>
+{% block statistics-head %}
+    <title>Statistics</title>   
 {% endblock %}
 
 {% block statistics-content %}
     <div class="w-100 h-100 bg-info">
-    <script src="{% static 'chartjs/Chart.bundle.min.js'%}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'chartjs/Chart.min.css' %}" />
     </div>
 {% endblock %}

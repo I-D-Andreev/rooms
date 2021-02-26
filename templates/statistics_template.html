@@ -1,6 +1,13 @@
 {% extends 'navbar.html' %}
 {% load static %}
 
+{% block head%}
+    <script src="{% static 'chartjs/Chart.bundle.min.js'%}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'chartjs/Chart.min.css' %}" />
+
+    {% block statistics-head%}
+    {% endblock statistics-head%}
+{% endblock%}
 
 
 {% block content %}
