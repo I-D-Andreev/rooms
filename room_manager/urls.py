@@ -32,13 +32,17 @@ urlpatterns = [
     path('dashboard/near-buildings', near_buildings_view, name="near_buildings"),
     path('dashboard/system-constants', system_constants_view, name="system_constants"),
 
+
     # user
     path('dashboard/book-room', book_room_view, name="book_room"),
     path('dashboard/cancel-booking', cancel_booking_view, name="cancel_booking"),
     path('dashboard/my-schedule', my_schedule_view, name="my_schedule"),
     path('dashboard/room-schedule', room_schedule_view, name="room_schedule"),
     path('dashboard/multi-room-schedule', multi_room_schedule_view, name="multi_room_schedule"),
+    # user statistics
     path('dashboard/statistics', statistics_view, name="statistics"),
+    path('dashboard/statistics/room-utilization', room_utilization_statistics_view, name="room_utilization_statistics"),
+
 
     # room
     path('dashboard/book-now', book_now_view, name="book_now"),
