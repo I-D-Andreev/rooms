@@ -156,7 +156,7 @@ function createFloorElement(name){
     let backgroundColour = nextBackgroundColour();
 
     let randomNum = Math.floor(Math.random() * 10000) + 12345;
-    let floorId = "floor_" + name + randomNum;
+    let floorId = "floor_" + filterName(name) + randomNum;
     return `
         <div id="${floorId}" class="row p-2">
             <div class="h4 col-4 text-center p-1 rounded ${backgroundColour}" name="floor">${name}</div>
@@ -198,4 +198,25 @@ function getCurrentFloors(){
     return $("[name='floor']").map(function(){
         return this.innerHTML;
     }).get();
+}
+
+function filterName(name){
+    // leave only letters and numbers in the name
+    let filtered = "";
+
+    for(let i=0; i<name.length; i++){
+        if(name[i]>='a' && name[i]<='z'){
+            filtered += name[i];
+        }
+
+        if(name[i]>='A' && name[i]<='Z'){
+            filtered += name[i];
+        }
+
+        if(name[i]>='0' && name[i]<='9'){
+            filtered += name[i];
+        }
+    }
+
+    return filtered
 }
