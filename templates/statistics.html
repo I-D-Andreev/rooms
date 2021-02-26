@@ -1,0 +1,41 @@
+{% extends 'navbar.html' %}
+{% load static %}
+
+
+
+{% block content %}
+<div class="row h-100 w-100">
+    <div class="col-sm-4 col-xl-2 px-4 ml-4">
+        <div class="mx-auto mt-5">
+            <h4 class="text-black-50 font-weight-bold">Types</h4>
+        </div>
+
+        <div class="nav flex-column ml-3">
+            <div class="nav-item container-fluid">
+                <a href="" class="nav-link text-dark bg-light">Main</a>
+            </div>
+
+            <div class="nav-item container-fluid">
+                <a href="" class="nav-link text-dark bg-light">One</a>
+            </div>
+            
+            <div class="nav-item container-fluid">
+                <a href="" class="nav-link text-dark bg-light">Two</a>
+            </div>
+
+            <div class="nav-item container-fluid">
+                <a href="" class="nav-link text-dark bg-light">Three</a>
+            </div>
+
+            <div class="nav-item container-fluid">
+                <a href="" class="nav-link text-dark bg-light">Four</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="content col-sm-8 col-xl-9 mt-5">
+        {% block statistics-content %}
+        {% endblock statistics-content %}
+    </div>
+</div>
+{% endblock %}
