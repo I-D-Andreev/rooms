@@ -1,4 +1,4 @@
-from datetime import datetime, date, timedelta
+from datetime import datetime, date, timedelta, time
 from django.db import models
 from accounts.models import Profile
 from .meeting_distance_types import MeetingDistanceTypes
@@ -86,6 +86,9 @@ class SystemConstants(models.Model):
     distance_floors = models.PositiveIntegerField()
     infer_nearby_buildings = models.BooleanField()
 
+    start_work_time = models.TimeField()
+    end_work_time = models.TimeField()
+
 
     @staticmethod
     def get_constants():
@@ -99,7 +102,15 @@ class SystemConstants(models.Model):
 
     @staticmethod
     def __create_default_constants():
-        return SystemConstants.objects.create(distance_type=MeetingDistanceTypes.same_building, distance_floors=0, infer_nearby_buildings=False)
+        distance_type  = MeetingDistanceTypes.same_building
+        distance_floors = 0
+        infer_nearby_buildings = False
+        start_work_time = time(hour=9, minute=0)
+        end_work_time = time(hour=18, minute=0)
+
+        return SystemConstants.objects.create(distance_type=distance_type, distance_floors=distance_floors,
+            infer_nearby_buildings=infer_nearby_buildings, start_work_time=start_work_time, end_work_time=end_work_time)
+        
 
 
     @staticmethod
