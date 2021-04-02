@@ -187,3 +187,8 @@ class RoomManager:
                 meetings_from_now.append(meeting)
         
         return meetings_from_now
+
+
+    @staticmethod
+    def get_all_rooms():
+        return Profile.objects.filter(type__exact=UserTypes.room)

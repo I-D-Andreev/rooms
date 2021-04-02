@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $('#id_room').on('change', function(){
-        roomId = this.value;
+        let roomId = this.value;
         if(roomId == ""){
             renderMeetingData([]);
         } else {

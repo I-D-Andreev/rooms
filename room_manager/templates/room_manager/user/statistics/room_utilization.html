@@ -1,5 +1,7 @@
 {% extends 'statistics_template.html' %}
 {% load static %}
+{% load widget_tweaks %}
+
 
 {% block statistics-head %}
     <title>Room Utilization Statistics</title>
@@ -8,8 +10,16 @@
 
 {% block statistics-content %}
 <div class="w-100 h-100">
-    <div class="w-50 h-50 mx-auto">
+    <div class="text-center mb-5">
+        <label class="mb-1 text-dark w-100">Choose a Room:</label>
+        {% render_field form.room class="form-control w-25 mx-auto" %}
+    </div>
+
+    <div id="chartHolder" class="w-50 h-50 mx-auto">
         <canvas id="chart"></canvas>
     </div>
 </div>
+
+{{daily_utilization|json_script:"daily_util"}}
+
 {% endblock %}

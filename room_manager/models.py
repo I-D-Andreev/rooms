@@ -71,6 +71,11 @@ class Meeting(models.Model):
     def in_future(self):
         return (not self.has_passed()) and (not self.is_currently_ongoing())
 
+    def happens_at_day(self, day: datetime.date):
+        if self.start_date > day or self.end_date() < day:
+            return False
+        return True
+
     def background_colour(self):
         if self.is_currently_ongoing():
             if self.creator is None:

@@ -92,3 +92,17 @@ class Profile(models.Model):
         hours = f"0{time.hour}" if time.hour < 10 else f"{time.hour}"
         minutes = f"0{time.minute}" if time.minute < 10 else f"{time.minute}"
         return f"{hours}:{minutes}"
+
+    
+    def minutes_booked_at(self, day: datetime.day):
+        if self.type != UserTypes.room:
+            return 0
+        
+        minutes_booked = 0
+
+        meetings = self.meetings.all()
+        for meeting in meetings:
+            if meeting.happens_at_day(day):
+                minutes_booked += meeting.duration
+        
+        return minutes_booked
