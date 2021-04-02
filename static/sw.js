@@ -61,8 +61,9 @@ self.addEventListener("fetch", event => {
                 console.log("Serve from cache: Returned response");
                 return response || fetch(event.request);
             })
-            .catch(() => {
+            .catch((ex) => {
                 console.log("Serve from cache: Error");
+                console.log(ex);
                 return caches.match('/offline/');
             })
     )
