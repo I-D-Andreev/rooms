@@ -40,7 +40,7 @@ urlpatterns = [
     path('dashboard/room-schedule', room_schedule_view, name="room_schedule"),
     path('dashboard/multi-room-schedule', multi_room_schedule_view, name="multi_room_schedule"),
     # user statistics
-    path('dashboard/statistics', statistics_view, name="statistics"),
+    # path('dashboard/statistics', statistics_view, name="statistics"),
     path('dashboard/statistics/room-utilization', room_utilization_statistics_view, name="room_utilization_statistics"),
 
 
