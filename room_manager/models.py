@@ -138,3 +138,18 @@ class SystemConstants(models.Model):
         constants.start_work_time = time(hour=start_hour, minute=start_min)
         constants.end_work_time = time(hour=end_hour, minute=end_min)
         constants.save()
+
+    
+    @staticmethod
+    def get_num_working_minutes():
+        constants = SystemConstants.get_constants()
+        start_min = constants.start_work_time.hour * 60 + constants.start_work_time.minute
+        end_min = constants.end_work_time.hour * 60 + constants.end_work_time.minute
+        
+
+        # Inverted work day/night shift.
+        if end_min < start_min:
+            end_min += 24 * 60
+        
+        return end_min - start_min
+        
