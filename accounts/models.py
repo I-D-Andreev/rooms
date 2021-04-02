@@ -95,14 +95,18 @@ class Profile(models.Model):
 
     
     def minutes_booked_at(self, day: datetime.day):
+        return self.minutes_booked_between(day, day)
+
+
+    def minutes_booked_between(self, start: datetime.date, end: datetime.date):
         if self.type != UserTypes.room:
             return 0
-        
+
         minutes_booked = 0
 
         meetings = self.meetings.all()
         for meeting in meetings:
-            if meeting.happens_at_day(day):
+            if meeting.happens_between(start,end):
                 minutes_booked += meeting.duration
         
         return minutes_booked

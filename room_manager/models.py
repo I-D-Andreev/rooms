@@ -72,7 +72,10 @@ class Meeting(models.Model):
         return (not self.has_passed()) and (not self.is_currently_ongoing())
 
     def happens_at_day(self, day: datetime.date):
-        if self.start_date > day or self.end_date() < day:
+        return self.happens_between(day, day)
+
+    def happens_between(self, start_date: datetime.date, end_date: datetime.date):
+        if self.start_date > end_date or self.end_date() < start_date:
             return False
         return True
 

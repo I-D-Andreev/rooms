@@ -5,6 +5,11 @@ var chart_monthly = null;
 $(document).ready(function(){
     const DAILY_UTILIZATION = JSON.parse(document.getElementById("daily_util").textContent);
     const DAYS = DAILY_UTILIZATION['days'];
+
+    const WEEKLY_UTILIZATION = JSON.parse(document.getElementById("weekly_util").textContent);
+    const WEEKS = WEEKLY_UTILIZATION['weeks'];
+
+
     let CHART_DAILY_ID = 'chart_daily';
     let CHART_WEEKLY_ID = 'chart_weekly';
     let CHART_MONTHLY_ID = 'chart_monthly';
@@ -29,11 +34,17 @@ $(document).ready(function(){
         else {
             // do stuff
             let roomName = $('#id_room :selected').text();
-            let data = DAILY_UTILIZATION[roomId];
-            if(data) {
-                chart_daily = createPercentageChart(CHART_DAILY_ID, DAYS, `${roomName} Daily Percentage Utilization`, data);
-                chart_weekly = createPercentageChart(CHART_WEEKLY_ID, DAYS, `${roomName} Weekly Percentage Utilization`, data);
-                chart_monthly = createPercentageChart(CHART_MONTHLY_ID, DAYS, `${roomName} Monthly Percentage Utilization`, data);
+            let daily_data = DAILY_UTILIZATION[roomId];
+            let weekly_data = WEEKLY_UTILIZATION[roomId]
+
+            if(daily_data) {
+                chart_daily = createPercentageChart(CHART_DAILY_ID, DAYS, `${roomName} Daily Percentage Utilization`, daily_data);
+                // TODO: move
+                chart_monthly = createPercentageChart(CHART_MONTHLY_ID, DAYS, `${roomName} Monthly Percentage Utilization`, daily_data);
+            }
+
+            if(weekly_data){
+                chart_weekly = createPercentageChart(CHART_WEEKLY_ID, WEEKS, `${roomName} Weekly Percentage Utilization`, weekly_data);
             }
         }
     });
