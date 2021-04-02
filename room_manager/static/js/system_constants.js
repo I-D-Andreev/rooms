@@ -17,23 +17,36 @@ $(document).ready(function(){
     INITIAL_DATA = {
         "type": typeSelect.val(),
         "floors": $("#id_floors").val(),
-        "infer": $("#id_infer_nearby_buildings").is(":checked")
+        "infer": $("#id_infer_nearby_buildings").is(":checked"),
+        "start_hour": $("#id_start_work_hour").val(),
+        "start_minute": $("#id_start_work_minute").val(),
+        "end_hour": $("#id_end_work_hour").val(),
+        "end_minute": $("#id_end_work_minute").val(),
     }
 
-    $("#cancel_button").on("click", cancelButtonClicked);
+    $("#cancel_button_room_distance").on("click", cancelButtonRoomDistanceClicked);
+    $("#cancel_button_work_hours").on("click", cancelButtonWorkHoursClicked);
 
     $('[data-toggle="tooltip"]').tooltip()
     
     fadePythonMessages();
 });
 
-function cancelButtonClicked(){
+function cancelButtonRoomDistanceClicked(){
     let typeSelect = $("#id_type");
     typeSelect.val(INITIAL_DATA.type);
     $("id_floors").val(INITIAL_DATA.floors);
     $("#id_infer_nearby_buildings").prop('checked', INITIAL_DATA.infer)
 
     typeSelect.trigger("change");
+}
+
+function cancelButtonWorkHoursClicked() {
+    $("#id_start_work_hour").val(INITIAL_DATA.start_hour);
+    $("#id_start_work_minute").val(INITIAL_DATA.start_minute);
+
+    $("#id_end_work_hour").val(INITIAL_DATA.end_hour);
+    $("#id_end_work_minute").val(INITIAL_DATA.end_minute);
 }
 
 

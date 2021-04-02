@@ -51,6 +51,29 @@ class MeetingRoomDistanceForm(forms.Form):
         return False
 
 
+
+class WorkingHoursForm(forms.Form):
+    start_work_hour = forms.IntegerField(min_value=0, max_value=24, label='Start hour:')
+    start_work_minute = forms.IntegerField(min_value=0, max_value=60, label='Start minute:')
+
+    end_work_hour = forms.IntegerField(min_value=0, max_value=24, label='End hour:')
+    end_work_minute = forms.IntegerField(min_value=0, max_value=60, label='End minute:')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        constants = SystemConstants.get_constants()
+        self.fields['start_work_hour'].initial = constants.start_work_time.hour
+        self.fields['start_work_minute'].initial = constants.start_work_time.minute
+
+        self.fields['end_work_hour'].initial = constants.end_work_time.hour
+        self.fields['end_work_minute'].initial = constants.end_work_time.minute
+
+
+
+
+
+
 class NearbyBuildingsForm(forms.Form):
     building1 = forms.ModelChoiceField(queryset=Building.objects.all(), empty_label='', required=True)
     building2 = forms.ModelChoiceField(queryset=Building.objects.all(), empty_label='', required=True)

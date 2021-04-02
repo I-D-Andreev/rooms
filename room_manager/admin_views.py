@@ -3,7 +3,7 @@ from accounts.forms import UserRegistrationForm
 from django.contrib import messages
 from accounts.user_types import UserTypes
 from .room_forms import EditRoomForm
-from .admin_forms import CreateBuildingForm, ChooseBuildingForm, NearbyBuildingsForm, MeetingRoomDistanceForm
+from .admin_forms import CreateBuildingForm, ChooseBuildingForm, NearbyBuildingsForm, MeetingRoomDistanceForm, WorkingHoursForm
 from .models import SystemConstants
 from .location_models import Building
 
@@ -118,5 +118,6 @@ def system_constants_view(request, *args, **kwargs):
             messages.error(request, "Failed to update!")
     
     meeting_form = MeetingRoomDistanceForm()
-    context = {'meeting_form': meeting_form}
+    working_hours = WorkingHoursForm()
+    context = {'meeting_form': meeting_form, 'working_hours_form' : working_hours}
     return render(request, 'room_manager/admin/system_constants.html', context)
