@@ -2,4 +2,7 @@ from django.contrib import admin
 
 from accounts.models import Profile
 
-admin.site.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    readonly_fields = ('id',)
+
+admin.site.register(Profile, ProfileAdmin)
