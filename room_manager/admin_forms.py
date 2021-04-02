@@ -70,7 +70,21 @@ class WorkingHoursForm(forms.Form):
         self.fields['end_work_minute'].initial = constants.end_work_time.minute
 
 
+    def update_data(self):
+        if self.is_valid():
+            try:
+                start_hour = self.cleaned_data['start_work_hour']
+                start_minute = int(self.cleaned_data['start_work_minute'])
+                
+                end_hour = self.cleaned_data['end_work_hour']
+                end_minute = int(self.cleaned_data['end_work_minute'])
 
+                SystemConstants.update_working_hours(start_hour, start_minute, end_hour, end_minute)
+                return True
+            except Exception as e:
+                print(e)
+
+        return False
 
 
 

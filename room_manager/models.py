@@ -1,5 +1,6 @@
 from datetime import datetime, date, timedelta, time
 from django.db import models
+from django.forms.models import construct_instance
 from accounts.models import Profile
 from .meeting_distance_types import MeetingDistanceTypes
 
@@ -127,4 +128,13 @@ class SystemConstants(models.Model):
         constants.distance_floors = distance_floors
         constants.infer_nearby_buildings = infer_nearby_buildings
 
+        constants.save()
+
+
+    @staticmethod
+    def update_working_hours (start_hour: int, start_min: int, end_hour: int, end_min: int):
+        constants = SystemConstants.get_constants()
+
+        constants.start_work_time = time(hour=start_hour, minute=start_min)
+        constants.end_work_time = time(hour=end_hour, minute=end_min)
         constants.save()

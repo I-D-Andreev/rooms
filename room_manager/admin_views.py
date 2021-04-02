@@ -106,17 +106,30 @@ def near_buildings_view(request, *args, **kwargs):
 # login + admin only
 def system_constants_view(request, *args, **kwargs):
     if request.method == 'POST':
-        meeting_form = MeetingRoomDistanceForm(request.POST)
         result = False
 
-        if meeting_form.is_valid():
-            result = meeting_form.update_data()
+        if request.POST.__contains__("type") or request.POST.__contains__("floors")\
+            or request.POST.__contains__("infer_nearby_buildings"):
+        
+            meeting_form = MeetingRoomDistanceForm(request.POST)
 
+            if meeting_form.is_valid():
+                result = meeting_form.update_data()
+
+        elif request.POST.__contains__("start_work_hour") or request.POST.__contains__("start_work_minute")\
+            or request.POST.__contains__("end_work_hour") or request.POST.__contains__("end_work_minute"):
+            
+            working_hours_form = WorkingHoursForm(request.POST)
+
+            if working_hours_form.is_valid():
+                result = working_hours_form.update_data()
+        
         if result:
             messages.success(request, "Successfully updated!")
         else:
             messages.error(request, "Failed to update!")
-    
+
+   
     meeting_form = MeetingRoomDistanceForm()
     working_hours = WorkingHoursForm()
     context = {'meeting_form': meeting_form, 'working_hours_form' : working_hours}
