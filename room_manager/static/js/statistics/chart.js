@@ -13,10 +13,9 @@ function __createChart(chartId, labels, chartLabel,  data, scales = null) {
         };
     }
 
+    var canvas = document.getElementById(chartId);
 
-    var ctx = document.getElementById(chartId);
-
-    var chart = new Chart(ctx, {
+    var chart = new Chart(canvas, {
         type: 'line',
         data: {
             labels: labels,
@@ -30,7 +29,7 @@ function __createChart(chartId, labels, chartLabel,  data, scales = null) {
             }]
         },
         options: {
-            responsive:true,
+            responsive: false,
             maintainAspectRatio: false,
             scales: scales,
         }
