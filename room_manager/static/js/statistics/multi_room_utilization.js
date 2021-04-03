@@ -1,14 +1,11 @@
-var UTILIZATION;
 $(document).ready(function(){
     $("#multi_room_utilization").css("font-weight", "bold");
 
-     UTILIZATION =  JSON.parse(document.getElementById("room_util").textContent);
+    const UTILIZATION =  JSON.parse(document.getElementById("room_util").textContent);
     const DAYS = UTILIZATION["days"];
 
     let areasHolder = $("#areas_holder");
     
-    console.log(UTILIZATION);
-
     for (let i=0; i < UTILIZATION.rooms.length; i++) {
         let chartId = `util_chart_${i}`;
         let roomId = UTILIZATION.rooms[i].id;
