@@ -16,4 +16,19 @@
         {% render_field form.room class="form-control w-25 mx-auto" %}
     </div>
 
+
+    <!-- Use non-responsive charts as they bug-out and stretch indefinitely. -->
+    <div class="w-50 mx-auto">
+        <canvas id="chart_daily" height="400" width="600" class="mt-5 mb-5"></canvas>
+    </div>
+
+    <div class="w-50 mx-auto">
+        <canvas id="chart_weekly" height="400" width="600" class="mt-5 mb-5"></canvas>
+    </div>
+
+    <div class="w-50 mx-auto">
+        <canvas id="chart_monthly" height="400" width="600" class="mt-5 mb-5"></canvas>
+    </div>
+</div>
+
 {% endblock %}
