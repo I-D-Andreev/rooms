@@ -26,7 +26,15 @@ def room_utilization_statistics_view(request, *args, **kwargs):
 
 
 def multi_room_utilization_statistics_view (request, *args, **kwargs):
-    return render(request, 'room_manager/user/statistics/multi_room_utilization.html')
+    rooms_utilization = __calculate_rooms_utilization_data_daily()
+    
+    # Additional info to be able to show the rooms
+    rooms = RoomManager.get_all_rooms()
+    dict_rooms = [{"id": r.id, "name": r.public_name} for r in rooms]
+    rooms_utilization["rooms"] = dict_rooms
+
+    context = {'rooms_utilization': rooms_utilization}
+    return render(request, 'room_manager/user/statistics/multi_room_utilization.html', context)
 
 
 

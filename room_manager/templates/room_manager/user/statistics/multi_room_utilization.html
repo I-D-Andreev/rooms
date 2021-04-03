@@ -11,7 +11,10 @@
 
 {% block statistics-content %}
 
-<div class="w-100 h-100 bg-info">
+<div id="areas_holder" class="row w-100 h-100">
 
 </div>
+
+{{rooms_utilization|json_script:"room_util"}}
+
 {% endblock %}
