@@ -24,6 +24,12 @@ def room_utilization_statistics_view(request, *args, **kwargs):
 
     return render(request, 'room_manager/user/statistics/room_utilization.html', context)
 
+
+def multi_room_utilization_statistics_view (request, *args, **kwargs):
+    return render(request, 'room_manager/user/statistics/multi_room_utilization.html')
+
+
+
 def __calculate_room_utilization_data_monthly():
     data = {}
     minutes_in_day = SystemConstants.get_num_working_minutes()
