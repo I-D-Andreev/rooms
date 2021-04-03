@@ -11,7 +11,7 @@ $(document).ready(function(){
     console.log(BUSIEST_DAILY)
 
     if (BUSIEST_DAILY) {
-        createChart(CHART_DAILY_ID, BUSIEST_DAILY.hours, "Busiest Hours Today", BUSIEST_DAILY.hours_count);
+        createBusiestHoursChart(CHART_DAILY_ID, BUSIEST_DAILY.hours, "Busiest Hours Today", BUSIEST_DAILY.hours_count);
     }
 
 

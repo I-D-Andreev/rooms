@@ -2,6 +2,45 @@ function createChart(chartId, labels, chartLabel,  data) {
     return __createChart(chartId, labels, chartLabel, data);
 }
 
+function createBusiestHoursChart(chartId, labels, chartLabel,  data) {
+    let scales = {
+        yAxes: [{
+            ticks: {
+                suggestedMin: 0,
+                suggestedMax: 20,
+            },
+            scaleLabel: {
+                display: true,
+                labelString: "Number of Bookings"
+            },
+        }]
+    };
+
+
+    return __createChart(chartId, labels, chartLabel,  data, scales)
+}
+
+
+function createPercentageChart(chartId, labels, chartLabel,  data) {
+    let scales = {
+        yAxes: [{
+            ticks: {
+                min: 0,
+                max: 100,
+                callback: (val) => {return val + "%";}
+            },
+        
+            scaleLabel: {
+                display: true,
+                labelString: "Percentage"
+            },
+        }]
+    };
+
+    return __createChart(chartId, labels, chartLabel, data, scales=scales);
+}
+
+
 function __createChart(chartId, labels, chartLabel,  data, scales = null) {
     if (!scales) {
         scales = {
@@ -36,25 +75,4 @@ function __createChart(chartId, labels, chartLabel,  data, scales = null) {
     });
 
     return chart;
-}
-
-
-function createPercentageChart(chartId, labels, chartLabel,  data) {
-    let scales = {
-        yAxes: [{
-            ticks: {
-                min: 0,
-                max: 100,
-                callback: (val) => {return val + "%";}
-            },
-        
-            scaleLabel: {
-                display: true,
-                labelString: "Percentage"
-            },
-        }]
-    };
-
-    
-    return __createChart(chartId, labels, chartLabel, data, scales=scales);
 }
