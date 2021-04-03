@@ -1,8 +1,9 @@
 from datetime import datetime, date, timedelta, time
+from room_manager.room_booking_type import RoomBookingTypes
 from django.db import models
-from django.forms.models import construct_instance
 from accounts.models import Profile
 from .meeting_distance_types import MeetingDistanceTypes
+from .location_models import Floor
 
 class Meeting(models.Model):
     creator = models.ForeignKey(Profile, null=True, on_delete=models.CASCADE, related_name='user_meetings')
@@ -166,7 +167,12 @@ class FailedBooking(models.Model):
     time = models.TimeField()
     duration = models.IntegerField()
     participants_count = models.PositiveIntegerField()
-    booking_type = models.TextField()
+    booking_type = models.CharField(choices=RoomBookingTypes.as_choice_list(), max_length=255)
+
+    # booking location info
+    floor = models.ForeignKey(Floor, on_delete=models.SET_NULL, null=True, related_name="failed_bookings")
+    distance_type = models.CharField(choices=MeetingDistanceTypes.as_choice_list(), max_length=255, null=True, blank=True)
+    infer_nearby_buildings = models.BooleanField(null=True, blank=True)
 
     def __str__(self) -> str:
         return f"{self.booking_type} - {self.date} ({self.participants_count})"

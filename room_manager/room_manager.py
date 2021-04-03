@@ -18,7 +18,10 @@ class RoomManager:
         chosen_room = RoomManager.__choose_smallest_free_room(number_attendees, start_date, start_time, duration, creator.profile)
 
         if chosen_room is None:
-            FailedBooking.objects.create(date=start_date, time=start_time, duration=duration, participants_count=number_attendees, booking_type=RoomBookingTypes.scheduled)
+            constants = SystemConstants.get_constants()
+            FailedBooking.objects.create(date=start_date, time=start_time, duration=duration,
+                participants_count=number_attendees, booking_type=RoomBookingTypes.scheduled,
+                floor=creator.profile.floor, distance_type=constants.distance_type, infer_nearby_buildings=constants.infer_nearby_buildings)
             return None, 'There is no free room for the chosen time!'
         
         return Meeting.objects.create(name=meeting_name, creator=creator.profile, room=chosen_room, start_date=start_date, start_time=start_time, duration=duration, participants_count=number_attendees), None
