@@ -9,6 +9,11 @@ $(document).ready(function(){
     const WEEKLY_UTILIZATION = JSON.parse(document.getElementById("weekly_util").textContent);
     const WEEKS = WEEKLY_UTILIZATION['weeks'];
 
+    const MONTHLY_UTILIZATION = JSON.parse(document.getElementById("monthly_util").textContent);
+    const MONTHS = MONTHLY_UTILIZATION['months'];
+
+    console.log(MONTHLY_UTILIZATION)
+
 
     let CHART_DAILY_ID = 'chart_daily';
     let CHART_WEEKLY_ID = 'chart_weekly';
@@ -32,19 +37,21 @@ $(document).ready(function(){
 
         }
         else {
-            // do stuff
             let roomName = $('#id_room :selected').text();
             let daily_data = DAILY_UTILIZATION[roomId];
-            let weekly_data = WEEKLY_UTILIZATION[roomId]
+            let weekly_data = WEEKLY_UTILIZATION[roomId];
+            let monthly_data = MONTHLY_UTILIZATION[roomId];
 
-            if(daily_data) {
+            if (daily_data) {
                 chart_daily = createPercentageChart(CHART_DAILY_ID, DAYS, `${roomName} Daily Percentage Utilization`, daily_data);
-                // TODO: move
-                chart_monthly = createPercentageChart(CHART_MONTHLY_ID, DAYS, `${roomName} Monthly Percentage Utilization`, daily_data);
             }
 
-            if(weekly_data){
+            if (weekly_data) {
                 chart_weekly = createPercentageChart(CHART_WEEKLY_ID, WEEKS, `${roomName} Weekly Percentage Utilization`, weekly_data);
+            }
+
+            if(monthly_data) {
+                chart_monthly = createPercentageChart(CHART_MONTHLY_ID, MONTHS, `${roomName} Monthly Percentage Utilization`, monthly_data);
             }
         }
     });

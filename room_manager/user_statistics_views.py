@@ -3,6 +3,8 @@ from .user_forms import ChooseRoomForm
 from .room_manager import RoomManager
 from .models import SystemConstants
 from datetime import datetime, timedelta
+from networkdays import networkdays
+from dateutil.relativedelta import relativedelta
 
 # @login_required(login_url='login')
 # @user_only
@@ -15,9 +17,37 @@ def room_utilization_statistics_view(request, *args, **kwargs):
 
     daily_percentage_utilization = __calculate_rooms_utilization_data_daily()
     weekly_percentage_utilization = __calculate_rooms_utilization_data_weekly()
-    
-    context = {'form': form, 'daily_utilization': daily_percentage_utilization, 'weekly_utilization': weekly_percentage_utilization}
+    monthly_percentage_utilization = __calculate_room_utilization_data_monthly()
+
+    context = {'form': form, 'daily_utilization': daily_percentage_utilization,
+                'weekly_utilization': weekly_percentage_utilization, 'monthly_utilization': monthly_percentage_utilization}
+
     return render(request, 'room_manager/user/statistics/room_utilization.html', context)
+
+def __calculate_room_utilization_data_monthly():
+    data = {}
+    minutes_in_day = SystemConstants.get_num_working_minutes()
+    last_seven_months = __last_seven_months_array()
+
+    rooms = RoomManager.get_all_rooms()
+
+    for room in rooms:
+        utilization_percentages = []
+        
+        for month in last_seven_months:
+            month_start = month[0]
+            month_end = month[1]
+
+            minutes_booked = room.minutes_booked_between(month_start, month_end)
+            work_days = __num_work_days_in_month(month_start, month_end)
+            utilization_percentages.append((minutes_booked / (work_days*minutes_in_day)) * 100)
+        
+        data.update({room.id: utilization_percentages})
+    
+    data["months"] = [f"Month {m[2]}" for m in last_seven_months]
+
+    return data
+
 
 def __calculate_rooms_utilization_data_weekly():
     data = {}
@@ -63,8 +93,6 @@ def __calculate_rooms_utilization_data_daily():
 
 
 def __last_seven_days_array():
-    print("Called")
-    print(f"Date: {datetime.now()}")
     start_date = datetime.now() - timedelta(days=6)
     last_seven_days = []
 
@@ -86,6 +114,30 @@ def __last_seven_weeks_array():
     
     return last_seven_weeks
 
+
+def __last_seven_months_array():
+    start_date = datetime.now().date() - relativedelta(months=6)
+    last_seven_months = []
+    
+    for _ in range(7):
+        st, en = __start_end_of_month(start_date)
+        last_seven_months.append((st,en, st.month))
+
+        start_date += relativedelta(months=1)
+    
+    return last_seven_months
+
+
+def __start_end_of_month(day: datetime):
+    month_start = day + relativedelta(day=1)
+    #  set to first day, add 1 month and remove 1 day
+    month_end = day + relativedelta(day=1, months=1, days=-1)
+
+    return month_start, month_end
+
+
+def __num_work_days_in_month(start: datetime.date, end: datetime.date):
+    return len(networkdays.Networkdays(start,end).networkdays())
 
 
 def __start_end_of_week(day: datetime):
