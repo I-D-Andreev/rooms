@@ -192,3 +192,46 @@ class RoomManager:
     @staticmethod
     def get_all_rooms():
         return Profile.objects.filter(type__exact=UserTypes.room)
+
+    @staticmethod
+    def get_all_meetings():
+        return Meeting.objects.all()
+
+    @staticmethod
+    def get_all_meetings_between(start: datetime.date, end: datetime.date):
+        meetings = RoomManager.get_all_meetings()
+        return [m for m in meetings if m.happens_between(start,end)]
+    
+    @staticmethod
+    def get_meetings_on(day: datetime.date):
+        return RoomManager.get_all_meetings_between(day, day)
+
+
+    # Calculate how many meetings happened at each hour of the hour list.
+    # meetings - list of meetings
+    # hour list - list of hours
+    # dict {hour1: count1, hour2: count2, ...}
+    @staticmethod
+    def meetings_during_hours(meetings, hours_list):
+        hours_count = {}
+        for hour in hours_list:
+            hours_count[hour] = 0
+        
+        for meeting in meetings:
+            start_hour = meeting.start_date_time()
+            # If 14:00 - 15:00, don't count 15:00 as meeting hour
+            end_hour = meeting.end_date_time() - timedelta(minutes=1)
+
+            curr_hour = start_hour.replace(minute=0, second=0, microsecond=0)
+
+            # Do-While Loop
+            while True:
+                if curr_hour.hour in hours_count:
+                    hours_count[curr_hour.hour] += 1
+
+                curr_hour += timedelta(hours=1)
+
+                if curr_hour > end_hour:
+                    break
+            
+        return hours_count

@@ -38,11 +38,33 @@ def multi_room_utilization_statistics_view (request, *args, **kwargs):
 
 
 # login + user only
-def room_busiest_hours_view(request, *args, **kwargs):
+def busiest_hours_view(request, *args, **kwargs):
     form = ChooseRoomForm()
-    context = {'form': form}
+
+    hours_daily = __calculate_room_busiest_hours_daily()
+
+    context = {'form': form, 'hours_daily': hours_daily}
     return render(request, 'room_manager/user/statistics/room_busiest_hours.html', context)
+
+
+# ------------------------ Helpers ------------------------
+# Note: The __calculate functions are in this (weird) format due to some parsing probems
+# and easier use in the javascript.
+
+def __calculate_room_busiest_hours_daily():
+    data = {}
     
+    work_hours = __work_hours_array()
+    meetings = RoomManager.get_meetings_on(datetime.now().date())
+
+    hours_count = RoomManager.meetings_during_hours(meetings, work_hours)
+
+    hours_count_array = [hours_count[h] for h in work_hours]
+
+    data["hours"] = work_hours
+    data["hours_count"] = hours_count_array
+
+    return data
 
 
 def __calculate_room_utilization_data_monthly():
@@ -148,6 +170,13 @@ def __last_seven_months_array():
     
     return last_seven_months
 
+def __work_hours_array():
+    constants = SystemConstants.get_constants()
+    start_hour = constants.start_work_time.hour
+    end_hour = constants.end_work_time.hour
+
+    # Add one as range is exclusive and we want the last hour as well
+    return list(range(start_hour, end_hour+1))
 
 def __start_end_of_month(day: datetime):
     month_start = day + relativedelta(day=1)
@@ -175,4 +204,4 @@ def __format_day(day: datetime.day):
     d = f"{day.day}" if day.day > 9 else f"0{day.day}"
     m = f"{day.month}" if day.month > 9 else f"0{day.month}"
     return f"{d}.{m}"
-    
+
