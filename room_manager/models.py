@@ -160,4 +160,14 @@ class SystemConstants(models.Model):
             end_min += 24 * 60
         
         return end_min - start_min
-        
+
+class FailedBooking(models.Model):
+    date = models.DateField()
+    time = models.TimeField()
+    duration = models.IntegerField()
+    participants_count = models.PositiveIntegerField()
+    type = models.TextField()
+
+
+# RoomManager.try_book_room_now
+# RoomManager.schedule_meeting
