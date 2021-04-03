@@ -44,6 +44,7 @@ urlpatterns = [
     path('dashboard/statistics/room-utilization', room_utilization_statistics_view, name="room_utilization_statistics"),
     path('dashboard/statistics/multi-room-utilization', multi_room_utilization_statistics_view, name="multi_room_utilization_statistics"),
     path('dashboard/statistics/busiest-hours', busiest_hours_view, name="busiest_hours_statistics"),
+    path('dashboard/statistics/failed-bookings', failed_bookings_view, name="failed_bookings_statistics"),
 
 
 
