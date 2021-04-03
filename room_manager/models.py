@@ -166,8 +166,15 @@ class FailedBooking(models.Model):
     time = models.TimeField()
     duration = models.IntegerField()
     participants_count = models.PositiveIntegerField()
-    type = models.TextField()
+    booking_type = models.TextField()
 
+    def __str__(self) -> str:
+        return f"{self.booking_type} - {self.date} ({self.participants_count})"
 
-# RoomManager.try_book_room_now
-# RoomManager.schedule_meeting
+    # Bookings back to 30 days ago and all future failed bookings
+    @staticmethod
+    def failed_bookings_up_to_30_days_ago():
+        thiry_days_ago = (datetime.now().date() - timedelta(days=30))
+        all_failed_bookings = FailedBooking.objects.all()
+
+        return [fb for fb in all_failed_bookings if fb.date >= thiry_days_ago]

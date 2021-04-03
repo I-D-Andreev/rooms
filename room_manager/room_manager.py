@@ -1,10 +1,11 @@
 from datetime import datetime, date, timedelta
 from django.contrib.auth.models import User
 from accounts.models import Profile
-from .models import Meeting, SystemConstants
+from .models import FailedBooking, Meeting, SystemConstants
 from .meeting_distance_types import MeetingDistanceTypes
 from accounts.user_types import UserTypes
 from .location_models import Building
+from .room_booking_type import RoomBookingTypes
 
 class RoomManager:
     @staticmethod
@@ -17,6 +18,7 @@ class RoomManager:
         chosen_room = RoomManager.__choose_smallest_free_room(number_attendees, start_date, start_time, duration, creator.profile)
 
         if chosen_room is None:
+            FailedBooking.objects.create(date=start_date, time=start_time, duration=duration, participants_count=number_attendees, booking_type=RoomBookingTypes.scheduled)
             return None, 'There is no free room for the chosen time!'
         
         return Meeting.objects.create(name=meeting_name, creator=creator.profile, room=chosen_room, start_date=start_date, start_time=start_time, duration=duration, participants_count=number_attendees), None
@@ -118,8 +120,9 @@ class RoomManager:
         curr_time = datetime.now().time()
 
         if RoomManager.can_book_room_now(room, curr_date, curr_time, duration):
-            return Meeting.objects.create(name=name, creator=room.profile, room=room.profile, start_date=curr_date, start_time=curr_time, duration=duration, participants_count=0)
-            
+            return Meeting.objects.create(name=name, creator=room.profile, room=room.profile, start_date=curr_date, start_time=curr_time, duration=duration, participants_count=room.profile.capacity)
+        
+        FailedBooking.objects.create(date=curr_date, time=curr_time, duration=duration, participants_count=room.profile.capacity, booking_type=RoomBookingTypes.instant)
         return None
 
 
