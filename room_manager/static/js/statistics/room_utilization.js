@@ -14,9 +14,9 @@ $(document).ready(function(){
     const MONTHLY_UTILIZATION = JSON.parse(document.getElementById("monthly_util").textContent);
     const MONTHS = MONTHLY_UTILIZATION['months'];
 
-    let CHART_DAILY_ID = 'chart_daily';
-    let CHART_WEEKLY_ID = 'chart_weekly';
-    let CHART_MONTHLY_ID = 'chart_monthly';
+    const CHART_DAILY_ID = 'chart_daily';
+    const CHART_WEEKLY_ID = 'chart_weekly';
+    const CHART_MONTHLY_ID = 'chart_monthly';
 
     $('#id_room').on('change', function(){
         let roomId = this.value;
