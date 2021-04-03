@@ -3,6 +3,8 @@ var chart_weekly = null;
 var chart_monthly = null;
 
 $(document).ready(function(){
+    $("#room_utilization").css("font-weight", "bold");
+
     const DAILY_UTILIZATION = JSON.parse(document.getElementById("daily_util").textContent);
     const DAYS = DAILY_UTILIZATION['days'];
 
@@ -11,9 +13,6 @@ $(document).ready(function(){
 
     const MONTHLY_UTILIZATION = JSON.parse(document.getElementById("monthly_util").textContent);
     const MONTHS = MONTHLY_UTILIZATION['months'];
-
-    console.log(MONTHLY_UTILIZATION)
-
 
     let CHART_DAILY_ID = 'chart_daily';
     let CHART_WEEKLY_ID = 'chart_weekly';

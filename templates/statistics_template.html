@@ -19,16 +19,12 @@
         </div>
 
         <div class="nav flex-column ml-2">
-            <!-- <div class="nav-item container-fluid">
-                <a href="" class="nav-link text-dark bg-light">Main</a>
-            </div> -->
-
-            <div class="nav-item container-fluid">
-                <a href="{% url 'room_utilization_statistics' %}" class="nav-link text-dark bg-light">Room Utilization</a>
+             <div  class="nav-item container-fluid">
+                <a id="room_utilization" href="{% url 'room_utilization_statistics' %}" class="nav-link text-dark bg-light">Room Utilization</a>
             </div>
             
             <div class="nav-item container-fluid">
-                <a href="{% url 'multi_room_utilization_statistics' %}" class="nav-link text-dark bg-light">Multi-Room Utilization</a>
+                <a id="multi_room_utilization" href="{% url 'multi_room_utilization_statistics' %}" class="nav-link text-dark bg-light">Multi-Room Utilization</a>
             </div>
 
             <div class="nav-item container-fluid">
