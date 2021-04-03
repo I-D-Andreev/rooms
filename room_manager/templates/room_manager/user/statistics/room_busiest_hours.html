@@ -1,0 +1,19 @@
+{% extends 'statistics_template.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block statistics-head %}
+    <title>Room Busiest Hours Statistics</title>
+    <script src="{% static 'js/statistics/room_busiest_hours.js' %}"></script>
+{% endblock %}
+
+
+{% block statistics-content %}
+<div class="w-100 h-100">
+    <div class="text-center mb-5">
+        <label class="mb-1 text-dark w-100">Choose a Room:</label>
+        {% render_field form.room class="form-control w-25 mx-auto" %}
+    </div>
+
+{% endblock %}

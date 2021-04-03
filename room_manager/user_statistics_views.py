@@ -24,7 +24,7 @@ def room_utilization_statistics_view(request, *args, **kwargs):
 
     return render(request, 'room_manager/user/statistics/room_utilization.html', context)
 
-
+# login + user only
 def multi_room_utilization_statistics_view (request, *args, **kwargs):
     rooms_utilization = __calculate_rooms_utilization_data_daily()
     
@@ -36,6 +36,13 @@ def multi_room_utilization_statistics_view (request, *args, **kwargs):
     context = {'rooms_utilization': rooms_utilization}
     return render(request, 'room_manager/user/statistics/multi_room_utilization.html', context)
 
+
+# login + user only
+def room_busiest_hours_view(request, *args, **kwargs):
+    form = ChooseRoomForm()
+    context = {'form': form}
+    return render(request, 'room_manager/user/statistics/room_busiest_hours.html', context)
+    
 
 
 def __calculate_room_utilization_data_monthly():

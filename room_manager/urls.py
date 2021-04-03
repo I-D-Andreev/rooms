@@ -43,6 +43,8 @@ urlpatterns = [
     # path('dashboard/statistics', statistics_view, name="statistics"),
     path('dashboard/statistics/room-utilization', room_utilization_statistics_view, name="room_utilization_statistics"),
     path('dashboard/statistics/multi-room-utilization', multi_room_utilization_statistics_view, name="multi_room_utilization_statistics"),
+    path('dashboard/statistics/room-busiest', room_busiest_hours_view, name="room_busiest_hours_statistics"),
+
 
 
     # room
