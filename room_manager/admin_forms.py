@@ -53,11 +53,11 @@ class MeetingRoomDistanceForm(forms.Form):
 
 
 class WorkingHoursForm(forms.Form):
-    start_work_hour = forms.IntegerField(min_value=0, max_value=24, label='Start hour:')
-    start_work_minute = forms.IntegerField(min_value=0, max_value=60, label='Start minute:')
+    start_work_hour = forms.IntegerField(min_value=0, max_value=23, label='Start hour:')
+    start_work_minute = forms.IntegerField(min_value=0, max_value=59, label='Start minute:')
 
-    end_work_hour = forms.IntegerField(min_value=0, max_value=24, label='End hour:')
-    end_work_minute = forms.IntegerField(min_value=0, max_value=60, label='End minute:')
+    end_work_hour = forms.IntegerField(min_value=0, max_value=23, label='End hour:')
+    end_work_minute = forms.IntegerField(min_value=0, max_value=59, label='End minute:')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
