@@ -1,5 +1,3 @@
-
-
 $(document).ready(function(){
     $("#busiest_hours").css("font-weight", "bold");
     
