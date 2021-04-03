@@ -9,6 +9,7 @@ $(document).ready(function(){
 
     const BUSIEST_DAILY = JSON.parse(document.getElementById("busy_hours_daily").textContent);
     const BUSIEST_WEEKLY = JSON.parse(document.getElementById("busy_hours_weekly").textContent);
+    const BUSIEST_MONTHLY = JSON.parse(document.getElementById("busy_hours_monthly").textContent);
     
     if (BUSIEST_DAILY) {
         createBusiestHoursChart(CHART_DAILY_ID, BUSIEST_DAILY.hours, "Busiest Hours Today", BUSIEST_DAILY.hours_count);
@@ -17,6 +18,10 @@ $(document).ready(function(){
 
     if (BUSIEST_WEEKLY) {
         createBusiestHoursChart(CHART_WEEKLY_ID, BUSIEST_WEEKLY.hours, "Busiest Hours Last 7 Days", BUSIEST_WEEKLY.hours_count);
+    }
+
+    if (BUSIEST_MONTHLY) {
+        createBusiestHoursChart(CHART_MONTHLY_ID, BUSIEST_MONTHLY.hours, "Busiest Hours Last 30 Days", BUSIEST_MONTHLY.hours_count);
     }
 
 });

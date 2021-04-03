@@ -43,14 +43,25 @@ def busiest_hours_view(request, *args, **kwargs):
 
     hours_daily = __calculate_busiest_hours_daily()
     hours_weekly = __calculate_busiest_hours_weekly()
+    hours_monthly = __calculate_busiest_hours_monthly()
 
-    context = {'form': form, 'hours_daily': hours_daily, 'hours_weekly': hours_weekly}
+    context = {'form': form, 'hours_daily': hours_daily, 'hours_weekly': hours_weekly, 'hours_monthly': hours_monthly}
     return render(request, 'room_manager/user/statistics/room_busiest_hours.html', context)
 
 
 # ------------------------ Helpers ------------------------
 # Note: The __calculate functions are in this (weird) format due to some parsing probems
 # and easier use in the javascript.
+
+def __calculate_busiest_hours_monthly():
+    work_hours = __work_hours_array()
+
+    end_day = datetime.now().date()
+    start_day = end_day - timedelta(days=30)
+    meetings = RoomManager.get_all_meetings_between(start_day, end_day)
+
+    return __calculate_hours_count(work_hours, meetings)
+
 
 def __calculate_busiest_hours_weekly():
     work_hours = __work_hours_array()
