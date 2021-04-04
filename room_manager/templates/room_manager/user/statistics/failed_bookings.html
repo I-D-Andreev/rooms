@@ -10,7 +10,52 @@
 
 
 {% block statistics-content %}
-<div class="w-100 h-100 bg-info">
+<div class="w-100 h-100">
+    <div class="w-100 text-center">
+        <span class="text-secondary h3 ">
+            Failed Bookings (Last 30 Days)
+        </span>
+        
+        <div class="w-100 text-center mt-4">
+            <table class="table table-striped">
+                <thead>
+                    <th scope="col">#</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Duration</th>
+                    <th scope="col">Number Of Participants</th>
 
+                    <th scope="col">Building</th>
+                    <th scope="col">Distance Type</th>
+                    <th scope="col">Nearby Buildings?</th>
+                </thead>
+                <tbody>
+                    {% for failed_booking in failed_bookings %}
+                    <tr>
+                        <th>{{ forloop.counter }}</th>
+                        <th>{{ failed_booking.booking_type }}</th>
+                        <th>{{ failed_booking.formatted_date }}</th>
+                        <th>{{ failed_booking.formatted_time }}</th>
+                        <th>{{ failed_booking.duration }} min</th>
+                        <th>{{ failed_booking.participants_count }}</th>
+
+                        <th>{% if failed_booking.floor %} {{ failed_booking.floor.building.name }} {% else %} X {% endif %} </th>
+                        <th>{% if failed_booking.distance_type %} {{ failed_booking.distance_type }} {% else %} X {% endif %} </th>
+                        <th>
+                            {% if failed_booking.infer_nearby_buildings == True %} 
+                                Yes
+                            {% elif failed_booking.infer_nearby_buildings == False %} 
+                                No
+                            {% else %} 
+                                X
+                            {% endif %} 
+                        </th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}

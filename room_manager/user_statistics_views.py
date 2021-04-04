@@ -1,7 +1,8 @@
+from django.db.models.fields import FilePathField
 from django.shortcuts import render
 from .user_forms import ChooseRoomForm
 from .room_manager import RoomManager
-from .models import SystemConstants
+from .models import SystemConstants, FailedBooking
 from datetime import datetime, timedelta
 from networkdays import networkdays
 from dateutil.relativedelta import relativedelta
@@ -51,7 +52,9 @@ def busiest_hours_view(request, *args, **kwargs):
 
 # login + user only
 def failed_bookings_view(request, *args, **kwargs):
-    context = {}
+    failed_bookings = FailedBooking.failed_bookings_up_to_30_days_ago()
+  
+    context = {'failed_bookings' : failed_bookings}
     return render(request, 'room_manager/user/statistics/failed_bookings.html', context)
 
 

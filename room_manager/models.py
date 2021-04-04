@@ -184,3 +184,9 @@ class FailedBooking(models.Model):
         all_failed_bookings = FailedBooking.objects.all()
 
         return [fb for fb in all_failed_bookings if fb.date >= thiry_days_ago]
+
+    def formatted_date(self):
+        return self.date.strftime("%d %b %Y")
+
+    def formatted_time(self):
+        return self.time.strftime("%H:%M")
