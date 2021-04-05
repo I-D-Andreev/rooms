@@ -1,11 +1,14 @@
 var lastFormData = null;
 
 $(document).ready(function(){ 
+    disableFillableFields(!$('#id_building').val());
+
     $('#id_building').on('change', function(){
         let buildingId = this.value;
 
         if (buildingId === '') {
             fillFormData(null);
+            disableFillableFields(true);
         }
         else {
             let url = `/get-building/${buildingId}`
@@ -13,10 +16,12 @@ $(document).ready(function(){
                 url: url,
                 success: function(data){
                     fillFormData(data);
+                    disableFillableFields(false);
                 },
                 error: function(err){
                     showErrorAlert(getAlertHolder(), "Could not load data!");
                     fillFormData(null);
+                    disableFillableFields(true);
                     console.log(err);
                 }
             });
@@ -52,4 +57,10 @@ function clearFormData() {
 
 function getAlertHolder() {
     return $('#alert_holder');
+}
+
+
+function disableFillableFields(isDisabled){
+    $('#id_name').attr('disabled', isDisabled);
+    $('#id_description').attr('disabled', isDisabled);
 }
