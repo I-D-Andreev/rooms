@@ -137,4 +137,23 @@ class DeleteRoomForm(forms.Form):
 
 
     def delete_room(self):
-        return True, "hello world"
+        if self.is_valid():
+            try:
+                room = self.cleaned_data["room"]
+
+                meetings_ongoing_or_in_future = room.meetings_ongoing_or_in_future()
+
+                if len(meetings_ongoing_or_in_future) > 0:
+                    users_who_booked_meetings = set([meeting.creator.public_name for meeting in meetings_ongoing_or_in_future])
+                    error_msg = "Rooms with ongoing meetings or with meetings booked in the future can not be deleted! \
+                        The following users have currently booked a meeting in this room: " \
+                        + (", ".join(users_who_booked_meetings)) + "."
+
+                    return False, error_msg
+                
+                room.user.delete()
+                return True, "Room successfully deleted!"
+            except Exception as e:
+                print(e)
+
+        return False, "Failed to delete room!"

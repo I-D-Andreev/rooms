@@ -109,3 +109,11 @@ class Profile(models.Model):
                 minutes_booked += meeting.duration
         
         return minutes_booked
+
+    def meetings_ongoing_or_in_future(self):
+        if self.type != UserTypes.room:
+            return []
+        
+        all_meetings = self.meetings.all()
+        return [meeting for meeting in all_meetings if not meeting.has_passed()]
+

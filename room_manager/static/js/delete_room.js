@@ -27,7 +27,8 @@ $(document).ready(function(){
         $('#delete_room_button').click();
     });
 
-    fadePythonMessages();
+    // To fill in the data after a POST request + error.
+    $('#id_room').trigger('change');
 });
 
 function enableDisableFields(isDisabled) {
