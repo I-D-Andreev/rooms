@@ -17,12 +17,19 @@
                 <div class="card-body">
 
                     <div class="w-75 m-auto">
-                            {% for field in form %}
+                            {% for field in form.visible_fields|slice:":-1" %}
                                 <div class="form-row mt-3">
                                     <label class="mb-1 text-dark">{{field.label}}</label>
                                     {% render_field field class="form-control" %}
                                 </div>
                             {% endfor %}
+
+                            <!-- Make the minutes field smaller -->
+                            <div class="form-row mt-3">
+                                <label class="mb-1 text-dark w-100">{{form.link_duration.label}}</label>
+                                {% render_field form.link_duration class="form-control w-25 text-center" %}
+                            </div>
+                        
 
                             <button class="btn btn-primary mt-3 float-right">Send Link</button>
                     </div> 

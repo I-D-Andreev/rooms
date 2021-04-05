@@ -3,7 +3,7 @@ from accounts.forms import UserRegistrationForm
 from django.contrib import messages
 from accounts.user_types import UserTypes
 from .room_forms import DeleteRoomForm, EditRoomForm
-from .admin_forms import DeleteUserForm, CreateBuildingForm, ChooseBuildingForm, EditBuildingForm, EditFloorForm, NearbyBuildingsForm, MeetingRoomDistanceForm, WorkingHoursForm
+from .admin_forms import DeleteUserForm, CreateBuildingForm, ChooseBuildingForm, EditBuildingForm, EditFloorForm, NearbyBuildingsForm, MeetingRoomDistanceForm, WorkingHoursForm, SendRegistrationLinkForm
 from .models import SystemConstants
 from .location_models import Building
 
@@ -218,5 +218,6 @@ def delete_room_view(request, *args, **kwargs):
 
 # login + admin only
 def send_registration_link_view(request, *args, **kwargs):
-    context = {}
+    form = SendRegistrationLinkForm()
+    context = {'form': form}
     return render(request, 'room_manager/admin/registration_link.html', context)

@@ -14,3 +14,7 @@ class UserTypes:
     @staticmethod
     def as_choice_list():
         return [(t, t) for t in UserTypes.as_list()]
+
+    @staticmethod
+    def user_admin_choice_list():
+        return [(t,t) for t in [UserTypes.user, UserTypes.admin]]
