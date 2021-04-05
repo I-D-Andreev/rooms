@@ -70,8 +70,8 @@ def create_building_view(request, *args, **kwargs):
 
 # login + admin only
 def edit_building_view(request, *args, **kwargs):
-
-    context = {}
+    choose_building = ChooseBuildingForm()
+    context = {'choose_building': choose_building}
     return render(request, 'room_manager/admin/edit_building.html', context)
 
 
