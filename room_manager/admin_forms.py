@@ -1,7 +1,7 @@
 from django import forms
 from .meeting_distance_types import MeetingDistanceTypes
 from .models import SystemConstants
-from .location_models import Building
+from .location_models import Building, Floor
 
 class CreateBuildingForm(forms.ModelForm):
     class Meta:
@@ -35,6 +35,25 @@ class EditBuildingForm(forms.Form):
                 building.name = cleaned_data["name"]
                 building.description = cleaned_data["description"]
                 building.save()
+
+                return True
+            except Exception as ex:
+                print(ex)
+
+        return False
+
+
+class EditFloorForm(forms.Form):
+    floor = forms.ModelChoiceField(queryset=Floor.objects.all(), empty_label='', label="Choose a Floor")
+    name = forms.CharField(max_length=150, label="Floor Name")
+
+    def update_fields(self):
+        if self.is_valid():
+            try:
+                cleaned_data = self.cleaned_data
+                floor = cleaned_data["floor"]
+                floor.name = cleaned_data["name"]
+                floor.save()
 
                 return True
             except Exception as ex:

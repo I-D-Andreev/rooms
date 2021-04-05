@@ -44,6 +44,17 @@ def multi_room_schedule_view(request, *args, **kwargs):
 
 
 # --------------- REST API ---------------
+def get_floor(request, floor_id):
+    floor = Floor.objects.filter(pk=floor_id).first() 
+    
+    if floor is None:
+        raise Http404
+    else:
+        return JsonResponse({
+            'name': floor.name,
+        })
+
+
 def get_building(request, building_id):
     building = Building.objects.filter(pk=building_id).first() 
     
