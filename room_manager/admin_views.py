@@ -88,6 +88,7 @@ def edit_building_view(request, *args, **kwargs):
     context = {'form': form}
     return render(request, 'room_manager/admin/edit_building.html', context)
 
+
 # login + admin only
 def edit_floor_view(request, *args, **kwargs):
     form = EditFloorForm()
@@ -213,3 +214,9 @@ def delete_room_view(request, *args, **kwargs):
 
     context = {'form': form}
     return render(request, 'room_manager/admin/delete_room.html', context)
+
+
+# login + admin only
+def send_registration_link_view(request, *args, **kwargs):
+    context = {}
+    return render(request, 'room_manager/admin/registration_link.html', context)

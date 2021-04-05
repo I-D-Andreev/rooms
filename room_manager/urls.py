@@ -35,6 +35,7 @@ urlpatterns = [
     path('dashboard/system-constants', system_constants_view, name="system_constants"),
     path('dashboard/delete-user', delete_user_view, name="delete_user"),
     path('dashboard/delete-room', delete_room_view, name="delete_room"),
+    path('dashboard/send-registration-link', send_registration_link_view, name="registration_link"),
 
 
     # user
