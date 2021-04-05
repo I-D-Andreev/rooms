@@ -5,6 +5,7 @@ $(document).ready(function(){
     let floorsSelect = $('#id_floor');
     
     disableFillableFields(!$('#id_room').val());
+    setLastFormData();
 
     attachCancelButton($("#cancel_button"));
     loadFloorsOnBuildingChange(buildingSelect, floorsSelect);
@@ -34,6 +35,9 @@ function loadRoomOnSelectChange(){
                     fillFormData(data);
                 },
                 error: function(err){
+                    showErrorAlert(getAlertHolder(), "Could not load data!");
+                    disableFillableFields(true);
+                    fillFormData(null);
                     console.log(err);
                 }
             });
@@ -43,6 +47,19 @@ function loadRoomOnSelectChange(){
 
 }
 
+function setLastFormData() {
+    if($('#id_room').val() === '') {
+        lastFormData = null;
+    } else {
+        lastFormData = {
+            'public_name': $('#id_public_name').val(),
+            'email': $('#id_email').val(),
+            'capacity': $('#id_capacity').val(),
+            'buildingId': $('#id_building').val(),
+            'floorId': $('#id_floor').val(),
+        };
+    }
+}
 
 
 function fillFormData(data){
@@ -73,4 +90,8 @@ function disableFillableFields(isDisabled){
     $('#id_capacity').attr('disabled', isDisabled);
     $('#id_building').attr('disabled', isDisabled);
     $('#id_floor').attr('disabled', isDisabled);
+}
+
+function getAlertHolder() {
+    return $('#alert_holder');
 }

@@ -28,7 +28,7 @@
                         {% endfor %}
 
                      <div class="text-right mt-3">
-                            <button id="cancel_button" type="button" class="btn btn-primary mr-2">Cancel</button>
+                            <button id="cancel_button" type="button" class="btn btn-primary mr-2 unfocus-click">Cancel</button>
                             <button class="btn btn-primary">Edit</button>
                      </div>
                  </div> 
@@ -46,15 +46,17 @@
                 {% endfor%}
             </div>
 
-            {% if messages %}
-                <div class="mt-4 w-100">
-                    {% for message in messages %}
-                        <div class="alert {% if 'error' in message.tags %} alert-danger {% else %} alert-success {% endif %} mt-2 w-75 text-center mx-auto">
-                            {{message}}
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
+         <div id="alert_holder" class="w-100 mt-3 min-width-400">
+                {% if messages %}
+                    <div class="mt-4 w-100">
+                        {% for message in messages %}
+                            <div class="alert {% if 'error' in message.tags %} alert-danger {% else %} alert-success {% endif %} mt-2 w-75 text-center mx-auto">
+                                {{message}}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+         </div>
 
         </form>
     </div>
