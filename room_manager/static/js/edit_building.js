@@ -2,6 +2,8 @@ var lastFormData = null;
 
 $(document).ready(function(){ 
     disableFillableFields(!$('#id_building').val());
+    setLastFormData();
+
 
     $('#id_building').on('change', function(){
         let buildingId = this.value;
@@ -36,6 +38,17 @@ $(document).ready(function(){
     fadePythonMessages();
 });
 
+
+function setLastFormData() {
+    if ($("#id_building").val() === '') {
+        lastFormData = null;
+    } else {
+        lastFormData = {
+            'name' : $("#id_name").val(),
+            'description' :  $('#id_description').val(),
+        }
+    }
+}
 
 
 function fillFormData(data) {
