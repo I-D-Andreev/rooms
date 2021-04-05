@@ -180,5 +180,5 @@ class DeleteUserForm(forms.Form):
 
 class SendRegistrationLinkForm(forms.Form):
     type = forms.CharField(widget=forms.Select(choices=UserTypes.user_admin_choice_list()), label="Registration Type")
-    email = forms.EmailField(required=False)
+    email = forms.EmailField(required=False, label="Email (optional)")
     link_duration = forms.IntegerField(min_value=0, label="Link Duration (minutes)", initial=30)
