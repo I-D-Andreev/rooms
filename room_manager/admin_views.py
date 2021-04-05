@@ -68,6 +68,13 @@ def create_building_view(request, *args, **kwargs):
     return render(request, 'room_manager/admin/create_building.html', context)
 
 
+# login + admin only
+def edit_building_view(request, *args, **kwargs):
+
+    context = {}
+    return render(request, 'room_manager/admin/edit_building.html', context)
+
+
 
 # login + admin only
 def configure_floors_view(request, *args, **kwargs):
