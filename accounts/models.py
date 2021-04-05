@@ -149,4 +149,9 @@ class RegistrationLink(models.Model):
 
     def get_full_url(self, request):
         # request.build_absolute_uri(reverse('view_name', args=(obj.pk, )))
-        return request.build_absolute_uri(reverse("register")) + self.unique_code 
+        return request.build_absolute_uri(reverse("register")) + self.unique_code
+
+    @staticmethod
+    def get_all_valid_links():
+        now = datetime.now().astimezone()
+        return RegistrationLink.objects.filter(valid_until__gte=now)
