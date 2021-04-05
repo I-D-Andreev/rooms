@@ -19,7 +19,8 @@ def create_room_view(request, *args, **kwargs):
 
         if form.is_valid():
             form.save()
-            messages.success(request, f"Room \"{form.cleaned_data['username']}\" created successfully!")
+            messages.success(request,
+            f"Room \"{form.cleaned_data['username']}\" created successfully! Please go to 'Edit a Room' to assign its location!")
 
             # clean the form
             form = UserRegistrationForm()
