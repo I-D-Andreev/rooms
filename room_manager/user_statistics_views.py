@@ -7,11 +7,6 @@ from datetime import datetime, timedelta
 from networkdays import networkdays
 from dateutil.relativedelta import relativedelta
 
-# @login_required(login_url='login')
-# @user_only
-def statistics_view(request, *args, **kwargs):
-    return render(request, 'room_manager/user/statistics/statistics.html')
-
 # login + user only
 def room_utilization_statistics_view(request, *args, **kwargs):
     form = ChooseRoomForm()
