@@ -134,3 +134,7 @@ class DeleteRoomForm(forms.Form):
     capacity = forms.CharField(required=False)
     building = forms.ModelChoiceField(queryset=Building.objects.all(), empty_label='All Buildings', label='Building', required=False)
     floor = forms.ModelChoiceField(queryset=Floor.objects.all(), empty_label='', label='Location', required=False)
+
+
+    def delete_room(self):
+        return True, "hello world"

@@ -23,6 +23,10 @@ $(document).ready(function(){
         }
     });
 
+    $('#delete_room_prompt').on('click', function(){
+        $('#delete_room_button').click();
+    });
+
     fadePythonMessages();
 });
 

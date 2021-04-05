@@ -197,5 +197,18 @@ def delete_user_view(request, *args, **kwargs):
 # login + admin only
 def delete_room_view(request, *args, **kwargs):
     form = DeleteRoomForm()
+
+    if request.method == 'POST':
+        form = DeleteRoomForm(request.POST)
+
+        res = False
+        if form.is_valid():
+            res, message = form.delete_room()
+
+        if res:
+            messages.success(request, message)
+        else:
+            messages.error(request, message)
+
     context = {'form': form}
     return render(request, 'room_manager/admin/delete_room.html', context)
