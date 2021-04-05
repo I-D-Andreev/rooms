@@ -122,3 +122,15 @@ class RoomLogoutForm(forms.Form):
                     return True
 
         return False
+
+
+class DeleteRoomForm(forms.Form):
+    room = forms.ModelChoiceField(queryset=Profile.objects.filter(type__exact=UserTypes.room), empty_label="", label="Choose a Room")
+    
+    # These fields are used just to display the information
+    username = forms.CharField(required=False, label='Room Account Username')
+    public_name = forms.CharField(required=False, label='Room Name')
+    email = forms.CharField(required=False, label='Room Email')
+    capacity = forms.CharField(required=False)
+    building = forms.ModelChoiceField(queryset=Building.objects.all(), empty_label='All Buildings', label='Building', required=False)
+    floor = forms.ModelChoiceField(queryset=Floor.objects.all(), empty_label='', label='Location', required=False)

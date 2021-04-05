@@ -123,6 +123,7 @@ def get_room(request, profile_id, *args, **kwargs):
        
         return JsonResponse({
             'id': room.id,
+            'username': room.user.username,
             'public_name': room.public_name,
             'email': room.user.email,
             'capacity': room.capacity,
