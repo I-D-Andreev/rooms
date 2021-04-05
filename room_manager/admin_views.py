@@ -87,6 +87,10 @@ def edit_building_view(request, *args, **kwargs):
     context = {'form': form}
     return render(request, 'room_manager/admin/edit_building.html', context)
 
+# login + admin only
+def edit_floor_view(request, *args, **kwargs):
+    context = {}
+    return render(request, 'room_manager/admin/edit_floor.html', context)
 
 
 # login + admin only
