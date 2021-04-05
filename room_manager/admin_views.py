@@ -71,6 +71,19 @@ def create_building_view(request, *args, **kwargs):
 # login + admin only
 def edit_building_view(request, *args, **kwargs):
     form = EditBuildingForm()
+
+    if request.method == 'POST':
+        form = EditBuildingForm(request.POST)
+
+        res = False
+        if form.is_valid():
+            res = form.update_fields()
+
+        if res:
+            messages.success(request, "Information updated successfully!")
+        else:
+            messages.error(request, "Failed to update building information!")
+
     context = {'form': form}
     return render(request, 'room_manager/admin/edit_building.html', context)
 

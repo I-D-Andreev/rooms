@@ -44,6 +44,18 @@ def multi_room_schedule_view(request, *args, **kwargs):
 
 
 # --------------- REST API ---------------
+def get_building(request, building_id):
+    building = Building.objects.filter(pk=building_id).first() 
+    
+    if building is None:
+        raise Http404
+    else:
+        return JsonResponse({
+            'name': building.name,
+            'description': building.description
+        })
+
+
 def near_buildings_pair(request, building_id1, building_id2, *args, **kwargs):
     building1 = Building.objects.filter(pk=building_id1).first() 
     building2 = Building.objects.filter(pk=building_id2).first() 
@@ -173,14 +185,6 @@ def get_building_floors(request, id, *args, **kwargs):
     else:
         return HttpResponse("[]", content_type="application/json")
 
-def __floor_to_dict(floor: Floor):
-    return {
-        'id': floor.id,
-        'name': floor.name,
-        'actual_floor': floor.actual_floor,
-        'full_name': str(floor)
-    }
-
 
 def save_building_floors(request, id, *args, **kwargs):
     building = Building.objects.filter(pk=id).first() 
@@ -197,6 +201,17 @@ def save_building_floors(request, id, *args, **kwargs):
 
 
 # --------------- Helper Functions ---------------
+
+def __floor_to_dict(floor: Floor):
+    return {
+        'id': floor.id,
+        'name': floor.name,
+        'actual_floor': floor.actual_floor,
+        'full_name': str(floor)
+    }
+
+
+
 def get_room_schedule_meetings_list(user: User) -> list:
     meetings_list = RoomManager.get_room_meeting_list_today_after_hour(user, datetime.now().time().hour)
     padded_meetings_list = __pad_with_free_meetings(meetings_list)

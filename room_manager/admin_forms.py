@@ -27,6 +27,20 @@ class EditBuildingForm(forms.Form):
     name = forms.CharField(max_length=150, label="Building Name")
     description = forms.CharField(widget=forms.Textarea(attrs={'rows':4, 'style': 'resize:none'}), label="Description (optional)", required=False)
 
+    def update_fields(self):
+        if self.is_valid():
+            try:
+                cleaned_data = self.cleaned_data
+                building = cleaned_data["building"]
+                building.name = cleaned_data["name"]
+                building.description = cleaned_data["description"]
+                building.save()
+
+                return True
+            except Exception as ex:
+                print(ex)
+
+        return False
 
 
 class MeetingRoomDistanceForm(forms.Form):

@@ -5,6 +5,7 @@
 {% block head %}
 
     <title>Edit a Building</title>
+    <script src="{% static 'js/fading_alert.js' %}"></script>
     <script src="{% static 'js/edit_building.js' %}"></script>
 
 {% endblock %}
@@ -16,7 +17,7 @@
         
     
 
-        <form action="{% url 'create_building' %}" method="POST" class="mx-auto col-md-10 col-lg-7">
+        <form action="{% url 'edit_building' %}" method="POST" class="mx-auto col-md-10 col-lg-7">
             {% csrf_token %}
             
             <div class="card min-width-400">
@@ -32,6 +33,7 @@
                             {% endfor %}
 
                             <button class="btn btn-primary mt-3 float-right">Edit</button>
+                            <button id="cancel_button" type="button" class="btn btn-primary mt-3 mr-3 float-right">Cancel</button>
                     </div> 
 
                 </div>
@@ -47,15 +49,17 @@
                 {% endfor%}
             </div>
 
-            {% if messages %}
-                <div class="mt-4 w-100">
-                    {% for message in messages %}
-                        <div class="alert {% if 'error' in message.tags %} alert-danger {% else %} alert-success {% endif %} mt-2 w-75 text-center mx-auto">
-                            {{message}}
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
+        <div id="alert_holder" class="w-100 mt-3 min-width-400">
+                {% if messages %}
+                    <div class="mt-4 w-100">
+                        {% for message in messages %}
+                            <div class="alert {% if 'error' in message.tags %} alert-danger {% else %} alert-success {% endif %} mt-2 w-75 text-center mx-auto">
+                                {{message}}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+        </div>
 
         </form>
     </div>
