@@ -10,6 +10,29 @@
 {% endblock %}
 
 {% block content %}
+<div class="modal fade" id="delete_confirm_dialog" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        
+            <div class="modal-header">
+                <h5 class="modal-title text-dark">Are you sure?</h5>
+            </div>
+            
+            <div class="modal-body">
+                <!-- <textarea id="floor_name_textarea" class="form-control" rows="1" style="resize: none;" required></textarea> -->
+                <span class="h6 text-dark">Are you sure you want to delete the user? </span>
+                <span class="h6 text-danger font-weight-bold">The user and all of their booked meetings will be deleted!</span>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="delete_user_prompt" type="button" class="btn btn-primary">Delete User</button>
+            </div>
+      
+        </div>
+    </div>
+</div>
+
 <div class="content w-100 h-100 d-flex">
     <div class="row h-75 w-50 align-self-center mx-auto">
         <form action="{% url 'delete_user' %}" method="POST" class="mx-auto col-md-10 col-lg-7">
@@ -27,7 +50,8 @@
                         {% endfor %}
 
                      <div class="text-right mt-3">
-                            <button class="btn btn-primary">Delete User</button>
+                         <button type="submit" id="delete_user_button" class="btn btn-primary mr-3 invisible">Remove User</button>
+                         <button type="button" class="btn btn-primary unfocus-click" data-toggle="modal" data-target="#delete_confirm_dialog">Delete User</button>
                      </div>
                  </div> 
 

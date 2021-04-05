@@ -177,5 +177,18 @@ def system_constants_view(request, *args, **kwargs):
 # login + admin only
 def delete_user_view(request, *args, **kwargs):
     form = DeleteUserForm()
+
+    if request.method == 'POST':
+        form = DeleteUserForm(request.POST)
+
+        res = False
+        if form.is_valid():
+            res = form.delete_user()
+
+        if res:
+            messages.success(request, "User deleted successfully!")
+        else:
+            messages.error(request, "Failed to delete user!")
+
     context = {'form': form}
     return render(request, 'room_manager/admin/delete_user.html', context)

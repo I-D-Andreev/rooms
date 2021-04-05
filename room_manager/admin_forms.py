@@ -165,4 +165,14 @@ class DeleteUserForm(forms.Form):
     building = forms.ModelChoiceField(queryset=Building.objects.all(), empty_label='All Buildings', label='Building', required=False)
     floor = forms.ModelChoiceField(queryset=Floor.objects.all(), empty_label='', label='Location', required=False)
 
+    def delete_user(self):
+        if self.is_valid():
+            try:
+                profile = self.cleaned_data["profile"]
+                profile.user.delete()
 
+                return True
+            except Exception as e:
+                print(e)
+        
+        return False

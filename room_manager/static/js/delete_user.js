@@ -13,7 +13,6 @@ $(document).ready(function(){
                 url: url,
                 success: function(data){
                     fillFormData(data);
-                    console.log(data);
                 },
                 error: function(err){
                     showErrorAlert(getAlertHolder(), "Could not load data!");
@@ -23,6 +22,13 @@ $(document).ready(function(){
             });
         }
     });
+
+
+    $('#delete_user_prompt').on('click', function(){
+        $('#delete_user_button').click();
+    });
+
+    fadePythonMessages();
 });
 
 function enableDisableFields(isDisabled) {
