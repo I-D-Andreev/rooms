@@ -192,3 +192,9 @@ def delete_user_view(request, *args, **kwargs):
 
     context = {'form': form}
     return render(request, 'room_manager/admin/delete_user.html', context)
+
+
+# login + admin only
+def delete_room_view(request, *args, **kwargs):
+    context = {}
+    return render(request, 'room_manager/admin/delete_room.html', context)
