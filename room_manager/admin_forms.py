@@ -2,7 +2,7 @@ from django import forms
 from .meeting_distance_types import MeetingDistanceTypes
 from .models import SystemConstants
 from .location_models import Building, Floor
-from accounts.models import Profile
+from accounts.models import Profile, RegistrationLink
 from accounts.user_types import UserTypes
 
 class CreateBuildingForm(forms.ModelForm):
@@ -188,14 +188,20 @@ class CreateRegistrationLinkForm(forms.Form):
             try:
                 cleaned_data = self.cleaned_data
                 type = cleaned_data["type"]
-                email = cleaned_data["email"]
                 link_duration = cleaned_data["link_duration"]
 
-                print(type)
-                print(email)
-                print(link_duration)
-                return True
+                return RegistrationLink.create_registration_link(type, link_duration)
             except Exception as e:
                 print(e)
         
-        return False
+        return None
+
+
+    def get_email(self):
+        if self.is_valid():
+            try:
+                return self.cleaned_data["email"]
+            except Exception as e:
+                print(e)
+        
+        return None

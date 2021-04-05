@@ -1,8 +1,10 @@
+import random
+import string
 from django.db import models 
 from django.contrib.auth.models import User
-from django.db.models.fields import related
-from accounts.user_types import UserTypes
 from datetime import datetime, time, timedelta, timezone
+from django.urls import reverse
+from accounts.user_types import UserTypes
 
 from room_manager.location_models import Floor
 
@@ -117,3 +119,33 @@ class Profile(models.Model):
         all_meetings = self.meetings.all()
         return [meeting for meeting in all_meetings if not meeting.has_passed()]
 
+
+class RegistrationLink(models.Model):
+    type = models.CharField(max_length=255, choices=UserTypes.user_admin_choice_list())
+    unique_code = models.CharField(max_length=100)
+    valid_until = models.DateTimeField()
+
+    @staticmethod
+    def create_registration_link(account_type, time_to_live):
+        try:
+            if (account_type not in [UserTypes.user, UserTypes.admin]) or time_to_live <= 0:
+                return None
+            
+            ttl_date = datetime.now().astimezone() + timedelta(minutes=time_to_live)
+            code = RegistrationLink.generate_unique_code()
+            return RegistrationLink.objects.create(type=account_type, unique_code = code, valid_until = ttl_date)
+        except Exception as e:
+            return None
+
+
+    @staticmethod
+    def generate_unique_code(random_part_length = 10): 
+        now = datetime.now().astimezone()
+        timestamp = now.strftime("%d%M%S")
+        string_code = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range (random_part_length))
+
+        return (string_code + timestamp)
+
+
+    def get_full_url(self):
+        return reverse("register") + self.unique_code
