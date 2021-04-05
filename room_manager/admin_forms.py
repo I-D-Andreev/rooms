@@ -182,3 +182,20 @@ class CreateRegistrationLinkForm(forms.Form):
     type = forms.CharField(widget=forms.Select(choices=UserTypes.user_admin_choice_list()), label="Registration Type")
     email = forms.EmailField(required=False, label="Email (optional)")
     link_duration = forms.IntegerField(min_value=0, label="Link Duration (minutes)", initial=30)
+
+    def create_link(self):
+        if self.is_valid():
+            try:
+                cleaned_data = self.cleaned_data
+                type = cleaned_data["type"]
+                email = cleaned_data["email"]
+                link_duration = cleaned_data["link_duration"]
+
+                print(type)
+                print(email)
+                print(link_duration)
+                return True
+            except Exception as e:
+                print(e)
+        
+        return False

@@ -219,5 +219,11 @@ def delete_room_view(request, *args, **kwargs):
 # login + admin only
 def create_registration_link_view(request, *args, **kwargs):
     form = CreateRegistrationLinkForm()
+
+    if request.method == 'POST':
+        form = CreateRegistrationLinkForm(request.POST)
+        form.create_link()
+        
+
     context = {'form': form}
     return render(request, 'room_manager/admin/registration_link.html', context)
