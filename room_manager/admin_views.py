@@ -224,11 +224,9 @@ def create_registration_link_view(request, *args, **kwargs):
         form = CreateRegistrationLinkForm(request.POST)
         link = form.create_link()
         if link:
-            print(f"------ Link ----------")
-            print(f"Type: {link.type}")
-            print(f"Code: {link.unique_code}")
-            print(f"TTL: {link.valid_until}")
-            print(f"Full: {link.get_full_url()}")
+            print(f"Absolute url: {link.get_full_url(request)}")
+        else:
+            print(f"Failure creating ")
 
     context = {'form': form}
     return render(request, 'room_manager/admin/registration_link.html', context)

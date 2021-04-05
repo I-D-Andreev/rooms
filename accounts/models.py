@@ -147,5 +147,6 @@ class RegistrationLink(models.Model):
         return (string_code + timestamp)
 
 
-    def get_full_url(self):
-        return reverse("register") + self.unique_code
+    def get_full_url(self, request):
+        # request.build_absolute_uri(reverse('view_name', args=(obj.pk, )))
+        return request.build_absolute_uri(reverse("register")) + self.unique_code 
