@@ -22,6 +22,13 @@ class ChooseBuildingForm(forms.Form):
     building = forms.ModelChoiceField(queryset=Building.objects.all(), empty_label='')
 
 
+class EditBuildingForm(forms.Form):
+    building = forms.ModelChoiceField(queryset=Building.objects.all(), empty_label='', label="Choose a Building")
+    name = forms.CharField(max_length=150, label="Building Name")
+    description = forms.CharField(widget=forms.Textarea(attrs={'rows':4, 'style': 'resize:none'}), label="Description (optional)", required=False)
+
+
+
 class MeetingRoomDistanceForm(forms.Form):
     type = forms.CharField(widget=forms.Select(choices=MeetingDistanceTypes.as_choice_list()))
     floors = forms.IntegerField(min_value=0, required=True)
