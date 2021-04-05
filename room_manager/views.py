@@ -44,6 +44,21 @@ def multi_room_schedule_view(request, *args, **kwargs):
 
 
 # --------------- REST API ---------------
+def get_user_info(request, profile_id):
+    profile = Profile.objects.filter(pk=profile_id).first() 
+    
+    if profile is None or profile.type != UserTypes.user:
+        raise Http404
+    else:
+        floor = profile.floor if profile.floor else None
+        return JsonResponse({
+            'username': profile.user.username,
+            'public_name': profile.public_name,
+            'email' : profile.user.email,
+            'building_id': floor.building.id if floor else None,
+            'floor_id': floor.id if floor else None,
+        })
+
 def get_floor(request, floor_id):
     floor = Floor.objects.filter(pk=floor_id).first() 
     

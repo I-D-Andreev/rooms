@@ -157,5 +157,12 @@ class NearbyBuildingsForm(forms.Form):
         return False, 'Failed to add the building pair!'
 
 
-class ChooseUserForm(forms.Form):
-    user = forms.ModelChoiceField(queryset=Profile.objects.filter(type__exact=UserTypes.user), empty_label="", label="Choose a User")
+class DeleteUserForm(forms.Form):
+    profile = forms.ModelChoiceField(queryset=Profile.objects.filter(type__exact=UserTypes.user), empty_label="", label="Choose a User")
+    username = forms.CharField(required=False)
+    public_name = forms.CharField(required=False)
+    email = forms.CharField(required=False)
+    building = forms.ModelChoiceField(queryset=Building.objects.all(), empty_label='All Buildings', label='Building', required=False)
+    floor = forms.ModelChoiceField(queryset=Floor.objects.all(), empty_label='', label='Location', required=False)
+
+
