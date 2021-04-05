@@ -3,7 +3,7 @@ from accounts.forms import UserRegistrationForm
 from django.contrib import messages
 from accounts.user_types import UserTypes
 from .room_forms import EditRoomForm
-from .admin_forms import CreateBuildingForm, ChooseBuildingForm, EditBuildingForm, EditFloorForm, NearbyBuildingsForm, MeetingRoomDistanceForm, WorkingHoursForm
+from .admin_forms import ChooseUserForm, CreateBuildingForm, ChooseBuildingForm, EditBuildingForm, EditFloorForm, NearbyBuildingsForm, MeetingRoomDistanceForm, WorkingHoursForm
 from .models import SystemConstants
 from .location_models import Building
 
@@ -176,5 +176,6 @@ def system_constants_view(request, *args, **kwargs):
 
 # login + admin only
 def delete_user_view(request, *args, **kwargs):
-    context = {}
+    form = ChooseUserForm()
+    context = {'form': form}
     return render(request, 'room_manager/admin/delete_user.html', context)

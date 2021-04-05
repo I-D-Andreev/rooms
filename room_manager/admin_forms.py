@@ -2,6 +2,8 @@ from django import forms
 from .meeting_distance_types import MeetingDistanceTypes
 from .models import SystemConstants
 from .location_models import Building, Floor
+from accounts.models import Profile
+from accounts.user_types import UserTypes
 
 class CreateBuildingForm(forms.ModelForm):
     class Meta:
@@ -153,3 +155,7 @@ class NearbyBuildingsForm(forms.Form):
                 print(e)
         
         return False, 'Failed to add the building pair!'
+
+
+class ChooseUserForm(forms.Form):
+    user = forms.ModelChoiceField(queryset=Profile.objects.filter(type__exact=UserTypes.user), empty_label="", label="Choose a User")

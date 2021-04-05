@@ -16,8 +16,7 @@ class Profile(models.Model):
 
 # to add location and room-type
     def __str__(self):
-        return self.public_name
-
+        return f"{self.public_name} ({self.user.username})"
 
     def is_free(self, start_date: datetime.date, start_time: datetime.time, duration:int) -> bool:
         if self.type != UserTypes.room:
