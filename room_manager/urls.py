@@ -33,6 +33,7 @@ urlpatterns = [
     path('dashboard/edit-floor', edit_floor_view, name="edit_floor"),
     path('dashboard/near-buildings', near_buildings_view, name="near_buildings"),
     path('dashboard/system-constants', system_constants_view, name="system_constants"),
+    path('dashboard/delete-user', delete_user_view, name="delete_user"),
 
 
     # user

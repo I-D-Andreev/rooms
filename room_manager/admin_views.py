@@ -172,3 +172,9 @@ def system_constants_view(request, *args, **kwargs):
     working_hours = WorkingHoursForm()
     context = {'meeting_form': meeting_form, 'working_hours_form' : working_hours}
     return render(request, 'room_manager/admin/system_constants.html', context)
+
+
+# login + admin only
+def delete_user_view(request, *args, **kwargs):
+    context = {}
+    return render(request, 'room_manager/admin/delete_user.html', context)
