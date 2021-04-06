@@ -1,3 +1,4 @@
+from accounts.models import RegistrationLink
 from django.shortcuts import render
 from accounts.forms import UserRegistrationForm
 from django.contrib import messages
@@ -6,6 +7,7 @@ from .room_forms import DeleteRoomForm, EditRoomForm
 from .admin_forms import DeleteUserForm, CreateBuildingForm, ChooseBuildingForm, EditBuildingForm, EditFloorForm, NearbyBuildingsForm, MeetingRoomDistanceForm, WorkingHoursForm, CreateRegistrationLinkForm
 from .models import SystemConstants
 from .location_models import Building
+from .mail_sender import MailSender
 
 # login + admin only
 def create_room_view(request, *args, **kwargs):
@@ -223,10 +225,41 @@ def create_registration_link_view(request, *args, **kwargs):
     if request.method == 'POST':
         form = CreateRegistrationLinkForm(request.POST)
         link = form.create_link()
+        
         if link:
-            print(f"Absolute url: {link.get_full_url(request)}")
+            return use_registration_link(request, link, form.get_email())
         else:
-            print(f"Failure creating ")
+            messages.error(request, "Failed to create registration link!")
 
     context = {'form': form}
     return render(request, 'room_manager/admin/registration_link.html', context)
+
+# Helper function. After the registration link is created
+# send an email (if email is provided) and redirect to success page.
+def use_registration_link(request, link, email):
+    full_url_path = link.get_full_url(request)
+    
+    shouldSendEmail = False
+    emailSent = False
+
+    if email:
+        shouldSendEmail = True
+        emailSent = MailSender.send_mail(
+            MailSender.create_send_registration_link_title(request.user),
+            MailSender.create_send_registration_link_message(link, full_url_path),
+            email)
+    
+
+    context = {'link': link, 'full_url': full_url_path, 'shouldSendEmail': shouldSendEmail, 'emailSent': emailSent, 'email': email}
+    print(f"Context: {context}")
+    return render(request, 'room_manager/admin/registration_link_success.html', context)
+
+# todo1: remove
+# def reg_succ(request):
+#     link = RegistrationLink.objects.filter(pk=18).first()
+#     shouldSendEmail = True
+#     emailSent = False
+
+#     context = {'link': link, 'full_url': link.get_full_url(request), 'shouldSendEmail': shouldSendEmail, 'emailSent': emailSent, 'email': "hello@gmail.com"}
+#     return render(request, 'room_manager/admin/registration_link_success.html', context)
+

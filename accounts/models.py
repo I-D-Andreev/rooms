@@ -151,6 +151,8 @@ class RegistrationLink(models.Model):
         # request.build_absolute_uri(reverse('view_name', args=(obj.pk, )))
         return request.build_absolute_uri(reverse("register")) + self.unique_code
 
+    def valid_until_formatted(self):
+        return self.valid_until.strftime("%d.%m.%Y, %H:%M")
     @staticmethod
     def get_all_valid_links():
         now = datetime.now().astimezone()

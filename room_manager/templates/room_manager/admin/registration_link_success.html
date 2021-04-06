@@ -1,0 +1,67 @@
+{% extends 'navbar.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block head %}
+    <title>Registration Link Created</title>
+    <script src="{% static 'js/fading_alert.js' %}"></script>
+    <script src="{% static 'js/registration_link_success.js' %}"></script>
+
+{% endblock %}
+
+{% block content %}
+<div class="content w-100 h-100 d-flex">
+    <div class="h-75 align-self-center mx-auto">
+        <div class="h-75 w-100">
+            <div class="h3 font-weight-bold text-green mx-auto w-100 text-center">
+                Link Created Successfully
+            </div>
+            
+            <div class="mt-3 w-100">
+                <label class="w-100 h5 text-secondary" for="link">Link:</label>
+                <a class="h5" href="{{full_url}}">{{full_url}}</a>
+                <i id="copy_icon" class="far fa-copy fa-lg ml-2 cursor-pointer" data-toggle="tooltip" data-placement="right" title="Copy To Clipboard"></i>
+            </div>
+
+            <div class="mt-3 w-100">
+                <label class="w-100 h5 text-secondary">Registration Type: <span class="text-dark h5 font-weight-bold">{{link.type}}</span></label>
+            </div>
+
+            <div class="mt-3 w-100">
+                <label class="w-100 h5 text-secondary">Valid Until: <span class="text-dark h5 font-weight-bold">{{link.valid_until_formatted}}</span></label>
+            </div>
+            
+            {% if shouldSendEmail %}
+                <div class="mt-3 w-100">
+                    <label class="w-100 h5 text-secondary">Email: <span class="text-dark h5 font-weight-bold">{{email}}</span></label>
+                </div>
+                
+                <div class="mt-3 w-100">
+                    <label class="w-100 h5 text-secondary">Email Sent Successfully: 
+                        {% if emailSent %}
+                            <span class="text-green h5 font-weight-bold">Yes</span>
+                        {% else %}
+                            <span class="text-danger h5 font-weight-bold">No</span>
+                        {% endif %}
+                    </label>
+                </div>
+            {% endif %}
+
+            <div class="mt-3 w-100">
+                <a class="float-right" href="{% url 'registration_link'%}">Create Another Registration Link</a>
+
+            </div>
+
+        </div>    
+
+        <div class="h-25 w-100">
+            <div id="alert_holder"></div>
+            <div class="w-0 h-0 mt-1" style="opacity: 0;">
+                <input class="w-100" id="register_url" type="text" value="{{full_url}}">
+            </div>
+        </div>
+
+    </div>
+
+</div>
+{% endblock %}
