@@ -40,15 +40,15 @@
                         <th>{{ failed_booking.duration }} min</th>
                         <th>{{ failed_booking.participants_count }}</th>
 
-                        <th>{% if failed_booking.floor %} {{ failed_booking.floor.building.name }} {% else %} X {% endif %} </th>
-                        <th>{% if failed_booking.distance_type %} {{ failed_booking.distance_type }} {% else %} X {% endif %} </th>
+                        <th>{% if failed_booking.floor %} {{ failed_booking.floor.building.name }} {% else %} - {% endif %} </th>
+                        <th>{% if failed_booking.distance_type %} {{ failed_booking.distance_type }} {% else %} - {% endif %} </th>
                         <th>
                             {% if failed_booking.infer_nearby_buildings == True %} 
                                 Yes
                             {% elif failed_booking.infer_nearby_buildings == False %} 
                                 No
                             {% else %} 
-                                X
+                                -
                             {% endif %} 
                         </th>
                     </tr>
