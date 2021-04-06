@@ -1,0 +1,49 @@
+{% extends 'navbar.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block head %}
+    <title>Forgotten Password Triggered</title>
+
+{% endblock %}
+
+{% block content %}
+<div class="content w-100 h-100 d-flex">
+    <div class="h-75 align-self-center mx-auto">
+        <div class="h-75 w-100">
+            {% if emailSent %}
+                <div class="h3 font-weight-bold text-green mx-auto w-100 text-center">
+                    Forgotten Password Triggered Successfully
+                </div>
+            {% else %}
+                <div class="h3 font-weight-bold text-danger mx-auto w-100 text-center">
+                    Failed To Trigger Forgotten Password
+                </div>    
+            {% endif %}
+
+            <div class="mt-3 w-100">
+                <label class="w-100 h5 text-secondary">Email: <span class="text-dark h5 font-weight-bold">{{email}}</span></label>
+            </div>
+
+            <div class="mt-3 w-100">
+                <label class="w-100 h5 text-secondary">Email Sent Successfully: 
+                    {% if emailSent %}
+                        <span class="text-green h5 font-weight-bold">Yes</span>
+                    {% else %}
+                        <span class="text-danger h5 font-weight-bold">No</span>
+                    {% endif %}
+                </label>
+            </div>
+
+            <div class="mt-3 w-100">
+                <label class="w-100 h5 text-secondary">Valid Until: <span class="text-dark h5 font-weight-bold">{{link.valid_until_formatted}}</span></label>
+            </div>
+      
+            <div class="mt-3 w-100">
+                <a class="float-right" href="{% url 'trigger_forgotten_password'%}">Back to Trigger Password Reset</a>
+
+            </div>
+        </div>   
+    </div>
+</div>
+{% endblock %}

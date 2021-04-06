@@ -227,7 +227,7 @@ def trigger_forgotten_password_view(request, *args, **kwargs):
             link = form.create_link()
 
             if link:
-                print(f"Link is {link}")
+                return use_forgotten_password_link(request, link)
             else:
                 messages.error(request, "Failed to trigger password reset!")
 
@@ -274,6 +274,19 @@ def use_registration_link(request, link, email):
 
     context = {'link': link, 'full_url': full_url_path, 'shouldSendEmail': shouldSendEmail, 'emailSent': emailSent, 'email': email}
     return render(request, 'room_manager/admin/registration_link_success.html', context)
+
+
+
+def use_forgotten_password_link(request, link):
+    full_url_path = link.get_full_url(request)
+    email = link.profile.user.email
+    emailSent = MailSender.send_mail(
+            MailSender.create_forgotten_password_title(request.user),
+            MailSender.create_forgotten_password_message(link, full_url_path),
+            email)
+    context = {'link': link, 'email': email, 'emailSent': emailSent}
+    return render(request, 'room_manager/admin/trigger_forgotten_pass_success.html', context)
+
 
 # todo1: remove
 # def reg_succ(request):
