@@ -90,7 +90,7 @@ def __calculate_hours_count(work_hours, meetings):
     hours_count = RoomManager.meetings_during_hours(meetings, work_hours)
     hours_count_array = [hours_count[h] for h in work_hours]
 
-    data["hours"] = work_hours
+    data["hours"] = [f"{wh}:00" for wh in work_hours]
     data["hours_count"] = hours_count_array
 
     return data
@@ -116,7 +116,7 @@ def __calculate_room_utilization_data_monthly():
         
         data.update({room.id: utilization_percentages})
     
-    data["months"] = [f"Month {m[2]}" for m in last_seven_months]
+    data["months"] = [m[0].strftime('%b %Y') for m in last_seven_months]
 
     return data
 
