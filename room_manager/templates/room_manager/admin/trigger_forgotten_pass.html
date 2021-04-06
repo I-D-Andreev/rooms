@@ -11,7 +11,7 @@
 {% block content %}
 <div class="content w-100 h-100 d-flex">
     <div class="row h-75 w-50 align-self-center mx-auto">
-        <form action="{% url 'edit_room' %}" method="POST" class="mx-auto col-md-10 col-lg-7">
+        <form action="{% url 'trigger_forgotten_password' %}" method="POST" class="mx-auto col-md-10 col-lg-7">
             {% csrf_token %}
             <div class="card min-width-400">
                 <span class="card-header bg-primary text-white text-center h4">Trigger Forgotten Password</span>
