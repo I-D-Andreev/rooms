@@ -108,7 +108,7 @@ def __calculate_room_utilization_data_monthly():
         
         for month in last_seven_months:
             month_start = month[0]
-            month_end = month[1]
+            month_end = month[1] if month != last_seven_months[-1] else datetime.now().astimezone().date()
 
             minutes_booked = room.minutes_booked_between(month_start, month_end)
             work_days = __num_work_days_in_month(month_start, month_end)
