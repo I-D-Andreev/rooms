@@ -1,8 +1,8 @@
-from accounts.models import RegistrationLink
+from accounts.models import RegistrationLink, ForgottenPasswordLink
 from django.shortcuts import render, redirect
 from .forms import UserRegistrationForm
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, SetPasswordForm
 from django.contrib import messages
 from room_manager.views import dashboard_view
 from accounts.decorators import unauthenticated_user_only
@@ -78,3 +78,28 @@ def register_view(request, code, *args, **kwargs):
     form = UserRegistrationForm()
     args = {'form': form, 'acc_type': str(reg_link.type).capitalize()}
     return render(request, 'accounts/register.html', args)
+
+
+# @unauthenticated_user_only
+def password_reset_view(request, code, *args, **kwargs):
+    reset_link = ForgottenPasswordLink.get_all_valid_links().filter(unique_code__exact=code).first()
+
+    if not reset_link:
+        return render(request, 'accounts/password_reset_invalid.html')
+
+    form = SetPasswordForm(reset_link.profile.user)
+    
+    if request.method == 'POST':
+        form = SetPasswordForm(user=reset_link.profile.user, data=request.POST)
+
+        if form.is_valid():
+            form.save()
+            reset_link.delete()
+            messages.success(request, "Password updated successfully.")
+            return redirect(login_view)
+        else:
+            messages.error(request, "Failed to update password.")
+
+
+    context = {'form': form}
+    return render(request, 'accounts/password_reset.html', context)

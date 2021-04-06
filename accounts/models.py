@@ -168,8 +168,13 @@ class ForgottenPasswordLink(models.Model):
 
 
     def get_full_url(self, request):
-        # todo1: change register into the forgotten_password thingy
-        return request.build_absolute_uri(reverse("register", kwargs={'code': self.unique_code}))
+        return request.build_absolute_uri(reverse("reset_password", kwargs={'code': self.unique_code}))
 
     def valid_until_formatted(self):
         return self.valid_until.strftime("%d.%m.%Y, %H:%M")
+
+    
+    @staticmethod
+    def get_all_valid_links():
+        now = datetime.now().astimezone()
+        return ForgottenPasswordLink.objects.filter(valid_until__gte=now)
