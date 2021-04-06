@@ -220,6 +220,18 @@ def delete_room_view(request, *args, **kwargs):
 
 # login + admin only
 def trigger_forgotten_password_view(request, *args, **kwargs):
+    if request.method == 'POST':
+        form = TriggerForgottenPasswordForm(data=request.POST, user=request.user)
+
+        if form.is_valid():
+            link = form.create_link()
+
+            if link:
+                print(f"Link is {link}")
+            else:
+                messages.error(request, "Failed to trigger password reset!")
+
+
     form = TriggerForgottenPasswordForm(user=request.user)
     account_types = form.get_account_types()
    

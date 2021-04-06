@@ -2,7 +2,7 @@ from django import forms
 from .meeting_distance_types import MeetingDistanceTypes
 from .models import SystemConstants
 from .location_models import Building, Floor
-from accounts.models import Profile, RegistrationLink
+from accounts.models import Profile, RegistrationLink, ForgottenPasswordLink
 from accounts.user_types import UserTypes
 
 class CreateBuildingForm(forms.ModelForm):
@@ -206,18 +206,37 @@ class CreateRegistrationLinkForm(forms.Form):
         
         return None
 
+
 class TriggerForgottenPasswordForm(forms.Form):
     type = forms.CharField(widget=forms.Select(choices=([("all", "All Account Types")] + UserTypes.as_choice_list())), label="Account Type", required=False)
     account = forms.ModelChoiceField(queryset=Profile.objects.all())
     username = forms.CharField(required=False, label="Username")
     name = forms.CharField(required=False, label="Name")
     email = forms.CharField(required=False, label="Email")
+    link_duration = forms.IntegerField(min_value=0, label="Link Duration (minutes)", initial=120)
+
 
     def __init__(self, user, *args, **kwargs):
         self.user_profile = user.profile
         super().__init__(*args, **kwargs)
 
         self.fields['account'].queryset = Profile.objects.all().exclude(pk=self.user_profile.id)
+
+    
+    def create_link(self):
+        if self.is_valid():
+            try:
+                cleaned_data = self.cleaned_data
+                
+                profile = cleaned_data["account"]
+                link_duration = cleaned_data["link_duration"]
+
+                return ForgottenPasswordLink.create_forgotten_password_link(profile, link_duration)
+            except Exception as e:
+                print(e)
+        
+        return None
+
 
 
     def get_account_types(self):
