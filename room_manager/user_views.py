@@ -42,6 +42,7 @@ def book_room_view(request, *args, **kwargs):
 
 # login + user only
 def cancel_booking_view(request, *args, **kwargs):
+    form = DeleteMeetingForm(user=request.user)
 
     if request.method == 'POST':
         meeting_id = request.POST['meeting']
@@ -58,7 +59,6 @@ def cancel_booking_view(request, *args, **kwargs):
         else:
             messages.success(request, f'The booking has been successfully cancelled!\n {meeting.long_name()}')
 
-    form = DeleteMeetingForm(user=request.user)
     context  = {'form': form}
     return render(request, 'room_manager/user/cancel_booking.html', context)
 
@@ -79,6 +79,7 @@ def book_now_view(request, *args, **kwargs):
     profile_id = request.POST.get('id', None) if request.method == "POST" else request.GET.get('id', None)
     profile = None if not profile_id else Profile.objects.filter(pk=profile_id).first()
 
+    form = BookNowForm()
 
     if request.method == 'POST':
         form = BookNowForm(request.POST)
@@ -97,10 +98,10 @@ def book_now_view(request, *args, **kwargs):
 
             if meeting is not None:
                 messages.success(request, f"Room {room_to_book.profile.public_name} booked successfully!")
+                form = BookNowForm()
             else:
                 messages.error(request, "Booking failed!")
 
-    form = BookNowForm()
          
     context = {'form': form, 'profile': profile}
     return render(request, 'room_manager/room/book_now.html', context)

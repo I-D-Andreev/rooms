@@ -58,6 +58,7 @@ def register_view(request, code, *args, **kwargs):
     if not reg_link:
         return render(request, 'accounts/register_invalid.html')
 
+    form = UserRegistrationForm()
 
     if request.method == 'POST':
         edited_request = request.POST.copy()
@@ -75,7 +76,6 @@ def register_view(request, code, *args, **kwargs):
             else:
                 messages.error(request, "Failed to create account!")
     
-    form = UserRegistrationForm()
     args = {'form': form, 'acc_type': str(reg_link.type).capitalize()}
     return render(request, 'accounts/register.html', args)
 
@@ -95,8 +95,7 @@ def password_reset_view(request, code, *args, **kwargs):
         if form.is_valid():
             form.save()
             reset_link.delete()
-            messages.success(request, "Password updated successfully.")
-            return redirect(login_view)
+            return redirect(dashboard_view)
         else:
             messages.error(request, "Failed to update password.")
 
