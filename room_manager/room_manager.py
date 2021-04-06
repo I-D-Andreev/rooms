@@ -10,7 +10,7 @@ from .room_booking_type import RoomBookingTypes
 class RoomManager:
     @staticmethod
     def schedule_meeting(meeting_name:str, number_attendees:int , start_date: datetime.date, start_time: datetime.time, duration: int, creator:User):
-        # todo1: RoomManager.purge_old_meetings()
+        RoomManager.purge_old_meetings()
 
         if creator.profile.floor is None:
             return None, "Can't book a room as your location has not been set!"
@@ -112,8 +112,9 @@ class RoomManager:
 
     @staticmethod
     def purge_old_meetings():
-        # todo1: purge meetings older than 3? months
-        pass
+        if Meeting.objects.count() >= 10000:
+            two_hundred_days_ago = (datetime.now().astimezone() - timedelta(days=200)).date()
+            Meeting.objects.filter(start_date__lt=two_hundred_days_ago).delete()
 
 
     

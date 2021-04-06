@@ -195,7 +195,7 @@ class ForgottenPasswordLink(models.Model):
 
     @staticmethod
     def purge_old_links():
-        if ForgottenPasswordLink.objects.count() >= 5:
+        if ForgottenPasswordLink.objects.count() >= 100:
             now = datetime.now().astimezone()
             ForgottenPasswordLink.objects.filter(valid_until__lte=now).delete()
             print("Forgotten Password Links Purged")
