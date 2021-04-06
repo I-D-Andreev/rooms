@@ -4,7 +4,7 @@ from accounts.forms import UserRegistrationForm
 from django.contrib import messages
 from accounts.user_types import UserTypes
 from .room_forms import DeleteRoomForm, EditRoomForm
-from .admin_forms import DeleteUserForm, CreateBuildingForm, ChooseBuildingForm, EditBuildingForm, EditFloorForm, NearbyBuildingsForm, MeetingRoomDistanceForm, WorkingHoursForm, CreateRegistrationLinkForm
+from .admin_forms import DeleteUserForm, CreateBuildingForm, ChooseBuildingForm, EditBuildingForm, EditFloorForm, NearbyBuildingsForm, MeetingRoomDistanceForm, WorkingHoursForm, CreateRegistrationLinkForm, TriggerForgottenPasswordForm
 from .models import SystemConstants
 from .location_models import Building
 from .mail_sender import MailSender
@@ -220,8 +220,10 @@ def delete_room_view(request, *args, **kwargs):
 
 # login + admin only
 def trigger_forgotten_password_view(request, *args, **kwargs):
-    form = None
-    context = {'form': form}
+    form = TriggerForgottenPasswordForm(user=request.user)
+    account_types = form.get_account_types()
+   
+    context = {'form': form, 'accounts': account_types}
     return render(request, 'room_manager/admin/trigger_forgotten_pass.html', context)
 
 # login + admin only
