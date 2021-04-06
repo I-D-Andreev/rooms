@@ -3,7 +3,7 @@
 {% load widget_tweaks %}
 
 {% block head %}
-    <title>Trigger Forgotten Password</title>
+    <title>Trigger Password Reset</title>
     <script src="{% static 'js/trigger_forgotten_pass.js' %}"></script>
 
 {% endblock %}
@@ -14,7 +14,7 @@
         <form action="{% url 'trigger_forgotten_password' %}" method="POST" class="mx-auto col-md-10 col-lg-7">
             {% csrf_token %}
             <div class="card min-width-400">
-                <span class="card-header bg-primary text-white text-center h4">Trigger Forgotten Password</span>
+                <span class="card-header bg-primary text-white text-center h4">Trigger Password Reset</span>
                 <div class="card-body">
 
                  <div class="w-60 m-auto">
