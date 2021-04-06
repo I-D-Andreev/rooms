@@ -19,12 +19,12 @@
 
                 <div class="card">
                     <span class="card-header bg-primary text-white text-center h4">
-                        Register
+                        Register ({{ acc_type }})
                     </span>
                     
                     <div class="card-body bg-white">
                         <div class="w-60 m-auto">
-                            {% for field in form %}
+                            {% for field in form.visible_fields|slice:":-2" %}
                                 <div class="form-row p-1">
                                     <label class="mb-1 text-dark w-100">{{field.label}}</label>
                                     {% render_field field class="form-control" %}
@@ -51,6 +51,18 @@
                             </div>
                         {% endfor %}
                     {% endfor%}
+                </div>
+
+                <div class="w-100 mt-3">
+                    {% if messages %}
+                        <div class="mt-4 w-100">
+                            {% for message in messages %}
+                                <div class="alert {% if 'error' in message.tags %} alert-danger {% else %} alert-success {% endif %} mt-2 w-75 text-center mx-auto">
+                                    {{message}}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
             </form>
         </div>

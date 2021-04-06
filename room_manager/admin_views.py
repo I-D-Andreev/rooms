@@ -251,7 +251,6 @@ def use_registration_link(request, link, email):
     
 
     context = {'link': link, 'full_url': full_url_path, 'shouldSendEmail': shouldSendEmail, 'emailSent': emailSent, 'email': email}
-    print(f"Context: {context}")
     return render(request, 'room_manager/admin/registration_link_success.html', context)
 
 # todo1: remove

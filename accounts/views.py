@@ -1,3 +1,4 @@
+from accounts.models import RegistrationLink
 from django.shortcuts import render, redirect
 from .forms import UserRegistrationForm
 from django.contrib.auth import authenticate, login, logout
@@ -51,16 +52,29 @@ def logout_view(request, *args, **kwargs):
 
 
 # @unauthenticated_user_only
-def register_view(request, *args, **kwargs):
-    form = UserRegistrationForm()
+def register_view(request, code, *args, **kwargs):
+    reg_link = RegistrationLink.get_all_valid_links().filter(unique_code__exact=code).first()
+
+    if not reg_link:
+        return render(request, 'accounts/register_invalid.html')
+
 
     if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
+        edited_request = request.POST.copy()
+        edited_request.update({'type': reg_link.type, 'capacity': 0})
+
+        form = UserRegistrationForm(edited_request)
 
         if form.is_valid():
             user = form.save()
-            login(request, user)
-            return redirect(dashboard_view)
 
-    args = {'form': form}
+            if user:
+                reg_link.delete()
+                login(request, user)
+                return redirect(dashboard_view)
+            else:
+                messages.error(request, "Failed to create account!")
+    
+    form = UserRegistrationForm()
+    args = {'form': form, 'acc_type': str(reg_link.type).capitalize()}
     return render(request, 'accounts/register.html', args)

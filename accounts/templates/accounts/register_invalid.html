@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+
+    <title>Registration Code Invalid</title>
+
+{% endblock %}
+
+{% block body %}
+<div class="content w-100 h-100 d-flex">
+    <div class="row h-75 w-50 align-self-center mx-auto">
+        <div class="w-100">
+            <div class="h3 font-weight-bold text-danger w-100 text-center">
+                This registration link is invalid or has expired!
+            </div>
+
+            <div class="mt-3 float-right mr-5">
+                <a class="h5" href="{% url 'login' %}"> Back to Login</a>
+    
+            </div>
+        </div>   
+    </div>
+</div>
+{% endblock %}
