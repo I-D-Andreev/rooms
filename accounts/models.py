@@ -127,6 +127,8 @@ class RegistrationLink(models.Model):
     @staticmethod
     def create_registration_link(account_type, time_to_live):
         try:
+            RegistrationLink.purge_old_links()
+
             if (account_type not in [UserTypes.user, UserTypes.admin]) or time_to_live <= 0:
                 return None
             
@@ -134,6 +136,7 @@ class RegistrationLink(models.Model):
             code = UniqueCode.generate_unique_code()
             return RegistrationLink.objects.create(type=account_type, unique_code = code, valid_until = ttl_date)
         except Exception as e:
+            print(f"Exception: {e}")
             return None
 
 
@@ -150,6 +153,13 @@ class RegistrationLink(models.Model):
         now = datetime.now().astimezone()
         return RegistrationLink.objects.filter(valid_until__gte=now)
 
+    @staticmethod
+    def purge_old_links():
+        if RegistrationLink.objects.count() >= 100:
+            now = datetime.now().astimezone()
+            RegistrationLink.objects.filter(valid_until__lte=now).delete()
+            print("Registration Links Purged")
+
 
 
 class ForgottenPasswordLink(models.Model):
@@ -160,10 +170,13 @@ class ForgottenPasswordLink(models.Model):
     @staticmethod
     def create_forgotten_password_link(profile, time_to_live):
         try:
+            ForgottenPasswordLink.purge_old_links()
+
             ttl_date = datetime.now().astimezone() + timedelta(minutes=time_to_live)
             code = UniqueCode.generate_unique_code()
             return ForgottenPasswordLink.objects.create(profile=profile, unique_code=code, valid_until=ttl_date)
         except Exception as e:
+            print(f"Exception: {e}")
             return None
 
 
@@ -178,3 +191,11 @@ class ForgottenPasswordLink(models.Model):
     def get_all_valid_links():
         now = datetime.now().astimezone()
         return ForgottenPasswordLink.objects.filter(valid_until__gte=now)
+
+
+    @staticmethod
+    def purge_old_links():
+        if ForgottenPasswordLink.objects.count() >= 5:
+            now = datetime.now().astimezone()
+            ForgottenPasswordLink.objects.filter(valid_until__lte=now).delete()
+            print("Forgotten Password Links Purged")
