@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.admin.widgets import AdminDateWidget, AdminTimeWidget
 from django.contrib.auth.models import User
+from datetime import datetime
+
 
 from accounts.user_types import UserTypes
 from accounts.models import Profile
@@ -10,7 +12,7 @@ from .room_manager import RoomManager
 class BookRoomForm(forms.Form):
     name = forms.CharField(max_length=120, label="Meeting Name")
     date = forms.DateField(label="Date", widget=AdminDateWidget())
-    time = forms.TimeField(label="Start Time", widget=AdminTimeWidget())
+    time = forms.TimeField(label="Start Time", widget=AdminTimeWidget(), initial=datetime.now().time().replace(second=0))
     duration = forms.IntegerField(min_value=0, label="Duration (min)", initial=0)
     participants_count = forms.IntegerField(min_value=0, label="Attendees", initial=0)
 

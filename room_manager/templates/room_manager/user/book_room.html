@@ -6,11 +6,7 @@
 {% block head %}
 
     <title>Book a Room</title>
-    <script src="{%static '/admin/js/core.js' %}"></script>
-    <script src="{% url 'js-catalog'%}"></script>
-    <link rel="stylesheet" href="{% static 'admin/css/base.css'%}">
-    <link rel="stylesheet" href="{% static 'admin/css/widgets.css'%}">
-    {{form.media}}
+
     <link rel="stylesheet" href="{% static 'css/book_room.css'%}"> 
 
 {% endblock %}
@@ -40,14 +36,14 @@
                             <div class="form-row mt-3">
                                 <label class="mb-1 text-dark w-100">{{form.date.label}}</label>
                                 <div class="w-100 input-group centered-line-height">
-                                    {% render_field form.date class="vDateField form-control"%}
+                                    {% render_field form.date type="date" class="form-control"%}
                                 </div>
                             </div>
 
                             <div class="form-row mt-3">
                                 <label class="mb-1 text-dark w-100">{{form.time.label}}</label>
                                 <div class="w-100 input-group centered-line-height">
-                                    {% render_field form.time class="vTimeField form-control"%}
+                                    {% render_field form.time type="time" class="form-control"%}
                                 </div>
                             </div>
 
