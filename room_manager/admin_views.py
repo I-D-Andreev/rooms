@@ -1,5 +1,5 @@
-from accounts.models import RegistrationLink
 from django.shortcuts import render
+from django.urls import reverse
 from accounts.forms import UserRegistrationForm
 from django.contrib import messages
 from accounts.user_types import UserTypes
@@ -22,7 +22,7 @@ def create_room_view(request, *args, **kwargs):
         if form.is_valid():
             form.save()
             messages.success(request,
-            f"Room \"{form.cleaned_data['username']}\" created successfully! Please go to 'Edit a Room' to assign its location!")
+            f"Room \"{form.cleaned_data['username']}\" created successfully! Please go to <a href=\"{reverse('edit_room')}\"><b>Edit a Room</b></a> to assign its location!")
 
             # clean the form
             form = UserRegistrationForm()
