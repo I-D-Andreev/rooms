@@ -49,7 +49,6 @@ class RoomManager:
 
     @staticmethod
     def __get_close_enough_rooms(number_attendees: int, user_profile: Profile) -> list:
-        # todo1: synchronization? atomicity?
         rooms = Profile.objects.filter(type__exact=UserTypes.room).filter(capacity__gte=number_attendees).order_by('capacity')
         rooms = RoomManager.__filter_rooms_by_distance(rooms, user_profile)
         return rooms
@@ -158,8 +157,6 @@ class RoomManager:
     
     @staticmethod
     def get_user_meetings_list_today(user: User) -> list:
-        # todo1: shall we do the same as get_room_meeting_list_today
-        #  and get all meetings either ending today or starting today?
         today = date.today()
         return user.profile.user_meetings.filter(start_date__exact=str(today)).order_by('start_time')
 

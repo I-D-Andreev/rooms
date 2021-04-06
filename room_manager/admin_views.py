@@ -136,7 +136,6 @@ def near_buildings_view(request, *args, **kwargs):
             messages.error(request, message)
 
     form = NearbyBuildingsForm()
-    # todo1 change to infer_nearby_buildings_constant
     shouldInfer = SystemConstants.get_constants().infer_nearby_buildings
 
     nearby_buildings = Building.all_nearby_building_pairs_list(shouldInfer)
@@ -286,14 +285,3 @@ def use_forgotten_password_link(request, link):
             email)
     context = {'link': link, 'email': email, 'emailSent': emailSent}
     return render(request, 'room_manager/admin/trigger_forgotten_pass_success.html', context)
-
-
-# todo1: remove
-# def reg_succ(request):
-#     link = RegistrationLink.objects.filter(pk=18).first()
-#     shouldSendEmail = True
-#     emailSent = False
-
-#     context = {'link': link, 'full_url': link.get_full_url(request), 'shouldSendEmail': shouldSendEmail, 'emailSent': emailSent, 'email': "hello@gmail.com"}
-#     return render(request, 'room_manager/admin/registration_link_success.html', context)
-

@@ -72,7 +72,4 @@ urlpatterns = [
     path('get-floor/<int:floor_id>', get_floor, name="get_floor"),
     path('get-user-info/<int:profile_id>', get_user_info, name="get_user_info"),
 
-    # todo1: remove
-    # path('dashboard/reg-succ', reg_succ),
-
 ]
