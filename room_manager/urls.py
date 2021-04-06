@@ -36,6 +36,7 @@ urlpatterns = [
     path('dashboard/delete-user', delete_user_view, name="delete_user"),
     path('dashboard/delete-room', delete_room_view, name="delete_room"),
     path('dashboard/create-registration-link', create_registration_link_view, name="registration_link"),
+    path('dashboard/trigger-forgotten-password', trigger_forgotten_password_view, name="trigger_forgotten_password"),
 
 
     # user

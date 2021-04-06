@@ -219,6 +219,12 @@ def delete_room_view(request, *args, **kwargs):
 
 
 # login + admin only
+def trigger_forgotten_password_view(request, *args, **kwargs):
+    form = None
+    context = {'form': form}
+    return render(request, 'room_manager/admin/trigger_forgotten_pass.html', context)
+
+# login + admin only
 def create_registration_link_view(request, *args, **kwargs):
     form = CreateRegistrationLinkForm()
 
@@ -233,6 +239,8 @@ def create_registration_link_view(request, *args, **kwargs):
 
     context = {'form': form}
     return render(request, 'room_manager/admin/registration_link.html', context)
+
+#  ---------------------- Helpers ----------------------
 
 # Helper function. After the registration link is created
 # send an email (if email is provided) and redirect to success page.
