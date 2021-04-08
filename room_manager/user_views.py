@@ -3,8 +3,6 @@ from .user_forms import BookRoomForm, DeleteMeetingForm, ChooseRoomForm
 from .room_manager import RoomManager
 from django.shortcuts import render
 from .models import Meeting
-from .room_forms import BookNowForm
-from accounts.models import Profile
 from .forms import AccountInfoForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
@@ -73,38 +71,6 @@ def room_schedule_view(request, *args, **kwargs):
     form = ChooseRoomForm()
     context = {'form': form}
     return render(request, 'room_manager/user/room_schedule.html', context)
-
-# login + room only
-def book_now_view(request, *args, **kwargs):
-    profile_id = request.POST.get('id', None) if request.method == "POST" else request.GET.get('id', None)
-    profile = None if not profile_id else Profile.objects.filter(pk=profile_id).first()
-
-    form = BookNowForm()
-
-    if request.method == 'POST':
-        form = BookNowForm(request.POST)
-
-        if form.is_valid():
-            cleaned_data = form.cleaned_data
-            meeting_name = cleaned_data['meeting_name']
-            duration = cleaned_data['duration']
-
-            # If valid id is passed, book the room with specified id, else book current room.
-            room_to_book = request.user
-            if profile:
-                room_to_book = profile.user
-
-            meeting = RoomManager.try_book_room_now(room_to_book, meeting_name, duration)
-
-            if meeting is not None:
-                messages.success(request, f"Room {room_to_book.profile.public_name} booked successfully!")
-                form = BookNowForm()
-            else:
-                messages.error(request, "Booking failed!")
-
-         
-    context = {'form': form, 'profile': profile}
-    return render(request, 'room_manager/room/book_now.html', context)
 
 
 # login + (user or admin)

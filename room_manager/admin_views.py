@@ -1,3 +1,5 @@
+from accounts.decorators import admin_only
+from django.contrib.auth.decorators import login_required
 from room_manager.meeting_distance_types import MeetingDistanceTypes
 from django.shortcuts import render
 from django.urls import reverse
@@ -10,7 +12,8 @@ from .models import SystemConstants
 from .location_models import Building
 from .mail_sender import MailSender
 
-# login + admin only
+@login_required(login_url='login')
+@admin_only
 def create_room_view(request, *args, **kwargs):
     form = UserRegistrationForm()
     
@@ -32,7 +35,8 @@ def create_room_view(request, *args, **kwargs):
     return render(request, 'room_manager/admin/create_room.html', context)
 
 
-# login + admin only
+@login_required(login_url='login')
+@admin_only
 def edit_room_view(request, *args, **kwargs):
     form = EditRoomForm()
 
@@ -53,7 +57,8 @@ def edit_room_view(request, *args, **kwargs):
     return render(request, 'room_manager/admin/edit_room.html', context)
 
 
-# login + admin only
+@login_required(login_url='login')
+@admin_only
 def create_building_view(request, *args, **kwargs):
     form = CreateBuildingForm()
 
@@ -72,7 +77,8 @@ def create_building_view(request, *args, **kwargs):
     return render(request, 'room_manager/admin/create_building.html', context)
 
 
-# login + admin only
+@login_required(login_url='login')
+@admin_only
 def edit_building_view(request, *args, **kwargs):
     form = EditBuildingForm()
 
@@ -92,7 +98,8 @@ def edit_building_view(request, *args, **kwargs):
     return render(request, 'room_manager/admin/edit_building.html', context)
 
 
-# login + admin only
+@login_required(login_url='login')
+@admin_only
 def delete_building_view(request, *args, **kwargs):
     form = DeleteBuildingForm()
 
@@ -113,7 +120,8 @@ def delete_building_view(request, *args, **kwargs):
     return render(request, 'room_manager/admin/delete_building.html', context)
 
 
-# login + admin only
+@login_required(login_url='login')
+@admin_only
 def edit_floor_view(request, *args, **kwargs):
     form = EditFloorForm()
     
@@ -133,7 +141,8 @@ def edit_floor_view(request, *args, **kwargs):
     return render(request, 'room_manager/admin/edit_floor.html', context)
 
 
-# login + admin only
+@login_required(login_url='login')
+@admin_only
 def configure_floors_view(request, *args, **kwargs):
     form = ChooseBuildingForm()
     context = {'form': form}
@@ -141,7 +150,8 @@ def configure_floors_view(request, *args, **kwargs):
 
 
 
-# login + admin only
+@login_required(login_url='login')
+@admin_only
 def near_buildings_view(request, *args, **kwargs):
     
     if request.method == 'POST':
@@ -166,7 +176,8 @@ def near_buildings_view(request, *args, **kwargs):
 
 
 
-# login + admin only
+@login_required(login_url='login')
+@admin_only
 def system_constants_view(request, *args, **kwargs):
     if request.method == 'POST':
         result = False
@@ -201,7 +212,8 @@ def system_constants_view(request, *args, **kwargs):
     return render(request, 'room_manager/admin/system_constants.html', context)
 
 
-# login + admin only
+@login_required(login_url='login')
+@admin_only
 def delete_user_view(request, *args, **kwargs):
     form = DeleteUserForm()
 
@@ -221,7 +233,8 @@ def delete_user_view(request, *args, **kwargs):
     return render(request, 'room_manager/admin/delete_user.html', context)
 
 
-# login + admin only
+@login_required(login_url='login')
+@admin_only
 def delete_room_view(request, *args, **kwargs):
     form = DeleteRoomForm()
 
@@ -241,7 +254,8 @@ def delete_room_view(request, *args, **kwargs):
     return render(request, 'room_manager/admin/delete_room.html', context)
 
 
-# login + admin only
+@login_required(login_url='login')
+@admin_only
 def trigger_forgotten_password_view(request, *args, **kwargs):
     if request.method == 'POST':
         form = TriggerForgottenPasswordForm(data=request.POST, user=request.user)
@@ -261,7 +275,9 @@ def trigger_forgotten_password_view(request, *args, **kwargs):
     context = {'form': form, 'accounts': account_types}
     return render(request, 'room_manager/admin/trigger_forgotten_pass.html', context)
 
-# login + admin only
+
+@login_required(login_url='login')
+@admin_only
 def create_registration_link_view(request, *args, **kwargs):
     form = CreateRegistrationLinkForm()
 
