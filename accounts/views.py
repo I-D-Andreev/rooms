@@ -19,7 +19,8 @@ def login_view(request, *args, **kwargs):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
-        if user is not None:
+        
+        if (user is not None) and (hasattr(user, 'profile')):
             login(request, user)
             return redirect(dashboard_view)
         else:
@@ -29,9 +30,9 @@ def login_view(request, *args, **kwargs):
     return render(request, 'accounts/login.html', args)
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def logout_view(request, *args, **kwargs):
-    if request.user.profile.type == UserTypes.room:
+    if hasattr(request.user, 'profile') and request.user.profile.type == UserTypes.room:
         form = RoomLogoutForm(user=request.user)
 
         if request.method == "POST": 
