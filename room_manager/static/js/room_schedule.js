@@ -7,7 +7,6 @@ $(document).ready(function(){
             $.ajax({
                 url: `/get-room-schedule/${roomId}`,
                 success: function(data){
-                    console.log(data);
                     renderMeetingData(data);
                 },
                 error: function(err){
@@ -25,12 +24,12 @@ function renderMeetingData(data){
     // remove child elements
     meetingsContainer.empty();
 
-    if (data.length > 0){
-        for(let i=0; i<data.length; i++){
+    if (data.meetings.length > 0){
+        for(let i=0; i<data.meetings.length; i++){
             let element = ` 
-                <div class="list-group-item border-secondary w-75 mx-auto ${data[i].background_colour}">
-                    <span class="float-left w-25">${data[i].start_time} - ${data[i].end_time}</span>
-                    <span class="ml-4">${data[i].name}</span>
+                <div class="list-group-item border-secondary w-75 mx-auto ${data.meetings[i].background_colour}">
+                    <span class="float-left w-25">${data.meetings[i].start_time} - ${data.meetings[i].end_time}</span>
+                    <span class="ml-4">${data.meetings[i].name}</span>
                 </div>
             `;
 

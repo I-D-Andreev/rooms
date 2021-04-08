@@ -173,14 +173,16 @@ def get_room_schedule(request, id, *args, **kwargs):
  
     if profile is not None:
         meetings_list = get_room_schedule_meetings_list(profile.user)
-        meetings_list_json = json.dumps(
-            [{'creator': meeting.creator.public_name if meeting.creator else None,
+        meetings_list_json = json.dumps({
+            'meetings': [{'creator': meeting.creator.public_name if meeting.creator else None,
              'name': meeting.name,
              'start_date': meeting.start_date_str(),
              'start_time': meeting.start_time_str(), 
              'end_time': meeting.end_time_str(),
              'background_colour': meeting.background_colour(),
-             } for meeting in meetings_list])
+             } for meeting in meetings_list],
+             'is_room_free' : profile.is_free_now(),
+            })
 
 
         return HttpResponse(meetings_list_json, content_type="application/json")
