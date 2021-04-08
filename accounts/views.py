@@ -11,7 +11,7 @@ from .user_types import UserTypes
 from room_manager.room_forms import RoomLogoutForm
 
 
-# @unauthenticated_user_only
+@unauthenticated_user_only
 def login_view(request, *args, **kwargs):
     form = AuthenticationForm()
 
@@ -30,7 +30,7 @@ def login_view(request, *args, **kwargs):
     return render(request, 'accounts/login.html', args)
 
 
-# @login_required(login_url='login')
+# No need for decorator as the page just redirects.
 def logout_view(request, *args, **kwargs):
     if hasattr(request.user, 'profile') and request.user.profile.type == UserTypes.room:
         form = RoomLogoutForm(user=request.user)
@@ -52,7 +52,7 @@ def logout_view(request, *args, **kwargs):
     return redirect(login_view)
 
 
-# @unauthenticated_user_only
+# No need for decorator, as we do our own filtering.
 def register_view(request, code, *args, **kwargs):
     reg_link = RegistrationLink.get_all_valid_links().filter(unique_code__exact=code).first()
 
@@ -81,7 +81,7 @@ def register_view(request, code, *args, **kwargs):
     return render(request, 'accounts/register.html', args)
 
 
-# @unauthenticated_user_only
+# No need for decorator, as we do our own filtering.
 def password_reset_view(request, code, *args, **kwargs):
     reset_link = ForgottenPasswordLink.get_all_valid_links().filter(unique_code__exact=code).first()
 

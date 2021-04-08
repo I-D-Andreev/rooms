@@ -7,7 +7,7 @@ from .forms import AccountInfoForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
-from accounts.decorators import user_only
+from accounts.decorators import user_only, admin_or_user_only
 
 
 @login_required(login_url='login')
@@ -79,7 +79,8 @@ def room_schedule_view(request, *args, **kwargs):
     return render(request, 'room_manager/user/room_schedule.html', context)
 
 
-# login + (user or admin)
+@login_required(login_url='login')
+@admin_or_user_only
 def edit_account_view(request, *args, **kwargs):
 
     info_form = AccountInfoForm(user=request.user)

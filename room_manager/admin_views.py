@@ -12,6 +12,7 @@ from .models import SystemConstants
 from .location_models import Building
 from .mail_sender import MailSender
 
+
 @login_required(login_url='login')
 @admin_only
 def create_room_view(request, *args, **kwargs):
