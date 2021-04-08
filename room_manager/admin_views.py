@@ -95,6 +95,20 @@ def edit_building_view(request, *args, **kwargs):
 # login + admin only
 def delete_building_view(request, *args, **kwargs):
     form = DeleteBuildingForm()
+
+    if request.method == 'POST':
+        form = DeleteBuildingForm(request.POST)
+        res = False
+
+        if form.is_valid():
+            res = form.delete_building()
+        
+        if res:
+            messages.success(request, "Building deleted successfully!")
+            form = DeleteBuildingForm()
+        else:
+            messages.error(request, "Failed to delete building!")
+
     context = {'form': form}
     return render(request, 'room_manager/admin/delete_building.html', context)
 

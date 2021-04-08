@@ -40,7 +40,7 @@ class EditBuildingForm(forms.Form):
 
                 return True
             except Exception as ex:
-                print(ex)
+                print(f"Exception: {ex}")
 
         return False
 
@@ -51,6 +51,17 @@ class DeleteBuildingForm(forms.Form):
     # used only to display data 
     name = forms.CharField(max_length=150, label="Building Name", required=False)
     description = forms.CharField(widget=forms.Textarea(attrs={'rows':4, 'style': 'resize:none'}), label="Description (optional)", required=False)
+
+    def delete_building(self):
+        if self.is_valid():
+            try:
+                building = self.cleaned_data["building"]
+                building.delete()
+                return True
+            except Exception as ex:
+                print(f"Exception: {ex}")
+        
+        return False
 
 
 class EditFloorForm(forms.Form):
