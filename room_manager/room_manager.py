@@ -14,6 +14,12 @@ class RoomManager:
 
         if creator.profile.floor is None:
             return None, "Can't book a room as your location has not been set!"
+        
+        # CANT_BOOK_IN_PAST
+        ten_min_ago = datetime.now().astimezone() - timedelta(minutes=10)
+        if datetime.combine(start_date, start_time).astimezone() < ten_min_ago:
+            return None, "Can't book a room in the past!"
+
 
         chosen_room = RoomManager.__choose_smallest_free_room(number_attendees, start_date, start_time, duration, creator.profile)
 
