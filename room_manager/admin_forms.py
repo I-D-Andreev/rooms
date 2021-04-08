@@ -45,6 +45,14 @@ class EditBuildingForm(forms.Form):
         return False
 
 
+class DeleteBuildingForm(forms.Form):
+    building = forms.ModelChoiceField(queryset=Building.objects.all(), empty_label='', label="Choose a Building")
+    
+    # used only to display data 
+    name = forms.CharField(max_length=150, label="Building Name", required=False)
+    description = forms.CharField(widget=forms.Textarea(attrs={'rows':4, 'style': 'resize:none'}), label="Description (optional)", required=False)
+
+
 class EditFloorForm(forms.Form):
     floor = forms.ModelChoiceField(queryset=Floor.objects.all(), empty_label='', label="Choose a Floor")
     name = forms.CharField(max_length=150, label="Floor Name")
