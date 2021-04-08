@@ -93,6 +93,13 @@ def edit_building_view(request, *args, **kwargs):
 
 
 # login + admin only
+def delete_building_view(request, *args, **kwargs):
+    form = None
+    context = {'form': form}
+    return render(request, 'room_manager/admin/delete_building.html', context)
+
+
+# login + admin only
 def edit_floor_view(request, *args, **kwargs):
     form = EditFloorForm()
     
