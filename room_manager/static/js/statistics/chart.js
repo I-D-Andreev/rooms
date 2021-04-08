@@ -26,7 +26,7 @@ function createPercentageChart(chartId, labels, chartLabel,  data) {
         yAxes: [{
             ticks: {
                 min: 0,
-                max: 100,
+                suggestedMax: 100,
                 callback: (val) => {return val + "%";}
             },
         
