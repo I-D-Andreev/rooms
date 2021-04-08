@@ -40,7 +40,7 @@ class DeleteMeetingForm(forms.ModelForm):
         
         # choose some random big number that will never exist as a meeting ID,
         # as Django doesn't allow negative integers in URL
-        choices_list = [(3812731892738916, '')] + self.__meeting_choice_list()
+        choices_list = [('', '')] + self.__meeting_choice_list()
         self.fields['meeting'].label = "Choose a Meeting"
         self.fields['meeting'].widget = forms.Select(choices=choices_list)
 

@@ -1,16 +1,22 @@
 $(document).ready(function(){
     $('#id_meeting').on('change', function(){
-        mId = this.value;
+        let mId = this.value;
 
-        $.ajax({
-            url: `/get-meeting/${mId}`,
-            success: function(data){
-                loadMeeting(data.room, data.start_date, data.start_time, data.duration, data.participants_count);
-            },
-            error: function(err){
-                console.log(err);
-            }
-        });
+        if (mId === "") {
+            console.log('empty');
+            loadMeeting('', '', '', '', '');
+        }
+        else {
+            $.ajax({
+                url: `/get-meeting/${mId}`,
+                success: function(data){
+                    loadMeeting(data.room, data.start_date, data.start_time, data.duration, data.participants_count);
+                },
+                error: function(err){
+                    console.log(err);
+                }
+            });
+        }
     })
 });
 
