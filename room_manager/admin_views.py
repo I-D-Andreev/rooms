@@ -1,3 +1,4 @@
+from room_manager.meeting_distance_types import MeetingDistanceTypes
 from django.shortcuts import render
 from django.urls import reverse
 from accounts.forms import UserRegistrationForm
@@ -173,7 +174,9 @@ def system_constants_view(request, *args, **kwargs):
    
     meeting_form = MeetingRoomDistanceForm()
     working_hours = WorkingHoursForm()
-    context = {'meeting_form': meeting_form, 'working_hours_form' : working_hours}
+    context = {'meeting_form': meeting_form, 'working_hours_form' : working_hours,
+        'number_floors': MeetingDistanceTypes.number_floors,
+        'near_buildings': MeetingDistanceTypes.near_buildings }
     return render(request, 'room_manager/admin/system_constants.html', context)
 
 

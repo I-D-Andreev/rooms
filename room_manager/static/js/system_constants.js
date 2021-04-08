@@ -1,6 +1,3 @@
-var SHOULD_SHOW_FLOORS_ID = "Specific Number Of Floors";
-var SHOULD_SHOW_INFER_ID = "This And Nearby Buildings";
-
 var INITIAL_DATA = null;
 
 $(document).ready(function(){
