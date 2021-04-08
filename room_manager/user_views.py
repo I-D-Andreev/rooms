@@ -6,11 +6,12 @@ from .models import Meeting
 from .forms import AccountInfoForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.decorators import login_required
+from accounts.decorators import user_only
 
-from room_manager.decorators import user_only
 
-
-# login + user only
+@login_required(login_url='login')
+@user_only
 def book_room_view(request, *args, **kwargs):
     form = BookRoomForm()
 
@@ -38,7 +39,8 @@ def book_room_view(request, *args, **kwargs):
     return render(request, 'room_manager/user/book_room.html', context)
 
 
-# login + user only
+@login_required(login_url='login')
+@user_only
 def cancel_booking_view(request, *args, **kwargs):
     form = DeleteMeetingForm(user=request.user)
 
@@ -60,13 +62,17 @@ def cancel_booking_view(request, *args, **kwargs):
     context  = {'form': form}
     return render(request, 'room_manager/user/cancel_booking.html', context)
 
-# login + user only
+
+@login_required(login_url='login')
+@user_only
 def my_schedule_view(request, *args, **kwargs):
     meetings_list = RoomManager.get_user_meetings_list_from_now(request.user)
     context = {'meetings_list' : meetings_list}
     return render(request, 'room_manager/user/my_schedule.html', context)
 
-# login + user only
+
+@login_required(login_url='login')
+@user_only
 def room_schedule_view(request, *args, **kwargs):
     form = ChooseRoomForm()
     context = {'form': form}

@@ -7,11 +7,13 @@ from .room_manager import RoomManager
 from django.http import JsonResponse
 from .models import Meeting, SystemConstants
 from .location_models import Building, Floor
+from accounts.decorators import user_only
 from datetime import datetime
 from django.contrib.auth.models import User
 from accounts.models import Profile
 from django.http import HttpResponse
 import json
+
 
 # --------------- Views ---------------
 #  User, Admin, Room
@@ -35,7 +37,8 @@ def dashboard_view(request, *args, **kwargs):
     return render(request, f'room_manager/{dashboard}_dashboard.html', context)
 
 
-# login + user only
+@login_required(login_url='login')
+@user_only
 def multi_room_schedule_view(request, *args, **kwargs):
     rooms = Profile.objects.filter(type__exact = UserTypes.room)
     multi_room_schedule_list = [(room, get_room_schedule_meetings_list(room.user)) for room in rooms]

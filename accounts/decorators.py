@@ -19,6 +19,10 @@ def room_only(view_function):
     return certain_account_type_only(view_function, UserTypes.room)
 
 
+def user_only(view_function):
+    return certain_account_type_only(view_function, UserTypes.user)
+
+
 def certain_account_type_only(view_function, acc_type):
     def wrapper(request, *args, **kwargs):
         if (not hasattr(request.user, 'profile')) or (request.user.profile.type != acc_type):

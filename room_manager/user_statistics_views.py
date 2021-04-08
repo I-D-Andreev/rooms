@@ -6,8 +6,12 @@ from .models import SystemConstants, FailedBooking
 from datetime import datetime, timedelta
 from networkdays import networkdays
 from dateutil.relativedelta import relativedelta
+from django.contrib.auth.decorators import login_required
+from accounts.decorators import user_only
 
-# login + user only
+
+@login_required(login_url='login')
+@user_only
 def room_utilization_statistics_view(request, *args, **kwargs):
     form = ChooseRoomForm()
 
@@ -20,7 +24,9 @@ def room_utilization_statistics_view(request, *args, **kwargs):
 
     return render(request, 'room_manager/user/statistics/room_utilization.html', context)
 
-# login + user only
+
+@login_required(login_url='login')
+@user_only
 def multi_room_utilization_statistics_view (request, *args, **kwargs):
     rooms_utilization = __calculate_rooms_utilization_data_daily()
     
@@ -33,7 +39,8 @@ def multi_room_utilization_statistics_view (request, *args, **kwargs):
     return render(request, 'room_manager/user/statistics/multi_room_utilization.html', context)
 
 
-# login + user only
+@login_required(login_url='login')
+@user_only
 def busiest_hours_view(request, *args, **kwargs):
     form = ChooseRoomForm()
 
@@ -45,7 +52,8 @@ def busiest_hours_view(request, *args, **kwargs):
     return render(request, 'room_manager/user/statistics/room_busiest_hours.html', context)
 
 
-# login + user only
+@login_required(login_url='login')
+@user_only
 def failed_bookings_view(request, *args, **kwargs):
     failed_bookings = FailedBooking.failed_bookings_up_to_30_days_ago()
   
