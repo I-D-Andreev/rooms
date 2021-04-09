@@ -89,7 +89,7 @@ def near_buildings_pair(request, building_id1, building_id2, *args, **kwargs):
     building1 = Building.objects.filter(pk=building_id1).first() 
     building2 = Building.objects.filter(pk=building_id2).first() 
 
-    if (request.method == 'DELETE') and (building_id1 is not None) and (building_id2 is not None):
+    if (request.method == 'DELETE') and (building1 is not None) and (building2 is not None):
         try:
             building1.close_buildings.remove(building2)
 
@@ -177,13 +177,15 @@ def get_room_schedule(request, id, *args, **kwargs):
     if profile is not None:
         meetings_list = get_room_schedule_meetings_list(profile.user)
         meetings_list_json = json.dumps({
-            'meetings': [{'creator': meeting.creator.public_name if meeting.creator else None,
-             'name': meeting.name,
-             'start_date': meeting.start_date_str(),
-             'start_time': meeting.start_time_str(), 
-             'end_time': meeting.end_time_str(),
-             'background_colour': meeting.background_colour(),
-             } for meeting in meetings_list],
+            'meetings': [
+                {
+                    'creator': meeting.creator.public_name if meeting.creator else None,
+                    'name': meeting.name,
+                    'start_date': meeting.start_date_str(),
+                    'start_time': meeting.start_time_str(), 
+                    'end_time': meeting.end_time_str(),
+                    'background_colour': meeting.background_colour(),
+                } for meeting in meetings_list],
              'is_room_free' : profile.is_free_now(),
             })
 

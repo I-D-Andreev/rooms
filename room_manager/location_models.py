@@ -84,10 +84,6 @@ class Building(models.Model):
         return nearby_buildings_list
 
 
-
-
-
-
 class Floor(models.Model):
     building = models.ForeignKey(Building, null=False, on_delete=models.CASCADE, related_name='floors')
     name = models.CharField(max_length=150)
