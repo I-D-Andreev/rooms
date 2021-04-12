@@ -40,6 +40,8 @@ function loadData(data) {
              data.meetings[i].end_time, data.meetings[i].name, data.meetings[i].background_colour);
         meetingsHolder.append(element);
     }
+
+    $("#time_holder").text(data.time);
 }
 
 function increaseNumFailures() {

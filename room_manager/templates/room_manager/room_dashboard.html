@@ -15,13 +15,22 @@
     {% if user.profile.floor %}
         <div class="row w-100 h-100">
             <div class="col-sm-9 offset-sm-1 h-100 mh-100">
-                <div id="room_occupied_holder" class="h-25 text-center d-flex align-items-center">
-                    {% if user.profile.is_free_now %}
-                        <div class="h1 w-100 text-green">Free</div>
-                    {% else %}
-                        <div class="h1 w-100 text-danger">Busy</div>
-                    {% endif %}
+                <div class="h-25 text-center d-flex align-items-center">
+                    
+                    <div id="room_occupied_holder" class="w-50">
+                        {% if user.profile.is_free_now %}
+                            <span class="h1 w-100 text-green">Free</span>
+                        {% else %}
+                            <span class="h1 w-100 text-danger">Busy</span>
+                        {% endif %}
+                    </div>
+
+                    <div>
+                        <span id="time_holder" class="h1 w-100">{{time}}</span>
+                    </div>    
                 </div>
+                
+
 
                 <div id="meeting_holder" class="h-60 w-100 list-group overflow-auto mt-2">
                     {% if meetings_list %}

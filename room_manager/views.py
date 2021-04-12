@@ -32,7 +32,7 @@ def dashboard_view(request, *args, **kwargs):
       meetings_list = get_room_schedule_meetings_list(request.user)
 
 
-    context = {'user': request.user, 'meetings_list': meetings_list}
+    context = {'user': request.user, 'meetings_list': meetings_list, 'time': datetime.now().astimezone().strftime('%H:%M')}
 
     return render(request, f'room_manager/{dashboard}_dashboard.html', context)
 
@@ -187,6 +187,7 @@ def get_room_schedule(request, id, *args, **kwargs):
                     'background_colour': meeting.background_colour(),
                 } for meeting in meetings_list],
              'is_room_free' : profile.is_free_now(),
+             'time': datetime.now().astimezone().strftime('%H:%M')
             })
 
 
