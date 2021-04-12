@@ -14,11 +14,11 @@
 {% block content %}
 <div class="row h-100 w-100">
     <div class="col-sm-4 col-xl-2 px-4 ml-4">
-        <div class="mx-auto mt-5">
-            <h4 class="text-black-50 font-weight-bold">Types</h4>
-        </div>
+        <div class="nav flex-column ml-2 position-fixed">
+            <div class="mt-5">
+                <h4 class="text-black-50 font-weight-bold">Types</h4>
+            </div>
 
-        <div class="nav flex-column ml-2">
              <div  class="nav-item container-fluid">
                 <a id="room_utilization" href="{% url 'room_utilization_statistics' %}" class="nav-link text-dark bg-light">Room Utilization</a>
             </div>
@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <div class="content col-sm-7 col-xl-9 mt-5">
+    <div class="content col-sm-7 col-xl-9 mt-5 min-width-900">
         {% block statistics-content %}
         {% endblock statistics-content %}
     </div>

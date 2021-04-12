@@ -51,10 +51,13 @@
     min-width: 400px;
 }
 
-.min-width-600 {
+.min-width-650 {
     min-width: 650px;
 }
 
+.min-width-900 {
+    min-width: 900px;
+}
 
 .text-green {
     color:rgb(37, 211, 37);
