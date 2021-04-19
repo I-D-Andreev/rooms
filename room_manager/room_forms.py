@@ -141,6 +141,9 @@ class DeleteRoomForm(forms.Form):
             try:
                 room = self.cleaned_data["room"]
 
+                if room.type != UserTypes.room:
+                    return False, "Failed to delete! Account is not a room!"
+
                 meetings_ongoing_or_in_future = room.meetings_ongoing_or_in_future()
 
                 if len(meetings_ongoing_or_in_future) > 0:
