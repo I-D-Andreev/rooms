@@ -188,6 +188,10 @@ class DeleteUserForm(forms.Form):
         if self.is_valid():
             try:
                 profile = self.cleaned_data["profile"]
+
+                if profile.type != UserTypes.user:
+                    return False
+                
                 profile.user.delete()
 
                 return True
