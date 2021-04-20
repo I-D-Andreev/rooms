@@ -8,6 +8,9 @@
     <title>Book a Room</title>
 
     <link rel="stylesheet" href="{% static 'css/book_room.css'%}"> 
+    <script src="{% static 'js/building_floor_location.js' %}"></script>
+    <script src="{% static 'js/book_room.js' %}"></script>
+
 
 {% endblock %}
 
@@ -60,7 +63,14 @@
                                 </div>
                            </div>
 
-
+                            {% for field in form.visible_fields|slice:"-2:" %}
+                                <div class="form-row mt-3">
+                                    <label class="mb-1 text-dark w-100">{{field.label}}</label>
+                                    <div class="w-100 input-group centered-line-height">
+                                        {% render_field field class="form-control"%}
+                                    </div>
+                                </div>
+                            {% endfor %}
                            <button class="btn btn-primary mt-4 float-right">Create</button>
                         </div>
                         

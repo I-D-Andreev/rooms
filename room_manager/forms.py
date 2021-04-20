@@ -22,11 +22,6 @@ class AccountInfoForm(forms.Form):
         self.fields['email'].initial = self.initial_email
         self.fields['public_name'].initial = self.initial_public_name
         self.fields['floor'].initial = self.initial_floor
-        self.fields['building'].initial = self.initial_building
-
-        if self.initial_building:
-            self.fields['floor'].queryset = self.initial_building.floors.all()
-
 
 
     def update_fields(self):

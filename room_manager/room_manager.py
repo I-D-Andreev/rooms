@@ -4,12 +4,12 @@ from accounts.models import Profile
 from .models import FailedBooking, Meeting, SystemConstants
 from .meeting_distance_types import MeetingDistanceTypes
 from accounts.user_types import UserTypes
-from .location_models import Building
+from .location_models import Building, Floor
 from .room_booking_type import RoomBookingTypes
 
 class RoomManager:
     @staticmethod
-    def schedule_meeting(meeting_name:str, number_attendees:int , start_date: datetime.date, start_time: datetime.time, duration: int, creator:User):
+    def schedule_meeting(meeting_name:str, number_attendees:int , start_date: datetime.date, start_time: datetime.time, duration: int, creator:User, floor: Floor):
         RoomManager.purge_old_meetings()
 
         if creator.profile.floor is None:
@@ -21,7 +21,7 @@ class RoomManager:
             return None, "Can't book a room in the past!"
 
 
-        chosen_room = RoomManager.__choose_smallest_free_room(number_attendees, start_date, start_time, duration, creator.profile)
+        chosen_room = RoomManager.__choose_smallest_free_room(number_attendees, start_date, start_time, duration, floor)
 
         if chosen_room is None:
             constants = SystemConstants.get_constants()
@@ -34,8 +34,8 @@ class RoomManager:
         
 
     @staticmethod
-    def __choose_smallest_free_room(number_attendees: int, start_date: datetime.date, start_time: datetime.time, duration: int, user_profile: Profile) -> Profile:
-        rooms = RoomManager.__get_close_enough_rooms(number_attendees, user_profile)
+    def __choose_smallest_free_room(number_attendees: int, start_date: datetime.date, start_time: datetime.time, duration: int, floor: Floor) -> Profile:
+        rooms = RoomManager.__get_close_enough_rooms(number_attendees, floor)
         
         print(f"--- Rooms after distance is set | {start_date} | {start_time} ---")
         RoomManager.__print_rooms(rooms, start_date, start_time, duration)
@@ -54,13 +54,13 @@ class RoomManager:
 
 
     @staticmethod
-    def __get_close_enough_rooms(number_attendees: int, user_profile: Profile) -> list:
+    def __get_close_enough_rooms(number_attendees: int, floor: Floor) -> list:
         rooms = Profile.objects.filter(type__exact=UserTypes.room).filter(capacity__gte=number_attendees).order_by('capacity')
-        rooms = RoomManager.__filter_rooms_by_distance(rooms, user_profile)
+        rooms = RoomManager.__filter_rooms_by_distance(rooms, floor)
         return rooms
 
     @staticmethod
-    def __filter_rooms_by_distance(rooms, creator_profile):
+    def __filter_rooms_by_distance(rooms, floor):
         # only check rooms that have location set
         location_rooms = [room for room in rooms if room.floor is not None]
         
@@ -69,23 +69,23 @@ class RoomManager:
 
         if constants.distance_type == MeetingDistanceTypes.same_floor:
             print("Distance type: same floor")
-            filter_rooms_lambda = lambda room: bool(room.floor.id == creator_profile.floor.id)
+            filter_rooms_lambda = lambda room: bool(room.floor.id == floor.id)
         elif constants.distance_type == MeetingDistanceTypes.same_building:
             print("Distance type: same building")
-            filter_rooms_lambda = lambda room: bool(room.floor.building.id == creator_profile.floor.building.id)
+            filter_rooms_lambda = lambda room: bool(room.floor.building.id == floor.building.id)
         elif constants.distance_type == MeetingDistanceTypes.number_floors:
             floors_distance = constants.distance_floors
             print(f"Distance type: number floors {floors_distance}")
-            filter_rooms_lambda = lambda room: bool(room.floor.building.id == creator_profile.floor.building.id \
-                and abs(room.floor.actual_floor - creator_profile.floor.actual_floor)<=floors_distance)
+            filter_rooms_lambda = lambda room: bool(room.floor.building.id == floor.building.id \
+                and abs(room.floor.actual_floor - floor.actual_floor)<=floors_distance)
         elif constants.distance_type == MeetingDistanceTypes.near_buildings:
             print("Distance type: near buildings")
             
             inb = SystemConstants.get_constants().infer_nearby_buildings
             print(f"Infer nearby buildings : {inb}")
 
-            building_ids = RoomManager.__get_near_building_ids_infer(creator_profile) if inb \
-                else RoomManager.__get_near_building_ids(creator_profile)
+            building_ids = RoomManager.__get_near_building_ids_infer(floor) if inb \
+                else RoomManager.__get_near_building_ids(floor)
             print(f"Near building ids: {building_ids}")
 
             # logging purposes 
@@ -97,13 +97,13 @@ class RoomManager:
         return [r for r in location_rooms if filter_rooms_lambda(r)]
 
     @staticmethod
-    def __get_near_building_ids(creator_profile):
-        near_buildings = creator_profile.floor.building.get_near_buildings()
+    def __get_near_building_ids(floor):
+        near_buildings = floor.building.get_near_buildings()
         return  set([building.id for building in near_buildings])
 
     @staticmethod
-    def __get_near_building_ids_infer(creator_profile):
-        near_buildings = creator_profile.floor.building.get_near_buildings_infer()
+    def __get_near_building_ids_infer(floor):
+        near_buildings = floor.building.get_near_buildings_infer()
         return set([nb.id for nb in near_buildings])
     
 

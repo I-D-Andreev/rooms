@@ -13,10 +13,10 @@ from accounts.decorators import user_only, admin_or_user_only
 @login_required(login_url='login')
 @user_only
 def book_room_view(request, *args, **kwargs):
-    form = BookRoomForm()
+    form = BookRoomForm(user=request.user)
 
     if request.method == 'POST':
-        form = BookRoomForm(request.POST)
+        form = BookRoomForm(user=request.user, data=request.POST)
         if form.is_valid():
             cleaned_data = form.cleaned_data
 
@@ -25,14 +25,15 @@ def book_room_view(request, *args, **kwargs):
             date = cleaned_data['date']
             time = cleaned_data['time']
             duration = cleaned_data['duration']
+            floor = cleaned_data['floor']
 
-            meeting, err_text = RoomManager.schedule_meeting(meeting_name, participants, date, time, duration, request.user)
+            meeting, err_text = RoomManager.schedule_meeting(meeting_name, participants, date, time, duration, request.user, floor)
 
             if meeting is None:
                 messages.error(request, err_text)
             else:
                 messages.success(request, f"Successfully booked room \"{meeting.room.public_name}\" from {meeting.start_time_str()} to {meeting.end_time_str()}.")
-                form = BookRoomForm()
+                form = BookRoomForm(user=request.user)
 
 
     context = {'form': form}

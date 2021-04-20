@@ -13,6 +13,7 @@ function loadFloorsOnBuildingChange(buildingSelect, floorsSelect){
             }
         });
     });
+
 }
 
 function loadDataInSecondSelect(floorsSelect, data){

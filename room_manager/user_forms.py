@@ -8,6 +8,7 @@ from accounts.user_types import UserTypes
 from accounts.models import Profile
 from .models import Meeting
 from .room_manager import RoomManager
+from .location_models import Building, Floor
 
 class BookRoomForm(forms.Form):
     name = forms.CharField(max_length=120, label="Meeting Name")
@@ -15,6 +16,19 @@ class BookRoomForm(forms.Form):
     time = forms.TimeField(label="Start Time", widget=AdminTimeWidget(), initial=datetime.now().time().replace(second=0))
     duration = forms.IntegerField(min_value=0, label="Duration (min)", initial=0)
     participants_count = forms.IntegerField(min_value=0, label="Attendees", initial=0)
+
+    building = forms.ModelChoiceField(queryset=Building.objects.all(), empty_label='All Buildings', label='Building', required=False)
+    floor = forms.ModelChoiceField(queryset=Floor.objects.all(), empty_label='', label='Location')
+
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super(BookRoomForm, self).__init__(*args, **kwargs)
+
+        initial_floor = self.user.profile.floor
+        self.fields['floor'].initial = initial_floor
+
+
 
 
 # Cancel booking
