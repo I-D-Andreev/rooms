@@ -1,7 +1,7 @@
 from accounts.decorators import admin_only
 from django.contrib.auth.decorators import login_required
 from room_manager.meeting_distance_types import MeetingDistanceTypes
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from accounts.forms import UserRegistrationForm
 from django.contrib import messages
@@ -300,7 +300,21 @@ def create_registration_link_view(request, *args, **kwargs):
 @login_required(login_url='login')
 @admin_only
 def delete_admin_view(request, *args, **kwargs):
+    # todo1: check number of accounts
     form = DeleteAdminConfirmationForm(user=request.user)
+
+    if request.method == 'POST':
+        form = DeleteAdminConfirmationForm(user=request.user, data=request.POST)
+
+        res = False
+        if form.is_valid():
+            res = form.try_delete()
+        
+        if res:
+            return redirect('login')
+        else:
+            messages.error(request, "Failed to delete account!")
+
 
     context = {'form': form}
     return render(request, 'room_manager/admin/delete_admin.html', context)

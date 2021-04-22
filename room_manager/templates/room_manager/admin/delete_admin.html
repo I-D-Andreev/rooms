@@ -4,6 +4,7 @@
 
 {% block head %}
     <title>Delete This Account</title>
+    <script src="{% static 'js/fading_alert.js' %}"></script>
     <script src="{% static 'js/delete_admin.js' %}"></script>
 
 {% endblock %}
@@ -23,7 +24,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button id="delete_admin_prompt" type="button" class="btn btn-primary">Delete This Acccount</button>
+                <button id="delete_admin_prompt" type="button" class="btn btn-danger">Delete This Acccount</button>
             </div>
       
         </div>

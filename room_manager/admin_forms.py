@@ -305,8 +305,7 @@ class DeleteAdminConfirmationForm(forms.Form):
             admin = authenticate(username=username, password=password)
 
             if admin and admin.profile.type == UserTypes.admin:
-                # admin.delete()
-                print("ADMIN DELETE HERE")
+                admin.delete()
                 return True
 
         return False
