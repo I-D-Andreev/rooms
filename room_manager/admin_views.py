@@ -12,6 +12,7 @@ from .admin_forms import DeleteBuildingForm, DeleteUserForm, CreateBuildingForm,
                          CreateRegistrationLinkForm, TriggerForgottenPasswordForm, DeleteAdminConfirmationForm
 from .models import SystemConstants
 from .location_models import Building
+from accounts.models import Profile
 from .mail_sender import MailSender
 
 
@@ -300,7 +301,6 @@ def create_registration_link_view(request, *args, **kwargs):
 @login_required(login_url='login')
 @admin_only
 def delete_admin_view(request, *args, **kwargs):
-    # todo1: check number of accounts
     form = DeleteAdminConfirmationForm(user=request.user)
 
     if request.method == 'POST':
@@ -316,7 +316,7 @@ def delete_admin_view(request, *args, **kwargs):
             messages.error(request, "Failed to delete account!")
 
 
-    context = {'form': form}
+    context = {'form': form, 'num_admins': Profile.objects.filter(type__exact=UserTypes.admin).count()}
     return render(request, 'room_manager/admin/delete_admin.html', context)
 
 

@@ -33,52 +33,58 @@
 
 <div class="content w-100 h-100 d-flex">
     <div class="row h-75 w-50 align-self-center mx-auto">
-        <form action="{% url 'delete_admin' %}" method="POST" class="mx-auto col-md-10 col-lg-7" autocomplete="off">
-            {% csrf_token %}
-            <div class="card min-width-400">
-                <span class="card-header bg-danger text-white text-center h4">Delete This Account</span>
-                <div class="card-body">
+        {% if num_admins > 1 %}
+            <form action="{% url 'delete_admin' %}" method="POST" class="mx-auto col-md-10 col-lg-7" autocomplete="off">
+                {% csrf_token %}
+                <div class="card min-width-400">
+                    <span class="card-header bg-danger text-white text-center h4">Delete This Account</span>
+                    <div class="card-body">
 
-                 <div class="w-60 m-auto">
-                        {% for field in form.visible_fields %}
-                            <div class="form-row mt-3">
-                                <label class="mb-1 text-dark">{{field.label}}</label>
-                                {% render_field field class="form-control" autocomplete="new-password" %}
-                            </div>
-                        {% endfor %}
+                    <div class="w-60 m-auto">
+                            {% for field in form.visible_fields %}
+                                <div class="form-row mt-3">
+                                    <label class="mb-1 text-dark">{{field.label}}</label>
+                                    {% render_field field class="form-control" autocomplete="new-password" %}
+                                </div>
+                            {% endfor %}
 
-                     <div class="text-right mt-3">
-                         <button type="submit" id="delete_admin_button" class="btn btn-primary mr-3 invisible">Remove Account</button>
-                         <button type="button" class="btn btn-danger unfocus-click" data-toggle="modal" data-target="#delete_confirm_dialog">Delete Account</button>
-                     </div>
-                 </div> 
-
-                </div>
-            </div>
-            
-            <div class="mt-4 w-100">
-                {% for field in form %}
-                    {% for error in field.errors %}
-                        <div class="alert alert-danger mt-2 w-75 text-center mx-auto">
-                            {{error}}
+                        <div class="text-right mt-3">
+                            <button type="submit" id="delete_admin_button" class="btn btn-primary mr-3 invisible">Remove Account</button>
+                            <button type="button" class="btn btn-danger unfocus-click" data-toggle="modal" data-target="#delete_confirm_dialog">Delete Account</button>
                         </div>
-                    {% endfor %}
-                {% endfor%}
-            </div>
+                    </div> 
 
-         <div id="alert_holder" class="w-100 mt-3 min-width-400">
-                {% if messages %}
-                    <div class="mt-4 w-100">
-                        {% for message in messages %}
-                            <div class="alert {% if 'error' in message.tags %} alert-danger {% else %} alert-success {% endif %} mt-2 w-75 text-center mx-auto">
-                                {{message}}
+                    </div>
+                </div>
+                
+                <div class="mt-4 w-100">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger mt-2 w-75 text-center mx-auto">
+                                {{error}}
                             </div>
                         {% endfor %}
-                    </div>
-                {% endif %}
-         </div>
+                    {% endfor%}
+                </div>
 
-        </form>
+            <div id="alert_holder" class="w-100 mt-3 min-width-400">
+                    {% if messages %}
+                        <div class="mt-4 w-100">
+                            {% for message in messages %}
+                                <div class="alert {% if 'error' in message.tags %} alert-danger {% else %} alert-success {% endif %} mt-2 w-75 text-center mx-auto">
+                                    {{message}}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+            </div>
+
+            </form>
+        {% else %}
+            <div class="mx-auto col-md-10 col-lg-7 text-center text-danger h4">
+                This account cannot be deleted as it is the only admin in the system!
+            </div>
+        {% endif %}        
     </div>
 </div>
 {% endblock %}
