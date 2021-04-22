@@ -3,7 +3,7 @@
 {% load widget_tweaks %}
 
 {% block head %}
-    <title>Send Registration Link</title>
+    <title>Invite Users</title>
 {% endblock %}
 
 {% block content %}
@@ -13,7 +13,7 @@
 
             {% csrf_token %}
             <div class="card min-width-400">
-                <span class="card-header bg-primary text-white text-center h4">Create Registration Link</span>
+                <span class="card-header bg-primary text-white text-center h4">Generate Registration Link</span>
                 <div class="card-body">
 
                     <div class="w-75 m-auto">
@@ -31,7 +31,7 @@
                             </div>
                         
 
-                            <button class="btn btn-primary mt-3 float-right">Create Link</button>
+                            <button class="btn btn-primary mt-3 float-right">Generate Link</button>
                     </div> 
                 </div>
             </div>
