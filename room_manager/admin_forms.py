@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth import authenticate
 from .meeting_distance_types import MeetingDistanceTypes
 from .models import SystemConstants
 from .location_models import Building, Floor
@@ -279,3 +280,33 @@ class TriggerForgottenPasswordForm(forms.Form):
     #  ----- Helpers -----
     def __profiles_to_array_of_dicts(self, profiles):
         return [{"id": p.id, "name": p.public_name, "username": p.user.username, "email": p.user.email} for p in profiles]
+
+
+class DeleteAdminConfirmationForm(forms.Form):
+    username = forms.CharField(disabled=True)
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'autocomplete': 'off'}))
+
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super(DeleteAdminConfirmationForm, self).__init__(*args, **kwargs)
+
+        self.admin = user
+        self.fields['username'].initial = self.admin.username
+
+    
+    def try_delete(self):
+        if self.is_valid():
+            cleaned_data = self.cleaned_data
+
+            username = cleaned_data['username']
+            password  = cleaned_data['password']
+
+            admin = authenticate(username=username, password=password)
+
+            if admin and admin.profile.type == UserTypes.admin:
+                # admin.delete()
+                print("ADMIN DELETE HERE")
+                return True
+
+        return False
