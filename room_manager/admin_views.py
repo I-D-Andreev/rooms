@@ -134,12 +134,12 @@ def edit_floor_view(request, *args, **kwargs):
 
         res = False
         if form.is_valid():
-            res = form.update_fields()
+            res, msg = form.update_fields()
 
         if res:
-            messages.success(request, "Information updated successfully!")
+            messages.success(request, msg)
         else:
-            messages.error(request, "Failed to update floor information!")
+            messages.error(request, msg)
 
     context = {'form' : form}
     return render(request, 'room_manager/admin/edit_floor.html', context)

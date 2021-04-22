@@ -74,14 +74,21 @@ class EditFloorForm(forms.Form):
             try:
                 cleaned_data = self.cleaned_data
                 floor = cleaned_data["floor"]
-                floor.name = cleaned_data["name"]
-                floor.save()
+                name = cleaned_data["name"]
 
-                return True
+                current_floor_names = [floor.name for floor in floor.building.floors.all()]
+
+                if name not in current_floor_names:
+                    floor.name = name
+                    floor.save()
+                    return True, "Information updated successfully!"
+                else:
+                    return False, "Failed to update floor information! Floor with such a name already exists!"
+
             except Exception as ex:
                 print(ex)
 
-        return False
+        return False, "Failed to update floor information!"
 
 
 class MeetingRoomDistanceForm(forms.Form):
