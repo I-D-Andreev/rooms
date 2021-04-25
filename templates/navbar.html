@@ -10,6 +10,11 @@
                 <div class="navbar-brand">
                     {% if user.is_authenticated %}
                         {{user.profile.public_name}}
+
+                        {% if user.profile.type == "room" %}
+                            ({{user.profile.capacity}}x <i class="fas fa-user fa-sm"></i>)
+                        {% endif %}
+
                     {% else %}
                         Room Manager
                     {% endif %}
