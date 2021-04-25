@@ -16,11 +16,11 @@
                 <span class="h2">My Schedule</span>
             </div>
 
-            <div class="panel-body mh-100 overflow-auto mt-3">
+            <div class="panel-body mh-75 h-75 mt-3" style="overflow-y:auto">
                 <div class="list-group">
                     {% if meetings_list %}
                         {% for meeting in meetings_list %}
-                            <div class="list-group-item w-75 mx-auto">
+                            <div class="list-group-item w-75 mx-auto min-width-650">
                                     <span>{{meeting.start_date}}</span>
                                     <span class="ml-4">{{meeting.start_time_str}} - {{meeting.end_time_str}}</span>
                                     <span class="w-25 ml-5 d-inline-block">{{meeting.name}}</span>
