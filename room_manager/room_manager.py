@@ -49,7 +49,7 @@ class RoomManager:
 
     @staticmethod
     def get_rooms_free_now(number_attendees: int, user_profile: Profile) -> list:
-        rooms = RoomManager.__get_close_enough_rooms(number_attendees, user_profile)
+        rooms = RoomManager.__get_close_enough_rooms(number_attendees, user_profile.floor)
         return [room for room in rooms if room.is_free_now()]
 
 
