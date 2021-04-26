@@ -42,7 +42,7 @@ class MailSender:
             + f"Password reset has been triggered for your account in the Wall Mounted Room Calendar system.<br>" \
             + f"<b>Username: {link.profile.user.username}</b><br>" \
             + f"<b>Public Name: {link.profile.public_name}</b><br>" \
-            + "Please follow the link below to register:<br>" \
+            + "Please follow the link below to choose a new password:<br>" \
             + f"{url_path}" \
             + "<br><br>" \
             + f"<span style='color:red'> <b>This link is only valid until {link.valid_until.strftime('%d.%m.%Y %H:%M')}!!! </b> </span>" \
