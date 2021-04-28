@@ -8,7 +8,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from accounts.decorators import user_only, admin_or_user_only
-
+from datetime import datetime
 
 @login_required(login_url='login')
 @user_only
@@ -36,7 +36,7 @@ def book_room_view(request, *args, **kwargs):
                 form = BookRoomForm(user=request.user)
 
 
-    context = {'form': form}
+    context = {'form': form, 'min_date': datetime.now().strftime("%Y-%m-%d")}
     return render(request, 'room_manager/user/book_room.html', context)
 
 
