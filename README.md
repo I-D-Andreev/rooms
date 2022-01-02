@@ -1,4 +1,6 @@
 # Intro
+WMRC (Wall-Mounted Room Calendar) is my Software Engineering Dissertation Project. It is a room booking and management system, featuring automatic room booking (given booking parameters), booking closest to the user rooms as well as optimal resource (rooms) usage. It is a web application made with Django. The web app can also be downloaded as a Portable Web Application and be used on a mobile device, which can be mounted outside of meeting rooms and display their schedules.
+
 This README file provides instructions on how to run the WMRC project as well as some info on the more important files.
 
 # Development Environment
